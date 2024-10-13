@@ -1,112 +1,73 @@
-import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import pool from "../utils/database";
+import { RowDataPacket } from "mysql2";
 
-// Definindo a interface para técnicos
-interface Tecnico extends RowDataPacket {
+// Interface para o tipo de dados Técnico
+interface Tecnico {
   id: number;
-  nome: string; // Nome do técnico
-  telefone?: string | null; // Telefone do técnico (opcional)
-  estado: boolean; // O estado é booleano
-  data_criacao?: Date; // Data de criação
-  data_alteracao?: Date; // Data da última alteração
-  data_remocao?: Date | null; // Data de remoção (opcional)
+  nome: string | null;
+  telefone: string | null;
+  estado: boolean;
+  data_criacao: Date;
+  data_alteracao: Date;
 }
 
-// Função para criar um técnico
+// Criar um novo técnico
 export const createTecnico = async (
-  nome: string,
-  telefone?: string | null,
-  estado: boolean = true // Define estado como ativo (true) por padrão
+  tecnico: Omit<Tecnico, "id" | "data_alteracao">
 ): Promise<number> => {
-  try {
-    const [result] = await pool.query(
-      `INSERT INTO tecnicos (nome, telefone, estado) VALUES (?, ?, ?)`,
-      [nome, telefone, estado]
-    );
-    console.log("Query SQL:", result);
-    return (result as ResultSetHeader).insertId; // Retorna o ID do técnico criado
-  } catch (error) {
-    console.error("Erro ao criar técnico:", error);
-    throw error; // Lança o erro para tratamento posterior
-  }
+  const [result] = await pool.execute(
+    `INSERT INTO tecnicos (nome, telefone, estado, data_criacao) VALUES (?, ?, ?, ?)`,
+    [tecnico.nome, tecnico.telefone, tecnico.estado, new Date()]
+  );
+  return (result as any).insertId;
 };
 
-// Função para obter todos os técnicos
+// Obter todos os técnicos ativos
 export const getAllTecnicos = async (): Promise<Tecnico[]> => {
-  const [rows] = await pool.query("SELECT * FROM tecnicos WHERE estado = 1");
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM tecnicos WHERE estado = 1`
+  );
   return rows as Tecnico[];
 };
 
-// Função para obter um técnico por ID
+// Obter um técnico por ID
 export const getTecnicoById = async (id: number): Promise<Tecnico | null> => {
-  const [rows] = await pool.query("SELECT * FROM tecnicos WHERE id = ?", [id]);
-  const result = rows as Tecnico[];
-  return result.length > 0 ? result[0] : null;
-};
-
-// Função para atualizar um técnico
-export const updateTecnico = async (
-  id: number,
-  tecnico: {
-    nome?: string;
-    telefone?: string | null;
-    estado?: boolean; // Atualização do estado (opcional)
-  }
-): Promise<boolean> => {
-  const fields: string[] = [];
-  const values: any[] = [];
-
-  // Verifica quais campos foram fornecidos para atualização
-  if (tecnico.nome !== undefined) {
-    fields.push("nome = ?");
-    values.push(tecnico.nome);
-  }
-
-  if (tecnico.telefone !== undefined) {
-    fields.push("telefone = ?");
-    values.push(tecnico.telefone);
-  }
-
-  if (tecnico.estado !== undefined) {
-    fields.push("estado = ?");
-    values.push(tecnico.estado);
-  }
-
-  // Se não houverem campos para atualizar, retorna falso
-  if (fields.length === 0) {
-    return false;
-  }
-
-  // Adiciona o ID no final dos valores para o WHERE
-  values.push(id);
-
-  try {
-    const [result] = await pool.query<ResultSetHeader>(
-      `UPDATE tecnicos SET ${fields.join(", ")} WHERE id = ?`,
-      values
-    );
-
-    // Verifica se alguma linha foi afetada
-    return result.affectedRows > 0;
-  } catch (error) {
-    console.error("Erro ao atualizar técnico:", error);
-    throw error; // Lança o erro para tratamento posterior
-  }
-};
-
-// Soft delete (remoção segura) de técnico
-export const softDeleteTecnico = async (id: number): Promise<boolean> => {
-  const [result] = await pool.query<ResultSetHeader>(
-    "UPDATE tecnicos SET estado = 0, data_remocao = CURRENT_TIMESTAMP WHERE id = ?",
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM tecnicos WHERE id = ? AND estado = 1`,
     [id]
   );
-
-  // Verifica se alguma linha foi afetada
-  return result.affectedRows > 0;
+  const [tecnico] = rows as Tecnico[];
+  return tecnico || null;
 };
 
-// Função para deletar um técnico
-export const deleteTecnico = async (id: number): Promise<number> => {
-  const [result] = await pool.query("DELETE FROM tecnicos WHERE id = ?", [id]);
-  return (result as ResultSetHeader).affectedRows; // Retorna o número de linhas afetadas
+// Atualizar um técnico por ID
+export const updateTecnico = async (
+  id: number,
+  updateData: Partial<Omit<Tecnico, "id">>
+): Promise<boolean> => {
+  const { nome, telefone, estado } = updateData;
+
+  const [result] = await pool.execute(
+    `UPDATE tecnicos SET nome = ?, telefone = ?, estado = ?, data_alteracao = ? WHERE id = ?`,
+    [nome, telefone, estado, new Date(), id]
+  );
+
+  return (result as any).affectedRows > 0;
+};
+
+// Soft delete de um técnico
+export const softDeleteTecnico = async (id: number): Promise<boolean> => {
+  const [result] = await pool.execute(
+    `UPDATE tecnicos SET estado = 0 WHERE id = ?`,
+    [id]
+  );
+  return (result as any).affectedRows > 0;
+};
+
+// Excluir um técnico permanentemente
+export const deleteTecnico = async (id: number): Promise<boolean> => {
+  const [result] = await pool.execute(`DELETE FROM tecnicos WHERE id = ?`, [
+    id,
+  ]);
+  return (result as any).affectedRows > 0;
 };

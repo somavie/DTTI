@@ -1,104 +1,72 @@
-import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import pool from "../utils/database";
+import { RowDataPacket } from "mysql2";
 
-// Definindo a interface para situação
-interface Situacao extends RowDataPacket {
+// Interface para o tipo de dados Situação
+interface Situacao {
   id: number;
-  nome?: string | null; // Nome da situação (opcional)
-  estado: boolean; // O estado é booleano
-  data_criacao?: Date; // Data de criação
-  data_alteracao?: Date; // Data da última alteração
-  data_remocao?: Date | null; // Data de remoção (opcional)
+  nome: string | null;
+  estado: boolean;
+  data_criacao: Date;
+  data_alteracao: Date;
 }
 
-// Função para criar uma situação
+// Criar uma nova situação
 export const createSituacao = async (
-  nome?: string | null,
-  estado: boolean = true // Define estado como ativo (true) por padrão
+  situacao: Omit<Situacao, "id" | "data_alteracao">
 ): Promise<number> => {
-  try {
-    const [result] = await pool.query(
-      `INSERT INTO situacao (nome, estado) VALUES (?, ?)`,
-      [nome, estado]
-    );
-    console.log("Query SQL:", result);
-    return (result as ResultSetHeader).insertId; // Retorna o ID da situação criada
-  } catch (error) {
-    console.error("Erro ao criar situação:", error);
-    throw error; // Lança o erro para tratamento posterior
-  }
+  const [result] = await pool.execute(
+    `INSERT INTO situacao (nome, estado, data_criacao) VALUES (?, ?, ?)`,
+    [situacao.nome, situacao.estado, new Date()]
+  );
+  return (result as any).insertId;
 };
 
-// Função para obter todas as situações
+// Obter todas as situações ativas
 export const getAllSituacoes = async (): Promise<Situacao[]> => {
-  const [rows] = await pool.query("SELECT * FROM situacao WHERE estado = 1");
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM situacao WHERE estado = 1`
+  );
   return rows as Situacao[];
 };
 
-// Função para obter uma situação por ID
+// Obter uma situação por ID
 export const getSituacaoById = async (id: number): Promise<Situacao | null> => {
-  const [rows] = await pool.query("SELECT * FROM situacao WHERE id = ?", [id]);
-  const result = rows as Situacao[];
-  return result.length > 0 ? result[0] : null;
-};
-
-// Função para atualizar uma situação
-export const updateSituacao = async (
-  id: number,
-  situacao: {
-    nome?: string | null;
-    estado?: boolean; // Atualização do estado (opcional)
-  }
-): Promise<boolean> => {
-  const fields: string[] = [];
-  const values: any[] = [];
-
-  // Verifica quais campos foram fornecidos para atualização
-  if (situacao.nome !== undefined) {
-    fields.push("nome = ?");
-    values.push(situacao.nome);
-  }
-
-  if (situacao.estado !== undefined) {
-    fields.push("estado = ?");
-    values.push(situacao.estado);
-  }
-
-  // Se não houverem campos para atualizar, retorna falso
-  if (fields.length === 0) {
-    return false;
-  }
-
-  // Adiciona o ID no final dos valores para o WHERE
-  values.push(id);
-
-  try {
-    const [result] = await pool.query<ResultSetHeader>(
-      `UPDATE situacao SET ${fields.join(", ")} WHERE id = ?`,
-      values
-    );
-
-    // Verifica se alguma linha foi afetada
-    return result.affectedRows > 0;
-  } catch (error) {
-    console.error("Erro ao atualizar situação:", error);
-    throw error; // Lança o erro para tratamento posterior
-  }
-};
-
-// Soft delete (remoção segura) de situação
-export const softDeleteSituacao = async (id: number): Promise<boolean> => {
-  const [result] = await pool.query<ResultSetHeader>(
-    "UPDATE situacao SET estado = 0, data_remocao = CURRENT_TIMESTAMP WHERE id = ?",
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM situacao WHERE id = ? AND estado = 1`,
     [id]
   );
-
-  // Verifica se alguma linha foi afetada
-  return result.affectedRows > 0;
+  const [situacao] = rows as Situacao[];
+  return situacao || null;
 };
 
-// Função para deletar uma situação
-export const deleteSituacao = async (id: number): Promise<number> => {
-  const [result] = await pool.query("DELETE FROM situacao WHERE id = ?", [id]);
-  return (result as ResultSetHeader).affectedRows; // Retorna o número de linhas afetadas
+// Atualizar uma situação por ID
+export const updateSituacao = async (
+  id: number,
+  updateData: Partial<Omit<Situacao, "id">>
+): Promise<boolean> => {
+  const { nome, estado } = updateData;
+
+  const [result] = await pool.execute(
+    `UPDATE situacao SET nome = ?, estado = ?, data_alteracao = ? WHERE id = ?`,
+    [nome, estado, new Date(), id]
+  );
+
+  return (result as any).affectedRows > 0;
+};
+
+// Soft delete de uma situação
+export const softDeleteSituacao = async (id: number): Promise<boolean> => {
+  const [result] = await pool.execute(
+    `UPDATE situacao SET estado = 0 WHERE id = ?`,
+    [id]
+  );
+  return (result as any).affectedRows > 0;
+};
+
+// Excluir uma situação permanentemente
+export const deleteSituacao = async (id: number): Promise<boolean> => {
+  const [result] = await pool.execute(`DELETE FROM situacao WHERE id = ?`, [
+    id,
+  ]);
+  return (result as any).affectedRows > 0;
 };
