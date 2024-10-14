@@ -1,88 +1,45 @@
-"use client"; // Indica que este componente é um componente cliente
-import { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
-import api from "@/utils/api"; // Certifique-se de que isso está correto
-
-const socket = io(process.env.NEXT_PUBLIC_API_URL); // Conectando ao servidor Socket.io
-
-interface Video {
-  id: number;
-  nome: string;
-  caminho: string;
-}
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import io from "socket.io-client";
 
 const VideoPlayer = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [latestVideo, setLatestVideo] = useState<Video | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await api.get("/videos");
-        const videos: Video[] = response.data;
+    // Conectar ao servidor Socket.IO
+    const socket = io("http://192.168.1.183:8088");
 
-        if (videos.length > 0) {
-          setLatestVideo(videos[videos.length - 1]); // Pega o vídeo mais recente
-        }
-      } catch (error) {
-        console.error("Erro ao buscar vídeos:", error);
-      }
-    };
+    // Solicitar o live stream ao se conectar
+    socket.emit("requestLiveStream");
 
-    fetchVideos();
-    socket.emit("requestLiveStream"); // Solicita a transmissão ao conectar
-
-    socket.on("liveStream", (videoPath: string) => {
+    // Receber o tempo de reprodução sincronizado do servidor
+    socket.on("liveStream", (data: { currentTime: number }) => {
+      setCurrentTime(data.currentTime);
       if (videoRef.current) {
-        videoRef.current.src = `${process.env.NEXT_PUBLIC_API_URL}${videoPath}`; // Define a fonte do vídeo
+        videoRef.current.currentTime = data.currentTime;
         videoRef.current.play();
-        setIsPlaying(true); // Define o estado de reprodução
       }
     });
 
+    // Função de limpeza: desconectar o socket ao desmontar o componente
     return () => {
-      socket.off("liveStream"); // Remove o listener ao desmontar
+      socket.disconnect();
     };
   }, []);
 
-  useEffect(() => {
-    if (latestVideo && videoRef.current) {
-      videoRef.current.src = `${process.env.NEXT_PUBLIC_API_URL}${latestVideo.caminho}`;
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [latestVideo]);
-
-  const handlePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200">
-      <h1 className="text-4xl font-bold mb-6">Bem-vindo à TV Interativa</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white">
+      <h1 className="text-3xl mb-6">Transmissão ao Vivo</h1>
       <video
         ref={videoRef}
-        onClick={handlePlayPause}
-        className="rounded shadow-md"
+        controls={false} // Desativa os controles para evitar avanço/recuo
         width="800"
-        controls={false} // Remove os controles do vídeo
+        className="border-4 border-gray-500"
       >
+        <source src="http://192.168.1.183:8088/video-stream" type="video/mp4" />
         Seu navegador não suporta o elemento de vídeo.
       </video>
-      <button
-        onClick={handlePlayPause}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        {isPlaying ? "Pausar" : "Reproduzir"}
-      </button>
     </div>
   );
 };
