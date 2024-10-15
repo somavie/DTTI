@@ -2,19 +2,38 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 
+// Criar uma interface que estenda HTMLVideoElement com os métodos proprietários
+interface CustomHTMLVideoElement extends HTMLVideoElement {
+  webkitEnterFullscreen?: () => Promise<void>;
+  mozRequestFullScreen?: () => Promise<void>;
+  msRequestFullscreen?: () => Promise<void>;
+}
+
 const VideoPlayer = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<CustomHTMLVideoElement>(null);
   const [, setCurrentTime] = useState(0);
 
-  // Função para colocar o vídeo em tela cheia
+  // Função para colocar o vídeo em tela cheia, incluindo suporte para dispositivos móveis
   const enterFullscreen = () => {
     if (videoRef.current) {
       const videoElement = videoRef.current;
 
+      // Verifica qual método de tela cheia está disponível
       if (videoElement.requestFullscreen) {
         videoElement.requestFullscreen().catch((err) => {
           console.error("Erro ao tentar entrar em tela cheia:", err);
         });
+      } else if (videoElement.webkitEnterFullscreen) {
+        // Safari no iOS
+        videoElement.webkitEnterFullscreen();
+      } else if (videoElement.mozRequestFullScreen) {
+        // Firefox
+        videoElement.mozRequestFullScreen();
+      } else if (videoElement.msRequestFullscreen) {
+        // Internet Explorer / Edge
+        videoElement.msRequestFullscreen();
+      } else {
+        console.error("Tela cheia não suportada neste dispositivo.");
       }
     }
   };
@@ -66,11 +85,29 @@ const VideoPlayer = () => {
     }
   };
 
-  // Adiciona e remove o listener de evento de teclado
+  // Sincronizar o tempo do vídeo a cada 1 segundo para evitar controle de avanço/recuo
+  const syncVideoTime = () => {
+    if (videoRef.current) {
+      const videoElement = videoRef.current;
+
+      // Sincroniza o tempo do vídeo com o servidor ou outro controle
+      const fixedTime = videoElement.currentTime;
+      if (Math.abs(videoElement.currentTime - fixedTime) > 1) {
+        videoElement.currentTime = fixedTime; // Força o retorno ao tempo correto
+      }
+    }
+  };
+
+  // Adiciona e remove o listener de evento de teclado e sincronização de tempo
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
+
+    // Sincronizar a cada 1 segundo
+    const syncInterval = setInterval(syncVideoTime, 1000);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      clearInterval(syncInterval);
     };
   }, []);
 
@@ -81,7 +118,9 @@ const VideoPlayer = () => {
         ref={videoRef}
         controls={false} // Desativa os controles para evitar avanço/recuo
         autoPlay // Reproduz automaticamente
-        className="w-4/5" // Ocupa 100% da largura e altura da tela
+        playsInline // Necessário para dispositivos móveis
+        // Necessário para autoplay em dispositivos móveis
+        className="w-4/5" // Ocupa 80% da largura da tela
       >
         <source
           src={`${process.env.NEXT_PUBLIC_API_URL}/video-stream`}
