@@ -27,7 +27,7 @@ export const handleUploadVideo = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Nenhum arquivo enviado." });
     }
 
-    const videoPath = `/uploads/${req.file.filename}`; // O caminho para acessar o vídeo
+    const videoPath = `${req.file.filename}`; // O caminho para acessar o vídeo
 
     // Cria o objeto do vídeo
     const newVideo: Video = {
