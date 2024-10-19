@@ -4,6 +4,7 @@ import * as relatorioService from "../services/RelatoriosService";
 // Criar um novo relatório
 export const createRelatorio = async (req: Request, res: Response) => {
   try {
+    console.log("controller");
     const {
       tecnico_cessante_id,
       tecnico_entrante_id,

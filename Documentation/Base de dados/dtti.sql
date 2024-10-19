@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 13/10/2024 20:19:28
+ Date: 17/10/2024 23:32:10
 */
 
 SET NAMES utf8mb4;
@@ -95,11 +95,38 @@ CREATE TABLE `posto`  (
   `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of posto
 -- ----------------------------
+INSERT INTO `posto` VALUES (1, 'Soldado', 'SOL', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (2, 'Cabo', 'CAB', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (3, 'Sargento', 'SGT', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (4, 'Segundo-sargento', '2SGT', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (5, 'Primeiro-sargento', '1SGT', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (6, 'Sargento-ajudante', 'SA', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (7, 'Sargento-chefe', 'SC', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (8, 'Aspirante', 'ASP', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (9, 'Alferes', 'ALF', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (10, 'Tenente', 'TEN', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (11, 'Capitão', 'CAP', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (12, 'Major', 'MAJ', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (13, 'Tenente-coronel', 'TC', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (14, 'Coronel', 'COL', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (15, 'General de Brigada', 'GB', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (16, 'General', 'GEN', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (17, 'General do Exército', 'GE', 1, '2024-10-17 06:11:04', '2024-10-17 06:11:04', NULL);
+INSERT INTO `posto` VALUES (18, 'Assistente Administrativo', 'ASSADM', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (19, 'Técnico Administrativo', 'TECADM', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (20, 'Diretor de Departamento', 'DIRDEP', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (21, 'Secretário', 'SEC', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (22, 'Chefe de Equipa', 'CHEEQU', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (23, 'Gerente de Projetos', 'GERPROJ', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (24, 'Coordenador', 'COORD', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (25, 'Operário', 'OP', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (26, 'Engenheiro', 'ENG', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
+INSERT INTO `posto` VALUES (27, 'Arquiteto', 'ARQ', 1, '2024-10-17 06:11:11', '2024-10-17 06:11:11', NULL);
 
 -- ----------------------------
 -- Table structure for relatorios
@@ -138,7 +165,7 @@ CREATE TABLE `situacao`  (
   `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of situacao
@@ -156,7 +183,10 @@ CREATE TABLE `tecnicos`  (
   `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  `posto_id` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_tecnicos_posto1_idx`(`posto_id` ASC) USING BTREE,
+  CONSTRAINT `fk_tecnicos_posto1` FOREIGN KEY (`posto_id`) REFERENCES `posto` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

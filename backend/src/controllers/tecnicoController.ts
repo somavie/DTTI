@@ -4,11 +4,12 @@ import * as tecnicoService from "../services/TecnicosService";
 // Criar um novo técnico
 export const createTecnico = async (req: Request, res: Response) => {
   try {
-    const { nome, telefone, estado } = req.body;
+    const { nome, telefone, posto_id, estado } = req.body;
 
     const newTecnico = {
       nome: nome ? String(nome) : null,
       telefone: telefone ? String(telefone) : null,
+      posto_id: posto_id,
       estado: typeof estado === "boolean" ? estado : true,
       data_criacao: new Date(),
     };
@@ -55,11 +56,12 @@ export const getTecnicoById = async (req: Request, res: Response) => {
 export const updateTecnico = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const { nome, telefone, estado } = req.body;
+    const { nome, telefone, posto_id, estado } = req.body;
 
     const updateData = {
       nome: nome ? String(nome) : undefined,
       telefone: telefone ? String(telefone) : undefined,
+      posto_id: posto_id,
       estado: typeof estado === "boolean" ? estado : undefined,
     };
 

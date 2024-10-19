@@ -6,6 +6,7 @@ interface Tecnico {
   id: number;
   nome: string | null;
   telefone: string | null;
+  posto_id: number;
   estado: boolean;
   data_criacao: Date;
   data_alteracao: Date;
@@ -16,8 +17,14 @@ export const createTecnico = async (
   tecnico: Omit<Tecnico, "id" | "data_alteracao">
 ): Promise<number> => {
   const [result] = await pool.execute(
-    `INSERT INTO tecnicos (nome, telefone, estado, data_criacao) VALUES (?, ?, ?, ?)`,
-    [tecnico.nome, tecnico.telefone, tecnico.estado, new Date()]
+    `INSERT INTO tecnicos (nome, telefone,posto_id, estado, data_criacao) VALUES (?, ?, ?, ?, ?)`,
+    [
+      tecnico.nome,
+      tecnico.telefone,
+      tecnico.posto_id,
+      tecnico.estado,
+      new Date(),
+    ]
   );
   return (result as any).insertId;
 };
@@ -45,11 +52,11 @@ export const updateTecnico = async (
   id: number,
   updateData: Partial<Omit<Tecnico, "id">>
 ): Promise<boolean> => {
-  const { nome, telefone, estado } = updateData;
+  const { nome, telefone, posto_id, estado } = updateData;
 
   const [result] = await pool.execute(
-    `UPDATE tecnicos SET nome = ?, telefone = ?, estado = ?, data_alteracao = ? WHERE id = ?`,
-    [nome, telefone, estado, new Date(), id]
+    `UPDATE tecnicos SET nome = ?, telefone = ?, posto_id=?, estado = ?, data_alteracao = ? WHERE id = ?`,
+    [nome, telefone, posto_id, estado, new Date(), id]
   );
 
   return (result as any).affectedRows > 0;

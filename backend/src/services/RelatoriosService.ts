@@ -17,6 +17,7 @@ interface Relatorio {
 export const createRelatorio = async (
   relatorio: Omit<Relatorio, "id" | "data_alteracao" | "data_criacao_registro">
 ): Promise<number> => {
+  console.log("controller");
   const [result] = await pool.execute(
     `INSERT INTO relatorios (tecnico_cessante_id, tecnico_entrante_id, data_criacao, observacoes_finais, estado) 
      VALUES (?, ?, ?, ?, ?)`,
