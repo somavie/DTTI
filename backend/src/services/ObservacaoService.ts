@@ -21,13 +21,8 @@ export const createObservacao = async (
   >
 ): Promise<number> => {
   const [result] = await pool.execute(
-    `INSERT INTO observacao (situacao_id, relatorios_id, descricao, estado) VALUES (?, ?, ?, ?)`,
-    [
-      observacao.situacao_id,
-      observacao.relatorios_id,
-      observacao.descricao,
-      observacao.estado,
-    ]
+    `INSERT INTO observacao (situacao_id, relatorios_id, descricao) VALUES (?, ?, ?)`,
+    [observacao.situacao_id, observacao.relatorios_id, observacao.descricao]
   );
   return (result as any).insertId;
 };

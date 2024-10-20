@@ -1,3 +1,9 @@
+import RelatorioForm from "@/components/relatorios/add-relatorio";
+import React from "react";
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <RelatorioForm />
+    </div>
+  );
 }

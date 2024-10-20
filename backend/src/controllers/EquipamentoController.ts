@@ -4,15 +4,15 @@ import * as equipamentoService from "../services/EquipamentoService";
 // Criar um novo equipamento
 export const createEquipamento = async (req: Request, res: Response) => {
   try {
-    const { relatorios_id, quantidade, status, localizacao, data_verificacao } =
+    const { equipamento_id, relatorios_id, quantidade, status, localizacao } =
       req.body;
 
     const newEquipamento = {
+      equipamentos_id: Number(equipamento_id),
       relatorios_id: Number(relatorios_id),
       quantidade: Number(quantidade),
       status: String(status),
       localizacao: localizacao ? String(localizacao) : null,
-      data_verificacao: data_verificacao ? new Date(data_verificacao) : null,
     };
 
     const insertId = await equipamentoService.createEquipamento(newEquipamento);

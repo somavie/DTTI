@@ -3,7 +3,7 @@ import * as relatorioController from "../controllers/relatorioController";
 
 const router = express.Router();
 
-router.post("/", relatorioController.createRelatorio);
+router.post("/", relatorioController.CreateRelatorioE);
 router.get("/", relatorioController.getAllRelatorios);
 router.get("/:id", relatorioController.getRelatorioById);
 router.put("/:id", relatorioController.updateRelatorio);

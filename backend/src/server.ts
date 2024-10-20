@@ -18,6 +18,7 @@ import equipamentoRoutes from "./routes/equipamentoRoutes"; // Rota para equipam
 import observacaoRoutes from "./routes/observacaoRoutes"; // Rota para observacao
 
 import { verifyToken } from "./middleware/verifyToken";
+import equipamentosRoutes from "./routes/equipamentosRoutes";
 
 const app = express();
 app.use(express.json());
@@ -38,7 +39,8 @@ app.use("/postos", postoRoutes); // Usar as rotas de posto
 app.use("/situacoes", situacaoRoutes); // Usar as rotas de situacao
 app.use("/tecnicos", tecnicoRoutes); // Usar as rotas de tecnicos
 app.use("/relatorios", relatorioRoutes); // Usar as rotas de relatorios
-app.use("/equipamentos", equipamentoRoutes); // Usar as rotas de equipamentos
+app.use("/equipamentos", equipamentosRoutes); // Usar as rotas de equipamentos
+app.use("/equipamento", equipamentoRoutes);
 app.use("/observacoes", observacaoRoutes); // Usar as rotas de observacao
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

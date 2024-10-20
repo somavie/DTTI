@@ -4,7 +4,6 @@ import * as relatorioService from "../services/RelatoriosService";
 // Criar um novo relatório
 export const createRelatorio = async (req: Request, res: Response) => {
   try {
-    console.log("controller");
     const {
       tecnico_cessante_id,
       tecnico_entrante_id,
@@ -36,7 +35,17 @@ export const createRelatorio = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro ao criar relatório" });
   }
 };
-
+export const CreateRelatorioE = async (req: Request, res: Response) => {
+  try {
+    const insertId = await relatorioService.createRelatorioE();
+    res
+      .status(201)
+      .json({ message: "Relatório criado com sucesso!", id: insertId });
+  } catch (error) {
+    console.error("Erro ao criar relatório:", error);
+    res.status(500).json({ error: "Erro ao criar relatório" });
+  }
+};
 // Obter todos os relatórios
 export const getAllRelatorios = async (req: Request, res: Response) => {
   try {
@@ -74,7 +83,6 @@ export const updateRelatorio = async (req: Request, res: Response) => {
       tecnico_entrante_id,
       data_criacao,
       observacoes_finais,
-      estado,
     } = req.body;
 
     const updateData = {
@@ -88,7 +96,6 @@ export const updateRelatorio = async (req: Request, res: Response) => {
       observacoes_finais: observacoes_finais
         ? String(observacoes_finais)
         : undefined,
-      estado: typeof estado === "boolean" ? estado : undefined,
     };
 
     const updated = await relatorioService.updateRelatorio(id, updateData);

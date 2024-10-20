@@ -16,6 +16,7 @@ export const createObservacaoController = async (
 ) => {
   try {
     const observacao = req.body;
+
     const newObservacaoId = await createObservacao(observacao);
     res.status(201).json({ id: newObservacaoId });
   } catch (error) {

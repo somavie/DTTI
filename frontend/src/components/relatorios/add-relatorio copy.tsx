@@ -1,4 +1,5 @@
 "use client";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "@/helpers/api";
@@ -6,6 +7,13 @@ import ObservacaoForm from "../observacao/add-observacao";
 import EquipamentoForm from "../equipamento/add-equipamento";
 import gerarPDF from "../pdf/relatorioPDF";
 import { Equipamento } from "@/helpers/types";
+import { useFetchData } from "../hooks/useFetchData"; // Importando o hook genérico
+
+// Definindo a interface para o técnico
+interface Tecnico {
+  id: number;
+  nome: string;
+}
 
 interface RelatorioFormData {
   observacao_final: string;
@@ -21,7 +29,9 @@ interface CreateEquipamentoInput {
 }
 
 export default function RelatorioForm() {
-  const { register, handleSubmit } = useForm<RelatorioFormData>();
+  const { register, handleSubmit, setValue } = useForm<RelatorioFormData>();
+  const { data: tecnicos, loading: loadingTecnicos } =
+    useFetchData<Tecnico>("/tecnicos"); // Buscando técnicos
   const [relatorioId, setRelatorioId] = useState<number | null>(null);
   const [observacoes, setObservacoes] = useState<
     { situacao_id: number; descricao: string }[]
@@ -29,21 +39,18 @@ export default function RelatorioForm() {
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
   const [isFinalStep, setIsFinalStep] = useState(false);
 
-  // Função para criar o relatório ao clicar no botão "Fazer Relatório"
   const criarRelatorio = async () => {
     try {
       const response = await api.post("/relatorios");
-      setRelatorioId(response.data.id); // Armazena o ID do relatório criado
+      setRelatorioId(response.data.id);
       alert("Relatório criado com sucesso!");
     } catch (error) {
       console.error("Erro ao criar o relatório:", error);
     }
   };
 
-  // Salva as observações e equipamentos relacionados ao relatório
   const salvarDadosRelacionados = async () => {
     try {
-      // Salva as observações
       await Promise.all(
         observacoes.map((observacao) => {
           const observacaoData = { ...observacao, relatorios_id: relatorioId };
@@ -51,7 +58,6 @@ export default function RelatorioForm() {
         })
       );
 
-      // Salva os equipamentos
       await Promise.all(
         equipamentos.map((equipamento) => {
           const equipamentoData: CreateEquipamentoInput = {
@@ -66,11 +72,9 @@ export default function RelatorioForm() {
     }
   };
 
-  // Função chamada ao submeter o formulário final
   const onSubmitFinalizar = async (data: RelatorioFormData) => {
     const { tecnico_cessante_id, tecnico_entrante_id, observacao_final } = data;
 
-    // Preparar o objeto de dados de atualização
     const updateData = {
       tecnico_cessante_id: tecnico_cessante_id
         ? Number(tecnico_cessante_id)
@@ -78,32 +82,30 @@ export default function RelatorioForm() {
       tecnico_entrante_id: tecnico_entrante_id
         ? Number(tecnico_entrante_id)
         : undefined,
-      data_criacao: new Date(), // Data de criação será a data atual
+      data_criacao: new Date(),
       observacoes_finais: observacao_final
         ? String(observacao_final)
         : undefined,
     };
 
     try {
-      // Atualiza o relatório com os dados do técnico e observação final
       await api.put(`/relatorios/${relatorioId}`, updateData);
-
-      // Salva os dados relacionados (observações e equipamentos)
       await salvarDadosRelacionados();
       if (relatorioId === null) {
         console.error("Erro: relatorioId não pode ser nulo.");
-        return; // Ou exiba uma mensagem de erro para o usuário
+        return;
       }
 
-      try {
-        await gerarPDF(relatorioId); // Agora, relatorioId é garantidamente um número
-      } catch (error) {
-        console.error("Erro ao gerar PDF:", error);
-      }
+      await gerarPDF(relatorioId);
       alert("Relatório salvo e PDF gerado com sucesso!");
     } catch (error) {
       console.error("Erro ao finalizar o relatório:", error);
     }
+  };
+
+  // Função para lidar com as mudanças nos selects
+  const handleChange = (name: keyof RelatorioFormData, value: number) => {
+    setValue(name, value); // Atualiza o valor do campo no formulário
   };
 
   return (
@@ -112,7 +114,6 @@ export default function RelatorioForm() {
         Relatório de Equipamentos e Ocorrências
       </h1>
 
-      {/* Botão para criar o relatório */}
       {!relatorioId && (
         <button
           className="bg-green-500 text-white p-2 mb-6"
@@ -122,7 +123,6 @@ export default function RelatorioForm() {
         </button>
       )}
 
-      {/* Exibe o formulário e passos após a criação do relatório */}
       {relatorioId && !isFinalStep && (
         <>
           <ObservacaoForm
@@ -142,7 +142,6 @@ export default function RelatorioForm() {
         </>
       )}
 
-      {/* Etapa final - Formulário para dados finais */}
       {isFinalStep && (
         <form onSubmit={handleSubmit(onSubmitFinalizar)}>
           <div className="mb-4">
@@ -155,20 +154,44 @@ export default function RelatorioForm() {
 
           <div className="mb-4">
             <label className="block mb-2">Técnico Cessante:</label>
-            <input
-              type="number"
-              className="border p-2 w-full"
-              {...register("tecnico_cessante_id")}
-            />
+            {loadingTecnicos ? (
+              <Spinner size="sm" label="Carregando técnicos..." />
+            ) : (
+              <Select
+                label="Técnico Cessante"
+                onSelectionChange={(keys) => {
+                  const selectedKey = keys.currentKey;
+                  if (selectedKey) {
+                    handleChange("tecnico_cessante_id", Number(selectedKey));
+                  }
+                }}
+              >
+                {tecnicos?.map((tecnico: Tecnico) => (
+                  <SelectItem key={tecnico.id}>{tecnico.nome}</SelectItem>
+                ))}
+              </Select>
+            )}
           </div>
 
           <div className="mb-4">
             <label className="block mb-2">Técnico Entrante:</label>
-            <input
-              type="number"
-              className="border p-2 w-full"
-              {...register("tecnico_entrante_id")}
-            />
+            {loadingTecnicos ? (
+              <Spinner size="sm" label="Carregando técnicos..." />
+            ) : (
+              <Select
+                label="Técnico Entrante"
+                onSelectionChange={(keys) => {
+                  const selectedKey = keys.currentKey;
+                  if (selectedKey) {
+                    handleChange("tecnico_entrante_id", Number(selectedKey));
+                  }
+                }}
+              >
+                {tecnicos?.map((tecnico: Tecnico) => (
+                  <SelectItem key={tecnico.id}>{tecnico.nome}</SelectItem>
+                ))}
+              </Select>
+            )}
           </div>
 
           <button className="bg-blue-500 text-white p-2" type="submit">

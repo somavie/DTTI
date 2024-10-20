@@ -3,21 +3,21 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 // Interface para definir o tipo de dados esperado para criar um equipamento
 interface CreateEquipamentoInput {
+  equipamentos_id: number;
   relatorios_id: number;
   quantidade: number;
   status: string;
   localizacao: string | null; // Pode ser string ou null
-  data_verificacao: Date | null; // Pode ser Date ou null
 }
 
 // Interface para representar o equipamento retornado do banco de dados
 interface Equipamento extends RowDataPacket {
+  id: number;
   equipamentos_id: number;
   relatorios_id: number;
   quantidade: number;
   status: string;
   localizacao: string | null;
-  data_verificacao: Date | null;
   estado: number;
   data_criacao: Date;
   data_alteracao: Date;
@@ -29,16 +29,16 @@ export const createEquipamento = async (
   equipamento: CreateEquipamentoInput
 ): Promise<number> => {
   const query = `
-    INSERT INTO equipamento (relatorios_id, quantidade, status, localizacao, data_verificacao)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO equipamento (equipamentos_id,relatorios_id, quantidade, status, localizacao)
+    VALUES (?, ?, ?, ?,?)
   `;
 
   const [result] = await pool.execute<ResultSetHeader>(query, [
+    equipamento.equipamentos_id,
     equipamento.relatorios_id,
     equipamento.quantidade,
     equipamento.status,
     equipamento.localizacao,
-    equipamento.data_verificacao,
   ]);
 
   return result.insertId;
@@ -53,66 +53,56 @@ export const getAllEquipamentos = async (): Promise<Equipamento[]> => {
 
 // Obter um equipamento por ID
 export const getEquipamentoById = async (
-  equipamentos_id: number
+  id: number
 ): Promise<Equipamento | null> => {
-  const query =
-    "SELECT * FROM equipamento WHERE equipamentos_id = ? AND estado = 1";
-  const [equipamentos] = await pool.execute<Equipamento[]>(query, [
-    equipamentos_id,
-  ]);
+  const query = "SELECT * FROM equipamento WHERE  id = ? AND estado = 1";
+  const [equipamentos] = await pool.execute<Equipamento[]>(query, [id]);
 
   return equipamentos.length > 0 ? equipamentos[0] : null;
 };
 
 // Atualizar um equipamento
 export const updateEquipamento = async (
-  equipamentos_id: number,
+  id: number,
   equipamento: Partial<CreateEquipamentoInput>
 ): Promise<boolean> => {
   const query = `
     UPDATE equipamento
-    SET relatorios_id = ?, quantidade = ?, status = ?, localizacao = ?, data_verificacao = ?
-    WHERE equipamentos_id = ? AND estado = 1
+    SET  equipamentos_id=?,relatorios_id = ?, quantidade = ?, status = ?, localizacao = ? 
+    WHERE  id = ? AND estado = 1
   `;
 
   const [result] = await pool.execute<ResultSetHeader>(query, [
+    equipamento.equipamentos_id,
     equipamento.relatorios_id,
     equipamento.quantidade,
     equipamento.status,
     equipamento.localizacao,
-    equipamento.data_verificacao,
-    equipamentos_id,
+
+    id,
   ]);
 
   return result.affectedRows > 0;
 };
 
 // Soft delete (remoção segura) de um equipamento
-export const softDeleteEquipamento = async (
-  equipamentos_id: number
-): Promise<boolean> => {
+export const softDeleteEquipamento = async (id: number): Promise<boolean> => {
   const query = `
     UPDATE equipamento
     SET estado = 0, data_remocao = NOW()
-    WHERE equipamentos_id = ?
+    WHERE  id = ?
   `;
 
-  const [result] = await pool.execute<ResultSetHeader>(query, [
-    equipamentos_id,
-  ]);
+  const [result] = await pool.execute<ResultSetHeader>(query, [id]);
 
   return result.affectedRows > 0;
 };
 
 // Deletar um equipamento (exclusão permanente)
-export const deleteEquipamento = async (
-  equipamentos_id: number
-): Promise<boolean> => {
-  const query = "DELETE FROM equipamento WHERE equipamentos_id = ?";
+export const deleteEquipamento = async (id: number): Promise<boolean> => {
+  const query = "DELETE FROM equipamento WHERE  id = ?";
 
-  const [result] = await pool.execute<ResultSetHeader>(query, [
-    equipamentos_id,
-  ]);
+  const [result] = await pool.execute<ResultSetHeader>(query, [id]);
 
   return result.affectedRows > 0;
 };
