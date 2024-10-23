@@ -2,6 +2,28 @@ import municipio from "@/app/(app)/admin/configuracao/municipio/page";
 import { number, mixed, boolean, object, ref, date, string } from "yup";
 import * as yup from "yup";
 
+import * as Yup from "yup";
+
+export const RelatorioSchema = Yup.object().shape({
+  tecnico_cessante_id: Yup.number()
+    .required("O campo 'Técnico Cessante' é obrigatório.")
+    .positive("O ID do técnico cessante deve ser um número positivo.")
+    .integer("O ID do técnico cessante deve ser um número inteiro."),
+
+  tecnico_entrante_id: Yup.number()
+    .required("O campo 'Técnico Entrante' é obrigatório.")
+    .positive("O ID do técnico entrante deve ser um número positivo.")
+    .integer("O ID do técnico entrante deve ser um número inteiro."),
+
+  data_criacao: Yup.date()
+    .required("A data de criação é obrigatória.")
+    .typeError("A data de criação deve ser uma data válida."),
+
+  observacoes_finais: Yup.string()
+    .max(500, "As observações finais não podem ter mais de 500 caracteres.")
+    .nullable(),
+});
+
 export const PagamentoSchema = object().shape({
   matricula_id: yup.number().required("O ID da matrícula é obrigatório"),
   servico_id: yup.number().required("O ID do serviço é obrigatório"),
@@ -305,11 +327,8 @@ export const EnderecoSchema = object().shape({
 export const EncarregadoSchema = yup.object().shape({
   // Campos relacionados à tabela `pessoa`
   pessoa: yup.object().shape({
-    id:yup.number().required("O Encarregado obrigatório")
+    id: yup.number().required("O Encarregado obrigatório"),
   }),
-
-  
-  
 });
 export const EncarregadoSchemaCopia = yup.object().shape({
   // Campos relacionados à tabela `pessoa`

@@ -1,9 +1,9 @@
 import React from "react";
 
-import RelatorioForm from "@/components/relatorios/add-relatorio";
+import Relatorios from "@/components/relatorios/relatorio";
 
 const Relatorio = () => {
-  return <RelatorioForm />;
+  return <Relatorios />;
 };
 
 export default Relatorio;

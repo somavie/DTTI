@@ -58,9 +58,6 @@ export interface Endereco {
   endereco_completo: string;
 }
 
-
-
-
 export interface PermissaoType {
   id: number;
   usuario_id: number;
@@ -82,7 +79,6 @@ export interface PessoaType {
   endereco_completo?: string;
   municipio_id: number;
 }
-
 
 export interface ProvinciaType {
   id: number;
@@ -147,6 +143,21 @@ export interface RelatorioDado {
   cessante: string;
   entrante: string;
   data_criacao: Date;
+  observacoes_finais: string | null;
+  estado: boolean;
+  data_criacao_registro: Date;
+  data_alteracao: Date;
+  observacoes?: Observacao[];
+  equipamentos?: Equipamento[];
+}
+
+export interface RelatorioType {
+  id: number;
+  tecnico_cessante_id: number | null;
+  tecnico_entrante_id: number | null;
+  cessante: string;
+  entrante: string;
+  data_criacao: string;
   observacoes_finais: string | null;
   estado: boolean;
   data_criacao_registro: Date;
