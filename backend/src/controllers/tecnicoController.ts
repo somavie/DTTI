@@ -1,112 +1,108 @@
 import { Request, Response } from "express";
-import * as tecnicoService from "../services/TecnicosService";
+import {
+  createTecnico,
+  getAllTecnicos,
+  getTecnicoById,
+  updateTecnico,
+  softDeleteTecnico,
+  deleteTecnico,
+} from "../services/TecnicosService";
 
-// Criar um técnico
-export const createTecnico = async (req: Request, res: Response) => {
+// Função para criar um novo técnico
+export const createTecnicoController = async (req: Request, res: Response) => {
   try {
-    const { nome, telefone, posto_id } = req.body;
-
-    // Validação básica dos dados
-    if (!nome || !posto_id) {
-      return res.status(400).json({
-        message: "Nome e Posto são obrigatórios.",
-      });
-    }
-
-    const insertId = await tecnicoService.createTecnico(
-      nome,
-      telefone,
-      posto_id
-    );
-    res.status(201).json({ id: insertId });
-  } catch (error) {
-    console.error("Erro ao criar técnico:", error);
-    res.status(500).json({ error: "Erro desconhecido ao criar técnico" });
-  }
-};
-
-// Obter todos os técnicos
-export const getAllTecnicos = async (_req: Request, res: Response) => {
-  try {
-    const tecnicos = await tecnicoService.getAllTecnicos();
-    res.status(200).json(tecnicos);
-  } catch (error) {
-    console.error("Erro ao obter técnicos:", error);
-    res.status(500).json({ error: "Erro desconhecido ao obter técnicos" });
-  }
-};
-
-// Obter um técnico por ID
-export const getTecnicoById = async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id);
-    const tecnico = await tecnicoService.getTecnicoById(id);
-    if (tecnico) {
-      res.status(200).json(tecnico);
-    } else {
-      res.status(404).json({ message: "Técnico não encontrado" });
-    }
-  } catch (error) {
-    console.error("Erro ao obter técnico:", error);
-    res.status(500).json({ error: "Erro desconhecido ao obter técnico" });
-  }
-};
-
-// Atualizar um técnico
-export const updateTecnico = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-
-    // Validação básica dos dados
-    if (!req.body) {
+    const { id, posto_id } = req.body;
+    if (!id || !posto_id) {
       return res
         .status(400)
-        .json({ message: "Dados para atualização são obrigatórios." });
+        .json({ message: "ID e posto_id são obrigatórios." });
     }
-
-    const updatedTecnico = await tecnicoService.updateTecnico(
-      Number(id),
-      req.body
-    );
-    if (updatedTecnico) {
-      res.json({ message: "Técnico atualizado com sucesso" });
-    } else {
-      res.status(404).json({ message: "Técnico não encontrado" });
-    }
+    const tecnicoId = await createTecnico(id, posto_id);
+    return res.status(201).json({ tecnicoId });
   } catch (error) {
-    console.error("Erro ao atualizar técnico:", error);
-    res.status(500).json({ error: "Erro desconhecido ao atualizar técnico" });
+    console.error("Erro ao criar técnico:", error);
+    return res.status(500).json({ message: "Erro ao criar técnico." });
   }
 };
 
-// Soft delete (remoção segura) de técnico
-export const deleteTecnicoSoft = async (req: Request, res: Response) => {
+// Função para buscar todos os técnicos
+export const getAllTecnicosController = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const tecnicos = await getAllTecnicos();
+    return res.status(200).json(tecnicos);
+  } catch (error) {
+    console.error("Erro ao buscar técnicos:", error);
+    return res.status(500).json({ message: "Erro ao buscar técnicos." });
+  }
+};
+
+// Função para buscar técnico por ID
+export const getTecnicoByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const result = await tecnicoService.softDeleteTecnico(Number(id));
-    if (result) {
-      res.status(204).end(); // Sucesso sem conteúdo
-    } else {
-      res.status(404).json({ message: "Técnico não encontrado" });
+    const tecnico = await getTecnicoById(Number(id));
+    if (!tecnico) {
+      return res.status(404).json({ message: "Técnico não encontrado." });
     }
+    return res.status(200).json(tecnico);
   } catch (error) {
-    console.error("Erro ao remover técnico:", error);
-    res.status(500).json({ error: "Erro desconhecido ao remover técnico" });
+    console.error("Erro ao buscar técnico:", error);
+    return res.status(500).json({ message: "Erro ao buscar técnico." });
   }
 };
 
-// Deletar um técnico
-export const deleteTecnico = async (req: Request, res: Response) => {
+// Função para atualizar um técnico
+export const updateTecnicoController = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
-    const affectedRows = await tecnicoService.deleteTecnico(id);
-    if (affectedRows > 0) {
-      res.status(200).json({ message: "Técnico deletado com sucesso" });
-    } else {
-      res.status(404).json({ message: "Técnico não encontrado" });
+    const { id } = req.params;
+    const tecnico = req.body;
+    const sucesso = await updateTecnico(Number(id), tecnico);
+    if (!sucesso) {
+      return res
+        .status(404)
+        .json({
+          message: "Técnico não encontrado ou sem dados para atualizar.",
+        });
     }
+    return res.status(200).json({ message: "Técnico atualizado com sucesso." });
+  } catch (error) {
+    console.error("Erro ao atualizar técnico:", error);
+    return res.status(500).json({ message: "Erro ao atualizar técnico." });
+  }
+};
+
+// Função para remover logicamente um técnico
+export const softDeleteTecnicoController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    const sucesso = await softDeleteTecnico(Number(id));
+    if (!sucesso) {
+      return res.status(404).json({ message: "Técnico não encontrado." });
+    }
+    return res.status(200).json({ message: "Técnico removido com sucesso." });
+  } catch (error) {
+    console.error("Erro ao remover técnico:", error);
+    return res.status(500).json({ message: "Erro ao remover técnico." });
+  }
+};
+
+// Função para deletar um técnico
+export const deleteTecnicoController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const linhasAfetadas = await deleteTecnico(Number(id));
+    if (linhasAfetadas === 0) {
+      return res.status(404).json({ message: "Técnico não encontrado." });
+    }
+    return res.status(200).json({ message: "Técnico deletado com sucesso." });
   } catch (error) {
     console.error("Erro ao deletar técnico:", error);
-    res.status(500).json({ error: "Erro desconhecido ao deletar técnico" });
+    return res.status(500).json({ message: "Erro ao deletar técnico." });
   }
 };
