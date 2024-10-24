@@ -63,7 +63,7 @@ export const createRelatorio = async (
 // Obter todos os relatórios ativos
 export const getAllRelatorios = async (): Promise<Relatorio[]> => {
   const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT * FROM view_relatorio_all WHERE estado = 1`
+    `SELECT * FROM view_relatorio WHERE estado = 1`
   );
   return rows as Relatorio[];
 };
