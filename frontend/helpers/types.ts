@@ -75,9 +75,26 @@ export interface PessoaType {
   data_nascimento: string; // Data é representada como string no formato 'YYYY-MM-DD'
   genero: "Masculino" | "Feminino" | "Outro";
   imagem?: string;
-  endereco_id: number;
+  endereco_id?: number;
+  contatos?: ContatoType[];
+  documentos?: DocumentoType;
   endereco_completo?: string;
   municipio_id: number;
+}
+
+export interface ContatoType {
+  id: number;
+  cont_pessoa_id: number; // ID da pessoa associada ao contato
+  valor: string; // Valor do contato (e.g. email, telefone)
+  tipo: "email" | "telefone"; // Tipo de contato
+}
+
+export interface DocumentoType {
+  id: number;
+  doc_pessoa_id: number; // ID da pessoa associada ao documento
+  tipo: "BI" | "Passaporte" | "Outro"; // Tipo de documento
+  numero: string; // Número do documento
+  data_validade?: string; // Data de validade do documento, pode ser nulo
 }
 
 export interface ProvinciaType {
