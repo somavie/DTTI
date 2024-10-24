@@ -10,26 +10,21 @@ import {
 
 import {
   useFetchUsuario,
-  useAllFuncionarios,
-  useAllMatriculas,
-  useAllProfessores,
-  useAllTurmas,
+  
 } from "../hooks/allselect"; // Importe o hook para usuários
 
 export const CardDashboard: React.FC = () => {
   // Hooks para obter os dados
-  const { professor } = useAllProfessores();
-  const { matricula } = useAllMatriculas();
-  const { funcionarios } = useAllFuncionarios();
+  
   const { usuarios } = useFetchUsuario();
-  const { turmas } = useAllTurmas();
+  
 
   // Contadores
-  const numeroDeProfessores = professor ? professor.length : 0;
-  const numeroDeAlunos = matricula ? matricula.length : 0;
-  const numeroDeFuncionarios = funcionarios ? funcionarios.length : 0;
+  const numeroDeProfessores =  0;
+  const numeroDeAlunos =  0;
+  const numeroDeFuncionarios =  0;
   const numeroDeUsuarios = usuarios ? usuarios.length : 0;
-  const numeroDeTurmas = turmas ? turmas.length : 0;
+  const numeroDeTurmas = 0;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 xl:gap-4">

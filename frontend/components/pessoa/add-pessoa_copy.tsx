@@ -49,6 +49,7 @@ export const AddPessoa = ({
     nome: editingPessoa?.nome || "",
     data_nascimento: editingPessoa?.data_nascimento || "", // Garante que a data seja uma string
     genero: editingPessoa?.genero || "Masculino",
+    endereco_id: editingPessoa?.endereco_id || 0,
     municipio_id: editingPessoa?.municipio_id || 0, // Inicializa o município
     imagem: editingPessoa?.imagem || "", // Inicializa o campo da imagem como null
     contatos: editingPessoa?.contatos || [
@@ -68,20 +69,21 @@ export const AddPessoa = ({
         formData.append("nome", values.nome);
         formData.append("data_nascimento", values.data_nascimento);
         formData.append("genero", values.genero);
+        formData.append("endereco_id", String(values.endereco_id));
         formData.append("municipio_id", String(values.municipio_id));
 
-        if (
-          values.imagem &&
-          typeof values.imagem !== "string"
-        ) {
-          formData.append("imagem", values.imagem);
+        if (imagem) {
+          formData.append("imagem", imagem); // Adiciona a imagem ao FormData
         }
-
 
         if (editingPessoa) {
           await api.put(`/pessoas/${editingPessoa.id}`, formData);
         } else {
-          await api.post("/pessoas", formData);
+          await api.post("/pessoas", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
         }
 
         resetForm();
@@ -138,7 +140,7 @@ export const AddPessoa = ({
                   </div>
                   <Input
                     label="Nome"
-                    name="nome"
+                    name="pessoa.nome"
                     value={values.nome}
                     onChange={handleChange}
                     size="sm"
@@ -147,7 +149,7 @@ export const AddPessoa = ({
                     <Input
                       type="date"
                       label="Data de Nascimento"
-                      name="data_nascimento"
+                      name="pessoa.data_nascimento"
                       value={values.data_nascimento}
                       onChange={handleChange}
                       size="sm"
@@ -157,7 +159,7 @@ export const AddPessoa = ({
                       size="sm"
                       selectedKeys={new Set([values.genero])}
                       onSelectionChange={(keys) =>
-                        setFieldValue("genero", String(keys.currentKey))
+                        setFieldValue("pessoa.genero", String(keys.currentKey))
                       }
                     >
                       <SelectItem key="Masculino">Masculino</SelectItem>
@@ -328,13 +330,12 @@ export const AddPessoa = ({
                     <Input
                       type="file"
                       label="Imagem"
-                      name="imagem"
                       accept="image/*"
                       className="hidden"
                       id="img"
                       onChange={(e) => {
                         const file = e.currentTarget.files?.[0];
-                        setFieldValue("imagem", file || null);
+                        setFieldValue("pessoa.imagem", file || null);
                       }}
                     />
                   </div>
