@@ -165,3 +165,17 @@ export interface RelatorioType {
   observacoes?: Observacao[];
   equipamentos?: Equipamento[];
 }
+
+export interface TipoUsuarioType {
+  id: number;
+  nome: string;
+  descricao?: string;
+}
+
+export interface Endereco {
+  id: number;
+  municipio_id: number;
+  bairro: string;
+  numero_casa: string;
+  endereco_completo: string;
+}
