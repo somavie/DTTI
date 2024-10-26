@@ -81,6 +81,16 @@ export interface PessoaType {
   endereco_completo?: string;
   municipio_id: number;
 }
+export interface TecnicoType {
+  id: number;
+  pessoa: PessoaType;
+  posto_id: number; // Data é representada como string no formato 'YYYY-MM-DD'
+}
+export interface PostoType {
+  id: number;
+  posto: string;
+  postoAbrev: string;
+}
 
 export interface ContatoType {
   id: number;

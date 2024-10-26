@@ -25,7 +25,7 @@ export const createPosto = async (
 // Obter todos os postos ativos
 export const getAllPostos = async (): Promise<Posto[]> => {
   const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT * FROM posto WHERE estado = 1`
+    `SELECT * FROM view_postos`
   );
   return rows as Posto[];
 };

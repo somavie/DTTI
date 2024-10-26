@@ -4,19 +4,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, Input, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import api from "../../helpers/api";
-import { AddPessoa } from "./add-tecnico";
-import { PessoaType } from "@/helpers/types";
+import { AddTecnico } from "./add-tecnico";
+import { TecnicoType } from "@/helpers/types";
 import { PlusIcon } from "../icons/plus-icon";
 import { TableWrapper } from "../tableDinamica/table";
 
 import { useDisclosure } from "@nextui-org/react";
 
-export const Pessoa = () => {
-  const [pessoas, setPessoas] = useState<PessoaType[]>([]);
-  const [allPessoas, setAllPessoas] = useState<PessoaType[]>([]); // Todos os dados para pesquisa
+export const Tecnico = () => {
+  const [tecnicos, setTecnicos] = useState<TecnicoType[]>([]);
+  const [allTecnicos, setAllTecnicos] = useState<TecnicoType[]>([]); // Todos os dados para pesquisa
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [editingPessoa, setEditingPessoa] = useState<PessoaType | null>(null);
+  const [editingTecnico, setEditingTecnico] = useState<TecnicoType | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const columns = [
@@ -31,57 +31,57 @@ export const Pessoa = () => {
     "Posto",
   ];
 
-  const fetchPessoas = useCallback(async () => {
+  const fetchTecnicos = useCallback(async () => {
     try {
-      const response = await api.get<PessoaType[]>("/pessoas");
-      setPessoas(response.data);
-      setAllPessoas(response.data); // Armazena todos os dados para filtro
+      const response = await api.get<TecnicoType[]>("/tecnicos");
+      setTecnicos(response.data);
+      setAllTecnicos(response.data); // Armazena todos os dados para filtro
     } catch (error) {
-      setError("Erro ao buscar pessoas");
+      setError("Erro ao buscar tecnicos");
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchPessoas();
-  }, [fetchPessoas]);
+    fetchTecnicos();
+  }, [fetchTecnicos]);
 
-  const handleEditPessoa = useCallback(
-    (pessoa: PessoaType) => {
-      setEditingPessoa(pessoa);
+  const handleEditTecnico = useCallback(
+    (tecnico: TecnicoType) => {
+      setEditingTecnico(tecnico);
       onOpen();
     },
     [onOpen]
   );
 
-  const handleNewPessoa = useCallback(() => {
-    setEditingPessoa(null);
+  const handleNewTecnico = useCallback(() => {
+    setEditingTecnico(null);
     onOpen();
   }, [onOpen]);
 
-  const handleDeletePessoa = useCallback(
+  const handleDeleteTecnico = useCallback(
     async (id: number) => {
-      if (confirm("Tem certeza que deseja eliminar esta pessoa?")) {
+      if (confirm("Tem certeza que deseja eliminar esta tecnico?")) {
         try {
-          await api.delete(`/pessoas/${id}`);
-          fetchPessoas();
+          await api.delete(`/tecnicos/${id}`);
+          fetchTecnicos();
         } catch (error) {
-          console.error("Erro ao excluir pessoa:", error);
+          console.error("Erro ao excluir tecnico:", error);
         }
       }
     },
-    [fetchPessoas]
+    [fetchTecnicos]
   );
 
-  const handleFilteredData = (filteredData: PessoaType[]) => {
-    setPessoas(filteredData); // Atualiza a tabela com os dados filtrados
+  const handleFilteredData = (filteredData: TecnicoType[]) => {
+    setTecnicos(filteredData); // Atualiza a tabela com os dados filtrados
   };
 
   return (
     <>
       <div className="my-2 px-4 lg:px-6 max-w-[95rem] mx-auto w-full flex flex-col gap-4">
-        <h3 className="text-4xl font-semibold">Pessoas</h3>
+        <h3 className="text-4xl font-semibold">Tecnicos</h3>
         <div className="flex justify-between flex-wrap gap-4 items-center">
           <div className="flex items-center gap-3 flex-wrap md:flex-nowrap"></div>
           <div className="flex flex-row gap-3.5 flex-wrap">
@@ -89,9 +89,9 @@ export const Pessoa = () => {
               startContent={<PlusIcon />}
               color="primary"
               className="bg-blue-600 hover:bg-blue-700 text-white"
-              onPress={handleNewPessoa} // Chama a função para abrir a modal de adicionar
+              onPress={handleNewTecnico} // Chama a função para abrir a modal de adicionar
             >
-              Adicionar Pessoa
+              Adicionar Tecnico
             </Button>
           </div>
         </div>
@@ -104,19 +104,19 @@ export const Pessoa = () => {
           {error && <div>{error}</div>}
           {!loading && !error && (
             <TableWrapper
-              data={pessoas} // Usa os dados filtrados
+              data={tecnicos} // Usa os dados filtrados
               columns={columns}
               headers={headers}
-              onEdit={handleEditPessoa}
-              onDelete={handleDeletePessoa}
+              onEdit={handleEditTecnico}
+              onDelete={handleDeleteTecnico}
               columnConfig={{
-                data_nascimento: (item) =>
-                  item.data_nascimento
-                    ? new Date(item.data_nascimento).toLocaleDateString()
-                    : "Data não disponível",
                 imagem: (item) => (
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.imagem}`}
+                  src={
+                    item.imagem
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.imagem}`
+                      : "/icone_usuario.png" // Caminho para uma imagem padrão
+                  }
                     alt="Imagem"
                     width={80}
                     height={80}
@@ -128,10 +128,10 @@ export const Pessoa = () => {
             />
           )}
         </div>
-        <AddPessoa
-          title={"Pessoa"}
-          editingPessoa={editingPessoa}
-          onCloseAndRefresh={fetchPessoas}
+        <AddTecnico
+          title={"Tecnico"}
+          editingTecnico={editingTecnico}
+          onCloseAndRefresh={fetchTecnicos}
           isOpen={isOpen}
           onOpenChange={onOpenChange}
         />
@@ -140,4 +140,4 @@ export const Pessoa = () => {
   );
 };
 
-export default Pessoa;
+export default Tecnico;

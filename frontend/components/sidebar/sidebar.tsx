@@ -64,6 +64,11 @@ export const SidebarWrapper = () => {
                       href: "/pessoas", // Alias
                       icon: <Users />,
                     },
+                    {
+                      label: "Tecnicos",
+                      href: "/tecnicos", // Alias
+                      icon: <Users />,
+                    },
 
                     {
                       label: "Endereços",

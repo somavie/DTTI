@@ -31,7 +31,7 @@ export const createTecnico = async (
 
 // Função para obter todos os técnicos
 export const getAllTecnicos = async (): Promise<Tecnico[]> => {
-  const [rows] = await pool.query("SELECT * FROM tecnicos WHERE estado = 1");
+  const [rows] = await pool.query("SELECT * FROM view_tecnicos WHERE estado = 1");
   return rows as Tecnico[];
 };
 

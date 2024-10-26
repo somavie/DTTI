@@ -28,6 +28,10 @@ const nextConfig = {
         source: "/relatorio",
         destination: "/relatorio",
       },
+      {
+        source: "/tecnicos",
+        destination: "/tecnico",
+      },
 
       {
         source: "/enderecos",

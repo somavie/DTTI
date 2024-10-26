@@ -1,137 +1,158 @@
-import React from "react";
-import { Input, Select, SelectItem, Button, Spinner } from "@nextui-org/react";
-import { FormikErrors } from "formik";
-import { PessoaType, MunicipioType } from "@/helpers/types";
-import { Delete, PlusIcon } from "lucide-react";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+// DadosPessoaisForm.tsx
+
+import React, { ChangeEvent } from "react";
+import { Autocomplete, AutocompleteItem, Button, Input, Select, SelectItem, Spinner } from "@nextui-org/react";
+import { PessoaType } from "@/helpers/types";
+import { Search } from "lucide-react";
 
 interface DadosPessoaisFormProps {
   values: PessoaType;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  setFieldValue: (field: string, value: any) => void;
-  municipios: MunicipioType[];
+  handleChange: (e: ChangeEvent<any>) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => Promise<any>; // Permite qualquer retorno da Promise
+  municipios: Array<{ id: number; nome: string }>;
   municipiosLoading: boolean;
 }
 
-export const DadosPessoaisForm: React.FC<DadosPessoaisFormProps> = ({
+export const DadosPessoaisForm = ({
   values,
   handleChange,
   setFieldValue,
   municipios,
   municipiosLoading,
-}) => {
+}: DadosPessoaisFormProps) => {
+  // Handler para mudança de imagem
+  const handleImagemChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    if (file) {
+      setFieldValue("imagem", file);
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 gap-4">
-      <div className="col-span-2">
-        <h3 className="text-lg font-semibold">Dados Pessoais</h3>
-      </div>
+      {/* Campo de Nome */}
       <Input
-        label="Nome"
         name="nome"
+        label="Nome"
+        placeholder="Nome completo"
         value={values.nome}
         onChange={handleChange}
-        size="sm"
+        required
       />
-      <div className="flex gap-2">
-        <Input
-          type="date"
-          label="Data de Nascimento"
-          name="data_nascimento"
-          value={values.data_nascimento}
-          onChange={handleChange}
-          size="sm"
-        />
-        <Select
-          label="Gênero"
-          size="sm"
-          selectedKeys={new Set([values.genero])}
-          onSelectionChange={(keys) =>
-            setFieldValue("genero", String(keys.currentKey))
-          }
-        >
-          <SelectItem key="Masculino">Masculino</SelectItem>
-          <SelectItem key="Feminino">Feminino</SelectItem>
-        </Select>
-      </div>
 
-      <div className="flex flex-col gap-2">
-        {values.contatos?.map((contato, index) => (
-          <div key={index} className="flex gap-2 mb-1 items-end">
-            <Select
-              className="w-24"
-              size="sm"
-              labelPlacement="outside"
-              label="Tipo de Contato"
-              selectedKeys={new Set([contato.tipo])}
-              onSelectionChange={(keys) =>
-                setFieldValue(`contatos[${index}].tipo`, String(keys.currentKey))
-              }
-            >
-              <SelectItem key="Telefone">Telefone</SelectItem>
-              <SelectItem key="Email">Email</SelectItem>
-            </Select>
-            <div className="w-64">
-              <Input
-                variant="underlined"
-                size="sm"
-                label="Contato"
-                name={`contatos[${index}].valor`}
-                value={contato.valor}
-                onChange={handleChange}
-              />
-            </div>
+      {/* Campo de Data de Nascimento */}
+      <Input
+        name="data_nascimento"
+        label="Data de Nascimento"
+        type="date"
+        value={values.data_nascimento}
+        onChange={handleChange}
+        required
+      />
 
-            {values.contatos.length > 1 && index > 0 && (
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                className="ml-2 text-red-600"
-                onPress={() => {
-                  const newContatos = values.contatos?.filter((_, i) => i !== index);
-                  setFieldValue("contatos", newContatos);
-                }}
-              >
-                <Delete />
-              </Button>
-            )}
+      {/* Campo de Gênero */}
+      <Select
+        label="Gênero"
+        size="sm"
+        selectedKeys={new Set([values.genero])}
+        onSelectionChange={(keys) =>
+          setFieldValue("pessoa.genero", String(keys.currentKey))
+        }
+      >
+        <SelectItem key="Masculino">Masculino</SelectItem>
+        <SelectItem key="Feminino">Feminino</SelectItem>
+      </Select>
 
-            {index === values.contatos.length - 1 && (
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                className="ml-2"
-                onPress={() =>
-                  setFieldValue("contatos", [...values.contatos, { tipo: "", valor: "" }])
-                }
-              >
-                <PlusIcon />
-              </Button>
-            )}
-          </div>
-        ))}
-      </div>
+      {/* Campo de Município */}
+      {municipiosLoading ? (
+                      <Spinner label="Carregando municípios..." />
+                    ) : (
+                      <Autocomplete
+                        classNames={{
+                          base: "max-w-xs",
+                          listboxWrapper: "max-h-[320px]",
+                          selectorButton: "text-default-500",
+                        }}
+                        defaultItems={municipios}
+                        selectedKey={String(values.municipio_id)}
+                        onSelectionChange={
+                          (key) =>
+                            setFieldValue("pessoa.municipio_id", Number(key)) // Atualiza o município selecionado
+                        }
+                        inputProps={{
+                          classNames: {
+                            input: "ml-1",
+                            inputWrapper: "h-[48px]",
+                          },
+                        }}
+                        listboxProps={{
+                          hideSelectedIcon: true,
+                          itemClasses: {
+                            base: [
+                              "rounded-medium",
+                              "text-default-500",
+                              "transition-opacity",
+                              "data-[hover=true]:text-foreground",
+                              "dark:data-[hover=true]:bg-default-50",
+                              "data-[pressed=true]:opacity-70",
+                              "data-[hover=true]:bg-default-200",
+                              "data-[selectable=true]:focus:bg-default-100",
+                              "data-[focus-visible=true]:ring-default-500",
+                            ],
+                          },
+                        }}
+                        aria-label="Selecione um município"
+                        placeholder="Natural de...  "
+                        popoverProps={{
+                          offset: 10,
+                          classNames: {
+                            base: "rounded-large",
+                            content:
+                              "p-1 border-small border-default-100 bg-background",
+                          },
+                        }}
+                        startContent={
+                          <Search
+                            className="text-default-400"
+                            strokeWidth={2.5}
+                            size={20}
+                          />
+                        }
+                      >
+                        {(municipios) => (
+                          <AutocompleteItem
+                            key={municipios.id}
+                            textValue={municipios.nome}
+                          >
+                            <div className="flex justify-between items-center">
+                              <div className="flex gap-2 items-center">
+                                <div className="flex flex-col">
+                                  <span className="text-small">
+                                    {municipios.nome}
+                                  </span>
+                                </div>
+                              </div>
+                              <Button
+                                className="border-small mr-0.5 font-medium shadow-small"
+                                radius="full"
+                                size="sm"
+                                variant="bordered"
+                              >
+                                Add
+                              </Button>
+                            </div>
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                    )}
 
-      <div className="flex gap-2 mt-2">
-        {municipiosLoading ? (
-          <Spinner label="Carregando municípios..." />
-        ) : (
-          <Autocomplete
-            defaultItems={municipios}
-            selectedKey={String(values.municipio_id)}
-            onSelectionChange={(key) => setFieldValue("municipio_id", Number(key))}
-            aria-label="Selecione um município"
-            placeholder="Natural de..."
-          >
-            {(municipios) => (
-              <AutocompleteItem key={municipios.id} textValue={municipios.nome}>
-                {municipios.nome}
-              </AutocompleteItem>
-            )}
-          </Autocomplete>
-        )}
-      </div>
+      {/* Upload de Imagem */}
+      <Input
+        label="Foto de Perfil"
+        type="file"
+        accept="image/*"
+        onChange={handleImagemChange}
+      />
     </div>
   );
 };

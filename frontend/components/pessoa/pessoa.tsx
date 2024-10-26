@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, Input, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import api from "../../helpers/api";
+import { useFetchData } from "../hooks/useFetchDatas"; // O hook para buscar dados
 import { AddPessoa } from "./add-pessoa";
 import { PessoaType } from "@/helpers/types";
 import { PlusIcon } from "../icons/plus-icon";
@@ -36,6 +37,7 @@ export const Pessoa = () => {
     "Naturalidade",
     "Endereço",
   ];
+  
 
   const fetchPessoas = useCallback(async () => {
     try {
