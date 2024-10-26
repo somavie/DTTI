@@ -1,9 +1,9 @@
 // DadosPessoaisForm.tsx
-
+"use client";
 import React, { ChangeEvent } from "react";
 import { Autocomplete, AutocompleteItem, Button, Input, Select, SelectItem, Spinner } from "@nextui-org/react";
 import { PessoaType } from "@/helpers/types";
-import { Search } from "lucide-react";
+import { Delete, PlusIcon, Search } from "lucide-react";
 
 interface DadosPessoaisFormProps {
   values: PessoaType;
@@ -32,7 +32,7 @@ export const DadosPessoaisForm = ({
     <div className="grid grid-cols-2 gap-4">
       {/* Campo de Nome */}
       <Input
-        name="nome"
+        name="pessoa.nome"
         label="Nome"
         placeholder="Nome completo"
         value={values.nome}
@@ -42,7 +42,7 @@ export const DadosPessoaisForm = ({
 
       {/* Campo de Data de Nascimento */}
       <Input
-        name="data_nascimento"
+        name="pessoa.data_nascimento"
         label="Data de Nascimento"
         type="date"
         value={values.data_nascimento}
@@ -62,6 +62,63 @@ export const DadosPessoaisForm = ({
         <SelectItem key="Masculino">Masculino</SelectItem>
         <SelectItem key="Feminino">Feminino</SelectItem>
       </Select>
+
+      <div className="flex flex-col col-span-2 gap-2">
+              {values.contatos?.map((contato, index) => (
+                <div key={index} className="flex gap-2 mb-1 items-end">
+                  <Select
+                    className="w-24"
+                    size="sm"
+                    labelPlacement="outside"
+                    label="Tipo de Contato"
+                    selectedKeys={new Set([contato.tipo])}
+                    onSelectionChange={(keys) =>
+                      setFieldValue(`pessoa.contatos[${index}].tipo`, String(keys.currentKey))
+                    }
+                  >
+                    <SelectItem key="Telefone">Telefone</SelectItem>
+                    <SelectItem key="Email">Email</SelectItem>
+                  </Select>
+                  <div className="w-64">
+                    <Input
+                      variant="underlined"
+                      size="sm"
+                      label="Contato"
+                      name={`pessoa.contatos[${index}].valor`}
+                      value={contato.valor}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {values.contatos.length > 1 && index > 0 && (
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="light"
+                      className="ml-2 text-red-600"
+                      onPress={() => {
+                        const newContatos = values.contatos?.filter((_, i) => i !== index);
+                        setFieldValue("pessoa.contatos", newContatos);
+                      }}
+                    >
+                      <Delete />
+                    </Button>
+                  )}
+                  {index === values.contatos.length - 1 && (
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="light"
+                      className="ml-2"
+                      onPress={() =>
+                        setFieldValue("pessoa.contatos", [...values.contatos, { tipo: "", valor: "" }])
+                      }
+                    >
+                      <PlusIcon />
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
 
       {/* Campo de Município */}
       {municipiosLoading ? (

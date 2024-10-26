@@ -97,7 +97,7 @@ export const AddTecnico = ({
             )
           );
 
-          await api.post("/tecnicos", values.posto_id);
+          await api.post("/tecnicos", {id: pessoaId, posto_id: values.posto_id});
         }
 
         resetForm();
@@ -143,7 +143,6 @@ export const AddTecnico = ({
           <Formik
             initialValues={initialValues}
             enableReinitialize
-            validationSchema={TecnicoSchema}
             onSubmit={handleTecnicoSubmit}
           >
             {({ values, handleChange, handleSubmit, setFieldValue }) => (

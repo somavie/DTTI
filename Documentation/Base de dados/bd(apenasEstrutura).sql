@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 26/10/2024 19:57:00
+ Date: 26/10/2024 23:57:33
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `contato`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   CONSTRAINT `contato_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for endereco
@@ -148,7 +148,7 @@ CREATE TABLE `pessoa`  (
   INDEX `fk_pessoa_municipio1_idx`(`municipio_id` ASC) USING BTREE,
   CONSTRAINT `pessoa_ibfk_1` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pessoa_ibfk_2` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for posto
@@ -213,7 +213,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for situacao
@@ -322,16 +322,124 @@ FROM
 	postosmilitares ;
 
 -- ----------------------------
+-- View structure for view_relatorio
+-- ----------------------------
+DROP VIEW IF EXISTS `view_relatorio`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS SELECT
+	relatorios.id, 
+	relatorios.tecnico_cessante_id, 
+	relatorios.tecnico_entrante_id, 
+	relatorios.data_criacao, 
+	relatorios.observacoes_finais, 
+	relatorios.estado, 
+	pcessante.nome AS cessante, 
+	pentrante.nome AS entrante, 
+	tp_cessante.Posto AS posto_cessante, 
+	tp_entrante.Posto AS posto_entrante
+FROM
+	relatorios
+	INNER JOIN
+	pessoa AS pcessante
+	ON 
+		relatorios.tecnico_cessante_id = pcessante.id
+	INNER JOIN
+	pessoa AS pentrante
+	ON 
+		relatorios.tecnico_entrante_id = pentrante.id
+	INNER JOIN
+	tecnicos AS tentrante
+	ON 
+		pentrante.id = tentrante.id
+	INNER JOIN
+	tecnicos AS tcessante
+	ON 
+		pcessante.id = tcessante.id
+	INNER JOIN
+	postosmilitares AS tp_cessante
+	ON 
+		tcessante.posto_id = tp_cessante.Posto_Id
+	INNER JOIN
+	postosmilitares AS tp_entrante
+	ON 
+		tentrante.posto_id = tp_entrante.Posto_Id ;
+
+-- ----------------------------
 -- View structure for view_relatorio_all
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_all`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS select `r`.`id` AS `id`,`r`.`data_criacao` AS `data_criacao`,`s`.`nome` AS `Situacao`,group_concat(distinct `o`.`descricao` separator '; ') AS `descricao`,group_concat(distinct `e`.`nome` separator '; ') AS `Meio`,sum(`eq`.`quantidade`) AS `quantidade`,group_concat(distinct `eq`.`status` separator '; ') AS `status`,group_concat(distinct `eq`.`localizacao` separator '; ') AS `localizacao`,`entrante`.`nome` AS `entrante`,`cessante`.`nome` AS `cessante`,`r`.`estado` AS `estado` from ((((((`relatorios` `r` join `equipamento` `eq` on((`r`.`id` = `eq`.`relatorios_id`))) join `observacao` `o` on((`r`.`id` = `o`.`relatorios_id`))) join `situacao` `s` on((`o`.`situacao_id` = `s`.`id`))) join `equipamentos` `e` on((`eq`.`equipamentos_id` = `e`.`id`))) join `tecnicos` `cessante` on((`r`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`r`.`tecnico_entrante_id` = `entrante`.`id`))) group by `r`.`id`,`s`.`nome`,`entrante`.`nome`,`cessante`.`nome`,`r`.`estado` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS SELECT
+    r.id AS id, 
+    r.data_criacao AS data_criacao, 
+    s.nome AS Situacao, 
+    GROUP_CONCAT(DISTINCT o.descricao SEPARATOR '; ') AS descricao, 
+    GROUP_CONCAT(DISTINCT e.nome SEPARATOR '; ') AS Meio, 
+    SUM(eq.quantidade) AS quantidade, 
+    GROUP_CONCAT(DISTINCT eq.status SEPARATOR '; ') AS status, 
+    GROUP_CONCAT(DISTINCT eq.localizacao SEPARATOR '; ') AS localizacao, 
+    pcessante.nome AS cessante, 
+    pentrante.nome AS entrante, 
+    tp_cessante.Posto AS posto_cessante, 
+    tp_entrante.Posto AS posto_entrante,
+    r.estado AS estado
+FROM
+    relatorios AS r
+    JOIN equipamento AS eq ON r.id = eq.relatorios_id
+    JOIN observacao AS o ON r.id = o.relatorios_id
+    JOIN situacao AS s ON o.situacao_id = s.id
+    JOIN equipamentos AS e ON eq.equipamentos_id = e.id
+    INNER JOIN pessoa AS pcessante ON r.tecnico_cessante_id = pcessante.id
+    INNER JOIN pessoa AS pentrante ON r.tecnico_entrante_id = pentrante.id
+    INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
+    INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
+    INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
+    INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
+GROUP BY
+    r.id, 
+    r.data_criacao, 
+    s.nome, 
+    pcessante.nome, 
+    pentrante.nome, 
+    tp_cessante.Posto, 
+    tp_entrante.Posto, 
+    r.estado ;
 
 -- ----------------------------
 -- View structure for view_relatorio_grupo
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_grupo`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS select `relatorios`.`id` AS `id`,`relatorios`.`data_criacao` AS `data_criacao`,`situacao`.`nome` AS `Situacao`,group_concat(distinct `observacao`.`descricao` separator ', ') AS `Observacoes`,group_concat(distinct `equipamentos`.`nome` separator ', ') AS `Meios`,group_concat(distinct `equipamento`.`quantidade` separator ', ') AS `Quantidades`,group_concat(distinct `equipamento`.`status` separator ', ') AS `Status`,group_concat(distinct `equipamento`.`localizacao` separator ', ') AS `Localizacoes`,`entrante`.`nome` AS `Entrante`,`cessante`.`nome` AS `Cessante` from ((((((`relatorios` join `equipamento` on((`relatorios`.`id` = `equipamento`.`relatorios_id`))) join `observacao` on((`relatorios`.`id` = `observacao`.`relatorios_id`))) join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) join `tecnicos` `cessante` on((`relatorios`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`relatorios`.`tecnico_entrante_id` = `entrante`.`id`))) group by `relatorios`.`id`,`relatorios`.`data_criacao`,`situacao`.`nome`,`entrante`.`nome`,`cessante`.`nome` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS SELECT
+    relatorios.id AS id, 
+    relatorios.data_criacao AS data_criacao, 
+    situacao.nome AS Situacao, 
+    GROUP_CONCAT(DISTINCT observacao.descricao SEPARATOR ', ') AS Observacoes, 
+    GROUP_CONCAT(DISTINCT equipamentos.nome SEPARATOR ', ') AS Meios, 
+    GROUP_CONCAT(DISTINCT equipamento.quantidade SEPARATOR ', ') AS Quantidades, 
+    GROUP_CONCAT(DISTINCT equipamento.status SEPARATOR ', ') AS Status, 
+    GROUP_CONCAT(DISTINCT equipamento.localizacao SEPARATOR ', ') AS Localizacoes, 
+    pcessante.nome AS cessante, 
+    pentrante.nome AS entrante, 
+    tp_cessante.Posto AS posto_cessante, 
+    tp_entrante.Posto AS posto_entrante
+FROM
+    relatorios
+JOIN equipamento ON relatorios.id = equipamento.relatorios_id
+JOIN observacao ON relatorios.id = observacao.relatorios_id
+JOIN situacao ON observacao.situacao_id = situacao.id
+JOIN equipamentos ON equipamento.equipamentos_id = equipamentos.id
+INNER JOIN pessoa AS pcessante ON relatorios.tecnico_cessante_id = pcessante.id
+INNER JOIN pessoa AS pentrante ON relatorios.tecnico_entrante_id = pentrante.id
+INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
+INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
+INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
+INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
+GROUP BY
+    relatorios.id, 
+    relatorios.data_criacao, 
+    situacao.nome, 
+    pcessante.nome, 
+    pentrante.nome, 
+    tp_cessante.Posto, 
+    tp_entrante.Posto ;
 
 -- ----------------------------
 -- View structure for view_tecnicos

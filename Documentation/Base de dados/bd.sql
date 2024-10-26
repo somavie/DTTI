@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 26/10/2024 19:57:15
+ Date: 26/10/2024 23:57:45
 */
 
 SET NAMES utf8mb4;
@@ -33,12 +33,14 @@ CREATE TABLE `contato`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   CONSTRAINT `contato_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of contato
 -- ----------------------------
 INSERT INTO `contato` VALUES (1, 3, 'Telefone', '926547598', 1, '2024-09-17 10:57:36', NULL, '2024-09-17 10:57:36');
+INSERT INTO `contato` VALUES (33, 62, 'Telefone', '98766544554', 1, '2024-10-26 23:01:24', NULL, '2024-10-26 23:01:24');
+INSERT INTO `contato` VALUES (34, 63, 'Telefone', '987665445', 1, '2024-10-26 23:03:29', NULL, '2024-10-26 23:03:29');
 
 -- ----------------------------
 -- Table structure for endereco
@@ -471,7 +473,7 @@ CREATE TABLE `pessoa`  (
   INDEX `fk_pessoa_municipio1_idx`(`municipio_id` ASC) USING BTREE,
   CONSTRAINT `pessoa_ibfk_1` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pessoa_ibfk_2` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pessoa
@@ -481,6 +483,9 @@ INSERT INTO `pessoa` VALUES (2, 'Paulo Almeida', '1989-02-07', 'Masculino', '172
 INSERT INTO `pessoa` VALUES (3, 'Almeida Pereira Torres', '2024-09-03', 'Masculino', '1726567056689.png', 1, '2024-09-17 10:57:36', NULL, '2024-09-27 00:04:01', 2, 1);
 INSERT INTO `pessoa` VALUES (4, 'Daniel vaz', '2024-09-19', 'Masculino', NULL, 1, '2024-09-17 11:48:37', NULL, '2024-09-27 00:04:01', NULL, 1);
 INSERT INTO `pessoa` VALUES (60, 'Sebastião Augusto Lisboa António', '1998-12-12', 'Masculino', NULL, 1, '2024-10-26 12:30:39', NULL, '2024-10-26 12:30:39', NULL, 6);
+INSERT INTO `pessoa` VALUES (61, 'Sebanoide Juninho', '1990-04-12', 'Masculino', NULL, 1, '2024-10-26 22:45:44', NULL, '2024-10-26 22:45:44', NULL, 3);
+INSERT INTO `pessoa` VALUES (62, 'Albino Jorge', '1990-02-11', 'Masculino', NULL, 1, '2024-10-26 23:01:24', NULL, '2024-10-26 23:01:24', NULL, 6);
+INSERT INTO `pessoa` VALUES (63, 'Albino Jorge 3', '1990-02-11', 'Masculino', NULL, 1, '2024-10-26 23:03:29', NULL, '2024-10-26 23:03:29', NULL, 6);
 
 -- ----------------------------
 -- Table structure for posto
@@ -615,17 +620,17 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
 -- ----------------------------
-INSERT INTO `relatorios` VALUES (1, 0, 0, '2024-10-20', 'os sistemas foram todos assegurdos duarante as minhas 24 horas', 1, '2024-10-20 11:59:40', '2024-10-20 12:02:23', NULL);
-INSERT INTO `relatorios` VALUES (2, 0, 0, '2024-10-20', 'tudo funcionouu plenamente durante as 24 horas', 1, '2024-10-20 12:07:51', '2024-10-20 12:15:10', NULL);
-INSERT INTO `relatorios` VALUES (3, 0, 0, '2024-10-20', 'hjkljkl', 1, '2024-10-20 15:52:11', '2024-10-20 17:34:14', NULL);
-INSERT INTO `relatorios` VALUES (4, 0, 0, NULL, NULL, 1, '2024-10-20 17:34:42', '2024-10-20 17:34:42', NULL);
-INSERT INTO `relatorios` VALUES (5, 0, 0, '2024-10-20', 'tudo se ebcontra em pleno funcionamento', 1, '2024-10-20 17:34:43', '2024-10-20 18:12:48', NULL);
-INSERT INTO `relatorios` VALUES (6, 0, 0, '2024-10-20', 'Tudo esta bem', 1, '2024-10-20 18:13:05', '2024-10-20 18:22:25', NULL);
+INSERT INTO `relatorios` VALUES (1, 1, 2, '2024-10-20', 'os sistemas foram todos assegurdos duarante as minhas 24 horas', 1, '2024-10-20 11:59:40', '2024-10-26 23:22:08', NULL);
+INSERT INTO `relatorios` VALUES (2, 1, 2, '2024-10-20', 'tudo funcionouu plenamente durante as 24 horas', 1, '2024-10-20 12:07:51', '2024-10-26 23:22:19', NULL);
+INSERT INTO `relatorios` VALUES (3, 2, 1, '2024-10-20', 'hjkljkl', 1, '2024-10-20 15:52:11', '2024-10-26 23:22:29', NULL);
+INSERT INTO `relatorios` VALUES (4, 2, 1, NULL, NULL, 1, '2024-10-20 17:34:42', '2024-10-26 23:22:46', NULL);
+INSERT INTO `relatorios` VALUES (5, 63, 2, '2024-10-20', 'tudo se ebcontra em pleno funcionamento', 1, '2024-10-20 17:34:43', '2024-10-26 23:22:58', NULL);
+INSERT INTO `relatorios` VALUES (6, 1, 2, '2024-10-20', 'Tudo esta bem', 1, '2024-10-20 18:13:05', '2024-10-26 23:23:21', NULL);
 INSERT INTO `relatorios` VALUES (7, 0, 0, '2024-10-20', 'Tudo correu bem sem nada acreser', 1, '2024-10-20 18:22:46', '2024-10-20 21:11:19', NULL);
 INSERT INTO `relatorios` VALUES (8, 0, 0, '2024-10-20', 'Tudo funcionando', 1, '2024-10-20 21:18:15', '2024-10-20 22:23:18', NULL);
 INSERT INTO `relatorios` VALUES (9, 0, 0, NULL, NULL, 1, '2024-10-20 22:46:55', '2024-10-20 22:46:55', NULL);
@@ -674,8 +679,9 @@ CREATE TABLE `tecnicos`  (
 -- ----------------------------
 -- Records of tecnicos
 -- ----------------------------
-INSERT INTO `tecnicos` VALUES (4, 117, 1, '2024-10-20 10:45:54', '2024-10-26 16:08:28', NULL);
+INSERT INTO `tecnicos` VALUES (2, 117, 1, '2024-10-20 10:45:54', '2024-10-26 23:30:33', NULL);
 INSERT INTO `tecnicos` VALUES (1, 120, 1, '2024-10-20 10:46:17', '2024-10-26 16:08:39', NULL);
+INSERT INTO `tecnicos` VALUES (63, 120, 1, '2024-10-26 23:03:29', '2024-10-26 23:03:29', NULL);
 
 -- ----------------------------
 -- Table structure for tipousuario
@@ -765,16 +771,124 @@ FROM
 	postosmilitares ;
 
 -- ----------------------------
+-- View structure for view_relatorio
+-- ----------------------------
+DROP VIEW IF EXISTS `view_relatorio`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS SELECT
+	relatorios.id, 
+	relatorios.tecnico_cessante_id, 
+	relatorios.tecnico_entrante_id, 
+	relatorios.data_criacao, 
+	relatorios.observacoes_finais, 
+	relatorios.estado, 
+	pcessante.nome AS cessante, 
+	pentrante.nome AS entrante, 
+	tp_cessante.Posto AS posto_cessante, 
+	tp_entrante.Posto AS posto_entrante
+FROM
+	relatorios
+	INNER JOIN
+	pessoa AS pcessante
+	ON 
+		relatorios.tecnico_cessante_id = pcessante.id
+	INNER JOIN
+	pessoa AS pentrante
+	ON 
+		relatorios.tecnico_entrante_id = pentrante.id
+	INNER JOIN
+	tecnicos AS tentrante
+	ON 
+		pentrante.id = tentrante.id
+	INNER JOIN
+	tecnicos AS tcessante
+	ON 
+		pcessante.id = tcessante.id
+	INNER JOIN
+	postosmilitares AS tp_cessante
+	ON 
+		tcessante.posto_id = tp_cessante.Posto_Id
+	INNER JOIN
+	postosmilitares AS tp_entrante
+	ON 
+		tentrante.posto_id = tp_entrante.Posto_Id ;
+
+-- ----------------------------
 -- View structure for view_relatorio_all
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_all`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS select `r`.`id` AS `id`,`r`.`data_criacao` AS `data_criacao`,`s`.`nome` AS `Situacao`,group_concat(distinct `o`.`descricao` separator '; ') AS `descricao`,group_concat(distinct `e`.`nome` separator '; ') AS `Meio`,sum(`eq`.`quantidade`) AS `quantidade`,group_concat(distinct `eq`.`status` separator '; ') AS `status`,group_concat(distinct `eq`.`localizacao` separator '; ') AS `localizacao`,`entrante`.`nome` AS `entrante`,`cessante`.`nome` AS `cessante`,`r`.`estado` AS `estado` from ((((((`relatorios` `r` join `equipamento` `eq` on((`r`.`id` = `eq`.`relatorios_id`))) join `observacao` `o` on((`r`.`id` = `o`.`relatorios_id`))) join `situacao` `s` on((`o`.`situacao_id` = `s`.`id`))) join `equipamentos` `e` on((`eq`.`equipamentos_id` = `e`.`id`))) join `tecnicos` `cessante` on((`r`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`r`.`tecnico_entrante_id` = `entrante`.`id`))) group by `r`.`id`,`s`.`nome`,`entrante`.`nome`,`cessante`.`nome`,`r`.`estado` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS SELECT
+    r.id AS id, 
+    r.data_criacao AS data_criacao, 
+    s.nome AS Situacao, 
+    GROUP_CONCAT(DISTINCT o.descricao SEPARATOR '; ') AS descricao, 
+    GROUP_CONCAT(DISTINCT e.nome SEPARATOR '; ') AS Meio, 
+    SUM(eq.quantidade) AS quantidade, 
+    GROUP_CONCAT(DISTINCT eq.status SEPARATOR '; ') AS status, 
+    GROUP_CONCAT(DISTINCT eq.localizacao SEPARATOR '; ') AS localizacao, 
+    pcessante.nome AS cessante, 
+    pentrante.nome AS entrante, 
+    tp_cessante.Posto AS posto_cessante, 
+    tp_entrante.Posto AS posto_entrante,
+    r.estado AS estado
+FROM
+    relatorios AS r
+    JOIN equipamento AS eq ON r.id = eq.relatorios_id
+    JOIN observacao AS o ON r.id = o.relatorios_id
+    JOIN situacao AS s ON o.situacao_id = s.id
+    JOIN equipamentos AS e ON eq.equipamentos_id = e.id
+    INNER JOIN pessoa AS pcessante ON r.tecnico_cessante_id = pcessante.id
+    INNER JOIN pessoa AS pentrante ON r.tecnico_entrante_id = pentrante.id
+    INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
+    INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
+    INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
+    INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
+GROUP BY
+    r.id, 
+    r.data_criacao, 
+    s.nome, 
+    pcessante.nome, 
+    pentrante.nome, 
+    tp_cessante.Posto, 
+    tp_entrante.Posto, 
+    r.estado ;
 
 -- ----------------------------
 -- View structure for view_relatorio_grupo
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_grupo`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS select `relatorios`.`id` AS `id`,`relatorios`.`data_criacao` AS `data_criacao`,`situacao`.`nome` AS `Situacao`,group_concat(distinct `observacao`.`descricao` separator ', ') AS `Observacoes`,group_concat(distinct `equipamentos`.`nome` separator ', ') AS `Meios`,group_concat(distinct `equipamento`.`quantidade` separator ', ') AS `Quantidades`,group_concat(distinct `equipamento`.`status` separator ', ') AS `Status`,group_concat(distinct `equipamento`.`localizacao` separator ', ') AS `Localizacoes`,`entrante`.`nome` AS `Entrante`,`cessante`.`nome` AS `Cessante` from ((((((`relatorios` join `equipamento` on((`relatorios`.`id` = `equipamento`.`relatorios_id`))) join `observacao` on((`relatorios`.`id` = `observacao`.`relatorios_id`))) join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) join `tecnicos` `cessante` on((`relatorios`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`relatorios`.`tecnico_entrante_id` = `entrante`.`id`))) group by `relatorios`.`id`,`relatorios`.`data_criacao`,`situacao`.`nome`,`entrante`.`nome`,`cessante`.`nome` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS SELECT
+    relatorios.id AS id, 
+    relatorios.data_criacao AS data_criacao, 
+    situacao.nome AS Situacao, 
+    GROUP_CONCAT(DISTINCT observacao.descricao SEPARATOR ', ') AS Observacoes, 
+    GROUP_CONCAT(DISTINCT equipamentos.nome SEPARATOR ', ') AS Meios, 
+    GROUP_CONCAT(DISTINCT equipamento.quantidade SEPARATOR ', ') AS Quantidades, 
+    GROUP_CONCAT(DISTINCT equipamento.status SEPARATOR ', ') AS Status, 
+    GROUP_CONCAT(DISTINCT equipamento.localizacao SEPARATOR ', ') AS Localizacoes, 
+    pcessante.nome AS cessante, 
+    pentrante.nome AS entrante, 
+    tp_cessante.Posto AS posto_cessante, 
+    tp_entrante.Posto AS posto_entrante
+FROM
+    relatorios
+JOIN equipamento ON relatorios.id = equipamento.relatorios_id
+JOIN observacao ON relatorios.id = observacao.relatorios_id
+JOIN situacao ON observacao.situacao_id = situacao.id
+JOIN equipamentos ON equipamento.equipamentos_id = equipamentos.id
+INNER JOIN pessoa AS pcessante ON relatorios.tecnico_cessante_id = pcessante.id
+INNER JOIN pessoa AS pentrante ON relatorios.tecnico_entrante_id = pentrante.id
+INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
+INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
+INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
+INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
+GROUP BY
+    relatorios.id, 
+    relatorios.data_criacao, 
+    situacao.nome, 
+    pcessante.nome, 
+    pentrante.nome, 
+    tp_cessante.Posto, 
+    tp_entrante.Posto ;
 
 -- ----------------------------
 -- View structure for view_tecnicos

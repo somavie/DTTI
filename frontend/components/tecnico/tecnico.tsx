@@ -22,7 +22,7 @@ export const Tecnico = () => {
   const columns = [
     "imagem",
     "nome",
-    "posto",
+    "Posto",
   ];
 
   const headers = [

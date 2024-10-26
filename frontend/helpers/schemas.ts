@@ -124,14 +124,11 @@ export const PessoaSchema = object().shape({
   municipio_id: yup.number().optional(),
 });
 export const TecnicoSchema = object().shape({
-  nome: yup.string().required("Nome é obrigatório"),
-  data_nascimento: yup.string().required("Data de nascimento é obrigatória"),
   genero: yup
     .string()
     .oneOf(["Masculino", "Feminino", "Outro"])
     .required("Gênero é obrigatório"),
-  endereco_id: yup.number().optional(),
-  municipio_id: yup.number().optional(),
+  
 });
 
 export const ProfessorSchemaOnly = object().shape({
