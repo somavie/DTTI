@@ -76,7 +76,7 @@ export interface PessoaType {
   genero: "Masculino" | "Feminino" | "Outro";
   imagem?: string;
   endereco_id?: number;
-  contatos?: ContatoType[];
+  contatos: ContatoType[];
   documentos?: DocumentoType;
   endereco_completo?: string;
   municipio_id: number;

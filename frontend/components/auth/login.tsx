@@ -5,6 +5,7 @@ import { LoginSchema } from "@/helpers/schemas";
 import { LoginFormType } from "@/helpers/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -39,6 +40,15 @@ export const Login = () => {
 
   return (
     <>
+      <Image
+        src="/logo.png"
+        alt="Imagem"
+        width={150}
+        height={150}
+        style={{ borderRadius: "80px" }}
+        objectFit="cover"
+        className="mb-6"
+      />
       <div className="text-center text-[25px] font-bold mb-6 ">Login</div>
 
       <Formik

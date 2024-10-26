@@ -31,7 +31,6 @@ interface AddPessoaProps {
 }
 
 
-
 export const AddPessoa = ({
   title,
   editingPessoa,

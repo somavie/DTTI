@@ -8,9 +8,6 @@ interface Props {
 export const AuthLayoutWrapper = ({ children }: Props) => {
   return (
     <div className="flex h-screen">
-      <div className="flex-1 flex-col flex items-center justify-center p-6">
-        {children}
-      </div>
 
       <div className="hidden my-10 md:block">
         <Divider orientation="vertical" />
@@ -21,13 +18,17 @@ export const AuthLayoutWrapper = ({ children }: Props) => {
         style={{ backgroundImage: 'url("/login2.png")' }}
       >
         <div className="z-10">
-          <h1 className="font-bold text-[45px] text-white">
-            Nome Do Sistema
+          <h1 className="font-bold text-[45px] text-slate-300">
+            SISTEMA DE GESTÃO DE OCORRÊNCIAS - DTTI
           </h1>
           <div className="font-light text-slate-300 mt-4">
-            Slogan.
+            LOGIN
           </div>
         </div>
+      </div>
+
+      <div className="flex-1 flex-col flex items-center justify-center p-6">
+        {children}
       </div>
     </div>
   );

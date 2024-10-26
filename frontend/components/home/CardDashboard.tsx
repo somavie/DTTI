@@ -3,9 +3,10 @@ import React from "react";
 import { CardBalance } from "./CardBalance";
 import {
   FaChalkboardTeacher,
-  FaUserGraduate,
+  FaUserCog,
   FaUserTie,
   FaUsers,
+  FaDesktop 
 } from "react-icons/fa";
 
 import {
@@ -29,32 +30,17 @@ export const CardDashboard: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-6 xl:gap-4">
       <CardBalance
-        title="Alunos"
+        title="Tecnicos"
         count={numeroDeAlunos}
-        icon={FaUserGraduate}
+        icon={FaUserCog}
         bgColor="bg-blue-500"
         textColor="text-white"
       />
       <CardBalance
-        title="Professores"
+        title="Meios"
         count={numeroDeProfessores}
-        icon={FaUsers}
+        icon={FaDesktop }
         bgColor="bg-green-500"
-        textColor="text-white"
-      />
-      <CardBalance
-        title="Turmas"
-        count={numeroDeTurmas}
-        icon={FaUsers}
-        bgColor="bg-red-500"
-        textColor="text-white"
-      />
-
-      <CardBalance
-        title="Funcionários"
-        count={numeroDeFuncionarios}
-        icon={FaUsers}
-        bgColor="bg-red-500"
         textColor="text-white"
       />
     </div>

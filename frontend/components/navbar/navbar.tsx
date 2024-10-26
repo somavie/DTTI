@@ -21,7 +21,7 @@ export const NavbarWrapper = ({ children }: Props) => {
           <BurguerButton />
         </NavbarContent>
         <NavbarContent className="w-full max-md:hidden" justify="center">
-          <h3 className="text-xl font-semibold">Nome do sistema</h3>
+          <h3 className="text-xl font-semibold">Sistema de Gestão de Ocorrências - DTTI</h3>
         </NavbarContent>
         <NavbarContent
           justify="end"
