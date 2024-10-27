@@ -8,7 +8,6 @@ import { AddTecnico } from "./add-tecnico";
 import { TecnicoType } from "@/helpers/types";
 import { PlusIcon } from "../icons/plus-icon";
 import { TableWrapper } from "../tableDinamica/table";
-
 import { useDisclosure } from "@nextui-org/react";
 
 export const Tecnico = () => {
@@ -16,20 +15,14 @@ export const Tecnico = () => {
   const [allTecnicos, setAllTecnicos] = useState<TecnicoType[]>([]); // Todos os dados para pesquisa
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [editingTecnico, setEditingTecnico] = useState<TecnicoType | null>(null);
+  const [editingTecnico, setEditingTecnico] = useState<TecnicoType | null>(
+    null
+  );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const columns = [
-    "imagem",
-    "nome",
-    "Posto",
-  ];
+  const columns = ["imagem", "nome", "Posto"];
 
-  const headers = [
-    "Imagem",
-    "Nome",
-    "Posto",
-  ];
+  const headers = ["Imagem", "Nome", "Posto"];
 
   const fetchTecnicos = useCallback(async () => {
     try {
@@ -112,11 +105,11 @@ export const Tecnico = () => {
               columnConfig={{
                 imagem: (item) => (
                   <Image
-                  src={
-                    item.imagem
-                      ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.imagem}`
-                      : "/icone_usuario.png" // Caminho para uma imagem padrão
-                  }
+                    src={
+                      item.imagem
+                        ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.imagem}`
+                        : "/icone_usuario.png" // Caminho para uma imagem padrão
+                    }
                     alt="Imagem"
                     width={80}
                     height={80}

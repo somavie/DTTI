@@ -1,6 +1,16 @@
 "use client";
 
-import {Button, Input, Select, SelectItem, Spinner, Modal, ModalBody, ModalContent, ModalHeader, Autocomplete,
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Spinner,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Autocomplete,
   AutocompleteItem,
 } from "@nextui-org/react";
 import React, { useCallback, useState } from "react";
@@ -27,8 +37,10 @@ export const AddTecnico = ({
   isOpen,
   onOpenChange,
 }: AddTecnicoProps) => {
-  const { data: postos, loading: postosLoading } = useFetchData<PostoType>("/postos");
-  const { data: municipios, loading: municipiosLoading } = useFetchData<MunicipioType>("/municipios");
+  const { data: postos, loading: postosLoading } =
+    useFetchData<PostoType>("/postos");
+  const { data: municipios, loading: municipiosLoading } =
+    useFetchData<MunicipioType>("/municipios");
   const [imagem, setImagem] = useState<File | null>(null);
 
   const initialValues: TecnicoType = {
@@ -47,40 +59,48 @@ export const AddTecnico = ({
           tipo: "telefone",
           valor: "",
         },
-      ]
+      ],
     },
-    posto_id: editingTecnico?.posto_id || 0
+    posto_id: editingTecnico?.posto_id || 0,
   };
 
   const handleTecnicoSubmit = useCallback(
     async (values: TecnicoType, { resetForm }: FormikHelpers<TecnicoType>) => {
       try {
-        
-        
         if (editingTecnico) {
-          await api.put(`/tecnicos/${editingTecnico.id}`, {posto_id: editingTecnico.posto_id});
+          await api.put(`/tecnicos/${editingTecnico.id}`, {
+            posto_id: editingTecnico.posto_id,
+          });
           const formData = new FormData();
 
-              formData.append("nome", values.pessoa.nome);
-              formData.append("data_nascimento", values.pessoa.data_nascimento);
-              formData.append("genero", values.pessoa.genero);
-              formData.append("municipio_id",values.pessoa.municipio_id.toString());
-              if (
-                values.pessoa.imagem &&
-                typeof values.pessoa.imagem !== "string"
-              ) {
-                formData.append("imagem", values.pessoa.imagem);
-              }
-              await api.put(`/pessoas/${editingTecnico?.pessoa.id}`,formData);
-            
+          formData.append("nome", values.pessoa.nome);
+          formData.append("data_nascimento", values.pessoa.data_nascimento);
+          formData.append("genero", values.pessoa.genero);
+          formData.append(
+            "municipio_id",
+            values.pessoa.municipio_id.toString()
+          );
+          if (
+            values.pessoa.imagem &&
+            typeof values.pessoa.imagem !== "string"
+          ) {
+            formData.append("imagem", values.pessoa.imagem);
+          }
+          await api.put(`/pessoas/${editingTecnico?.pessoa.id}`, formData);
         } else {
           const formData = new FormData();
           formData.append("nome", values.pessoa.nome);
           formData.append("data_nascimento", values.pessoa.data_nascimento);
           formData.append("genero", values.pessoa.genero);
-          formData.append("municipio_id",values.pessoa.municipio_id.toString());
+          formData.append(
+            "municipio_id",
+            values.pessoa.municipio_id.toString()
+          );
 
-          if (values.pessoa.imagem && typeof values.pessoa.imagem !== "string") {
+          if (
+            values.pessoa.imagem &&
+            typeof values.pessoa.imagem !== "string"
+          ) {
             formData.append("imagem", values.pessoa.imagem);
           }
 
@@ -97,7 +117,10 @@ export const AddTecnico = ({
             )
           );
 
-          await api.post("/tecnicos", {id: pessoaId, posto_id: values.posto_id});
+          await api.post("/tecnicos", {
+            id: pessoaId,
+            posto_id: values.posto_id,
+          });
         }
 
         resetForm();
@@ -151,9 +174,9 @@ export const AddTecnico = ({
                   <div className="col-span-2">
                     <h3 className="text-lg font-semibold">Dados Pessoais</h3>
                   </div>
-                  
+
                   <DadosPessoaisForm
-                    values={values.pessoa}  // Passa apenas a parte de pessoa
+                    values={values.pessoa} // Passa apenas a parte de pessoa
                     handleChange={handleChange}
                     setFieldValue={setFieldValue}
                     municipios={municipios}
@@ -161,7 +184,7 @@ export const AddTecnico = ({
                   />
                   <div className="flex gap-2 mt-2">
                     {postosLoading ? (
-                      <Spinner label="Carregando municípios..." />
+                      <Spinner label="Carregando Postos..." />
                     ) : (
                       <Autocomplete
                         classNames={{
@@ -172,8 +195,7 @@ export const AddTecnico = ({
                         defaultItems={postos}
                         selectedKey={String(values.posto_id)}
                         onSelectionChange={
-                          (key) =>
-                            setFieldValue("posto_id", Number(key)) // Atualiza o município selecionado
+                          (key) => setFieldValue("posto_id", Number(key)) // Atualiza o município selecionado
                         }
                         inputProps={{
                           classNames: {
@@ -197,8 +219,8 @@ export const AddTecnico = ({
                             ],
                           },
                         }}
-                        aria-label="Selecione um município"
-                        placeholder="Natural de...  "
+                        aria-label="Selecione um Posto"
+                        placeholder="Posto...  "
                         popoverProps={{
                           offset: 10,
                           classNames: {
@@ -241,10 +263,7 @@ export const AddTecnico = ({
                         )}
                       </Autocomplete>
                     )}
-
                   </div>
-
-                  
                 </div>
 
                 <div className="mt-6 flex justify-end gap-4">

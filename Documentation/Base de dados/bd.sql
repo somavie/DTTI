@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
- Source Server         : MysqlDatabases
+ Source Server         : bruno
  Source Server Type    : MySQL
- Source Server Version : 100428 (10.4.28-MariaDB)
+ Source Server Version : 80038 (8.0.38)
  Source Host           : localhost:3306
- Source Schema         : sgodtti
+ Source Schema         : dtti
 
  Target Server Type    : MySQL
- Target Server Version : 100428 (10.4.28-MariaDB)
+ Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 26/10/2024 23:57:45
+ Date: 27/10/2024 23:34:52
 */
 
 SET NAMES utf8mb4;
@@ -27,9 +27,9 @@ CREATE TABLE `contato`  (
   `tipo` enum('Telefone','Email') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valor` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   CONSTRAINT `contato_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -52,9 +52,9 @@ CREATE TABLE `endereco`  (
   `numero_casa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `municipio_id`(`municipio_id` ASC) USING BTREE,
   CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -94,15 +94,15 @@ CREATE TABLE `equipamento`  (
   `localizacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `data_verificacao` date NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_table1_equipamentos1_idx`(`equipamentos_id` ASC) USING BTREE,
   INDEX `fk_equipamento_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_equipamento_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_table1_equipamentos1` FOREIGN KEY (`equipamentos_id`) REFERENCES `equipamentos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of equipamento
@@ -222,6 +222,10 @@ INSERT INTO `equipamento` VALUES (116, 1, 11, 1, 'Bom', 'dfsgfs', NULL, 1, '2024
 INSERT INTO `equipamento` VALUES (117, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
 INSERT INTO `equipamento` VALUES (118, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
 INSERT INTO `equipamento` VALUES (119, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
+INSERT INTO `equipamento` VALUES (120, 1, 21, 5, 'Mau', 'hbvnbvbjn', NULL, 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
+INSERT INTO `equipamento` VALUES (121, 1, 22, 45, 'Manutenção', 'cvnhvgnvbn', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `equipamento` VALUES (122, 2, 22, 45, 'Bom', 'bhkjkh', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `equipamento` VALUES (123, 3, 22, 1, 'Mau', ' bnbmkjknllk', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 
 -- ----------------------------
 -- Table structure for equipamentos
@@ -231,8 +235,8 @@ CREATE TABLE `equipamentos`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -253,9 +257,9 @@ CREATE TABLE `municipio`  (
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `provincia_id` int NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `provincia_id`(`provincia_id` ASC) USING BTREE,
   CONSTRAINT `municipio_ibfk_1` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -317,15 +321,15 @@ CREATE TABLE `observacao`  (
   `relatorios_id` int NOT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_observacao_situacao1_idx`(`situacao_id` ASC) USING BTREE,
   INDEX `fk_observacao_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_observacao_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 132 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of observacao
@@ -451,6 +455,9 @@ INSERT INTO `observacao` VALUES (125, 1, 11, 'fdhgfh', 1, '2024-10-20 23:07:35',
 INSERT INTO `observacao` VALUES (126, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
 INSERT INTO `observacao` VALUES (127, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
 INSERT INTO `observacao` VALUES (128, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
+INSERT INTO `observacao` VALUES (129, 1, 21, 'rfdufuyfuyt', 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
+INSERT INTO `observacao` VALUES (130, 1, 22, 'trduyguyt', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `observacao` VALUES (131, 2, 22, 'dthfgyhgfgdfg', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 
 -- ----------------------------
 -- Table structure for pessoa
@@ -463,9 +470,9 @@ CREATE TABLE `pessoa`  (
   `genero` enum('Masculino','Feminino','Outro') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `endereco_id` int NULL DEFAULT NULL,
   `municipio_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -496,8 +503,8 @@ CREATE TABLE `posto`  (
   `nome` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `sigla` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -573,9 +580,9 @@ CREATE TABLE `provincia`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -607,20 +614,20 @@ INSERT INTO `provincia` VALUES (18, 'Zaire', 1, '2024-09-17 09:12:58', NULL, NUL
 DROP TABLE IF EXISTS `relatorios`;
 CREATE TABLE `relatorios`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tecnico_cessante_id` int NOT NULL,
-  `tecnico_entrante_id` int NOT NULL,
+  `tecnico_cessante_id` int NULL DEFAULT NULL,
+  `tecnico_entrante_id` int NULL DEFAULT NULL,
   `data_criacao` date NULL DEFAULT NULL,
   `observacoes_finais` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao_registro` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_relatorios_pessoa1_idx`(`tecnico_cessante_id` ASC) USING BTREE,
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
@@ -638,6 +645,17 @@ INSERT INTO `relatorios` VALUES (10, 0, 0, NULL, NULL, 1, '2024-10-20 23:05:45',
 INSERT INTO `relatorios` VALUES (11, 0, 0, '2024-10-20', 'dsfdsf', 1, '2024-10-20 23:06:38', '2024-10-20 23:07:36', NULL);
 INSERT INTO `relatorios` VALUES (12, 0, 0, '2024-10-23', 'Durante as 24h não se verificou nada ', 1, '2024-10-23 09:33:43', '2024-10-23 09:39:18', NULL);
 INSERT INTO `relatorios` VALUES (13, 0, 0, NULL, NULL, 1, '2024-10-23 19:51:08', '2024-10-23 19:51:08', NULL);
+INSERT INTO `relatorios` VALUES (15, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:11:43', '2024-10-27 10:11:43', NULL);
+INSERT INTO `relatorios` VALUES (16, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:12:17', '2024-10-27 10:12:17', NULL);
+INSERT INTO `relatorios` VALUES (17, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:12:48', '2024-10-27 10:12:48', NULL);
+INSERT INTO `relatorios` VALUES (18, 1, 2, '2024-10-17', 'rfgf', 1, '2024-10-27 10:14:35', '2024-10-27 10:14:35', NULL);
+INSERT INTO `relatorios` VALUES (19, NULL, NULL, NULL, NULL, 1, '2024-10-27 22:37:36', '2024-10-27 22:37:36', NULL);
+INSERT INTO `relatorios` VALUES (20, NULL, NULL, NULL, NULL, 1, '2024-10-27 22:39:57', '2024-10-27 22:39:57', NULL);
+INSERT INTO `relatorios` VALUES (21, 2, 1, '2024-10-27', 'gfxbvx', 1, '2024-10-27 22:42:28', '2024-10-27 22:49:38', NULL);
+INSERT INTO `relatorios` VALUES (22, 2, 1, '2024-10-27', 'mn,mn,', 1, '2024-10-27 22:50:05', '2024-10-27 22:51:06', NULL);
+INSERT INTO `relatorios` VALUES (23, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
+INSERT INTO `relatorios` VALUES (24, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
+INSERT INTO `relatorios` VALUES (25, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:33:29', '2024-10-27 23:33:29', NULL);
 
 -- ----------------------------
 -- Table structure for situacao
@@ -647,8 +665,8 @@ CREATE TABLE `situacao`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -667,8 +685,8 @@ CREATE TABLE `tecnicos`  (
   `id` int NOT NULL,
   `posto_id` smallint NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   INDEX `fk_tecnicos_posto1_idx`(`posto_id` ASC) USING BTREE,
   INDEX `fk_tecnicos_pessoa1_idx`(`id` ASC) USING BTREE,
@@ -692,9 +710,9 @@ CREATE TABLE `tipousuario`  (
   `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -702,7 +720,7 @@ CREATE TABLE `tipousuario`  (
 -- Records of tipousuario
 -- ----------------------------
 INSERT INTO `tipousuario` VALUES (1, 'Admin', 'pessoa que faz a manutençãoi e configuração do sistema', 1, '2024-09-17 09:37:56', NULL, '2024-09-17 09:37:56');
-INSERT INTO `tipousuario` VALUES (2, 'Professor', 'pessoa responsavel por avaliar alunos e dar aulas', 1, '2024-09-17 09:38:34', NULL, '2024-09-17 09:38:34');
+INSERT INTO `tipousuario` VALUES (2, 'Tecnico', 'pessoa responsavel por reportar', 1, '2024-09-17 09:38:34', NULL, '2024-10-27 19:45:02');
 
 -- ----------------------------
 -- Table structure for usuario
@@ -719,204 +737,81 @@ CREATE TABLE `usuario`  (
   `view_permissao` tinyint(1) NULL DEFAULT 1,
   `create_permissao` tinyint(1) NULL DEFAULT 0,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   INDEX `tipo_usuario_id`(`tipo_usuario_id` ASC) USING BTREE,
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`tipo_usuario_id`) REFERENCES `tipousuario` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 1, 'dias', '$2a$10$vsPH8QlmVRUe0xj2sQhi1uLa3FnKnf7AqIJuyNUQGxc5MWXFu3FZy', 1, 1, 1, 1, 1, 1, '2024-09-17 09:39:03', NULL, '2024-09-23 20:23:20');
 INSERT INTO `usuario` VALUES (2, 2, 'isana', '$2a$10$4uKMLmfCPJd94plHQI8fYuPZMH9M4r4pzgKfIZ.bpzXcHlqjwIOMa', 2, 0, 1, 1, 0, 0, '2024-09-23 20:26:21', NULL, '2024-10-23 08:50:45');
+INSERT INTO `usuario` VALUES (5, 63, 'AJ', '$2a$10$TcHGFCzcBQRU0tFL3fNiDuwZ.SGcSIz.RrpGGbhbv7tJ6LEYjThAy', 2, 1, 1, 1, 1, 1, '2024-10-27 19:49:46', NULL, '2024-10-27 19:49:46');
 
 -- ----------------------------
 -- View structure for view_equipamento
 -- ----------------------------
 DROP VIEW IF EXISTS `view_equipamento`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_equipamento` AS select `equipamento`.`id` AS `id`,`equipamento`.`equipamentos_id` AS `equipamentos_id`,`equipamento`.`relatorios_id` AS `relatorios_id`,`equipamento`.`quantidade` AS `quantidade`,`equipamento`.`status` AS `status`,`equipamento`.`localizacao` AS `localizacao`,`equipamentos`.`nome` AS `nome`,`equipamento`.`estado` AS `estado` from (`equipamento` join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))); ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_equipamento` AS select `equipamento`.`id` AS `id`,`equipamento`.`equipamentos_id` AS `equipamentos_id`,`equipamento`.`relatorios_id` AS `relatorios_id`,`equipamento`.`quantidade` AS `quantidade`,`equipamento`.`status` AS `status`,`equipamento`.`localizacao` AS `localizacao`,`equipamentos`.`nome` AS `nome`,`equipamento`.`estado` AS `estado` from (`equipamento` join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`)));
 
 -- ----------------------------
 -- View structure for view_municipios
 -- ----------------------------
 DROP VIEW IF EXISTS `view_municipios`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_municipios` AS select `municipio`.`id` AS `id`,`municipio`.`nome` AS `nome`,`municipio`.`provincia_id` AS `provincia_id`,`provincia`.`nome` AS `provincia` from (`municipio` join `provincia` on((`municipio`.`provincia_id` = `provincia`.`id`))) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_municipios` AS select `municipio`.`id` AS `id`,`municipio`.`nome` AS `nome`,`municipio`.`provincia_id` AS `provincia_id`,`provincia`.`nome` AS `provincia` from (`municipio` join `provincia` on((`municipio`.`provincia_id` = `provincia`.`id`)));
 
 -- ----------------------------
 -- View structure for view_observacao
 -- ----------------------------
 DROP VIEW IF EXISTS `view_observacao`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))); ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`)));
 
 -- ----------------------------
 -- View structure for view_pessoas
 -- ----------------------------
 DROP VIEW IF EXISTS `view_pessoas`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_pessoas` AS select `pessoa`.`id` AS `id`,`pessoa`.`nome` AS `nome`,concat(`provincia`.`nome`,', ',`municipio`.`nome`,', ',`endereco`.`bairro`,', ',`endereco`.`numero_casa`) AS `endereco_completo`,`pessoa`.`genero` AS `genero`,`pessoa`.`data_nascimento` AS `data_nascimento`,`pessoa`.`endereco_id` AS `endereco_id`,`pessoa`.`imagem` AS `imagem`,`naturalidade`.`nome` AS `naturalidade` from ((((`pessoa` join `endereco` on((`pessoa`.`endereco_id` = `endereco`.`id`))) join `municipio` on((`endereco`.`municipio_id` = `municipio`.`id`))) join `provincia` on((`municipio`.`provincia_id` = `provincia`.`id`))) join `municipio` `naturalidade` on((`pessoa`.`municipio_id` = `naturalidade`.`id`))); ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_pessoas` AS select `pessoa`.`id` AS `id`,`pessoa`.`nome` AS `nome`,`pessoa`.`genero` AS `genero`,`pessoa`.`data_nascimento` AS `data_nascimento`,`pessoa`.`imagem` AS `imagem`,`naturalidade`.`nome` AS `naturalidade` from (`pessoa` join `municipio` `naturalidade` on((`pessoa`.`municipio_id` = `naturalidade`.`id`)));
 
 -- ----------------------------
 -- View structure for view_postos
 -- ----------------------------
 DROP VIEW IF EXISTS `view_postos`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_postos` AS SELECT
-	postosmilitares.Posto_Id AS id, 
-	postosmilitares.Posto AS posto, 
-	postosmilitares.PostoAbrev AS postoAbrev
-FROM
-	postosmilitares ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_postos` AS select `postosmilitares`.`Posto_Id` AS `id`,`postosmilitares`.`Posto` AS `posto`,`postosmilitares`.`PostoAbrev` AS `postoAbrev` from `postosmilitares`;
 
 -- ----------------------------
 -- View structure for view_relatorio
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS SELECT
-	relatorios.id, 
-	relatorios.tecnico_cessante_id, 
-	relatorios.tecnico_entrante_id, 
-	relatorios.data_criacao, 
-	relatorios.observacoes_finais, 
-	relatorios.estado, 
-	pcessante.nome AS cessante, 
-	pentrante.nome AS entrante, 
-	tp_cessante.Posto AS posto_cessante, 
-	tp_entrante.Posto AS posto_entrante
-FROM
-	relatorios
-	INNER JOIN
-	pessoa AS pcessante
-	ON 
-		relatorios.tecnico_cessante_id = pcessante.id
-	INNER JOIN
-	pessoa AS pentrante
-	ON 
-		relatorios.tecnico_entrante_id = pentrante.id
-	INNER JOIN
-	tecnicos AS tentrante
-	ON 
-		pentrante.id = tentrante.id
-	INNER JOIN
-	tecnicos AS tcessante
-	ON 
-		pcessante.id = tcessante.id
-	INNER JOIN
-	postosmilitares AS tp_cessante
-	ON 
-		tcessante.posto_id = tp_cessante.Posto_Id
-	INNER JOIN
-	postosmilitares AS tp_entrante
-	ON 
-		tentrante.posto_id = tp_entrante.Posto_Id ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS select `relatorios`.`id` AS `id`,`relatorios`.`tecnico_cessante_id` AS `tecnico_cessante_id`,`relatorios`.`tecnico_entrante_id` AS `tecnico_entrante_id`,`relatorios`.`data_criacao` AS `data_criacao`,`relatorios`.`observacoes_finais` AS `observacoes_finais`,`relatorios`.`estado` AS `estado`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante` from ((((((`relatorios` join `pessoa` `pcessante` on((`relatorios`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`relatorios`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`)));
 
 -- ----------------------------
 -- View structure for view_relatorio_all
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_all`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS SELECT
-    r.id AS id, 
-    r.data_criacao AS data_criacao, 
-    s.nome AS Situacao, 
-    GROUP_CONCAT(DISTINCT o.descricao SEPARATOR '; ') AS descricao, 
-    GROUP_CONCAT(DISTINCT e.nome SEPARATOR '; ') AS Meio, 
-    SUM(eq.quantidade) AS quantidade, 
-    GROUP_CONCAT(DISTINCT eq.status SEPARATOR '; ') AS status, 
-    GROUP_CONCAT(DISTINCT eq.localizacao SEPARATOR '; ') AS localizacao, 
-    pcessante.nome AS cessante, 
-    pentrante.nome AS entrante, 
-    tp_cessante.Posto AS posto_cessante, 
-    tp_entrante.Posto AS posto_entrante,
-    r.estado AS estado
-FROM
-    relatorios AS r
-    JOIN equipamento AS eq ON r.id = eq.relatorios_id
-    JOIN observacao AS o ON r.id = o.relatorios_id
-    JOIN situacao AS s ON o.situacao_id = s.id
-    JOIN equipamentos AS e ON eq.equipamentos_id = e.id
-    INNER JOIN pessoa AS pcessante ON r.tecnico_cessante_id = pcessante.id
-    INNER JOIN pessoa AS pentrante ON r.tecnico_entrante_id = pentrante.id
-    INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
-    INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
-    INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
-    INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
-GROUP BY
-    r.id, 
-    r.data_criacao, 
-    s.nome, 
-    pcessante.nome, 
-    pentrante.nome, 
-    tp_cessante.Posto, 
-    tp_entrante.Posto, 
-    r.estado ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS select `r`.`id` AS `id`,`r`.`data_criacao` AS `data_criacao`,`s`.`nome` AS `Situacao`,group_concat(distinct `o`.`descricao` separator '; ') AS `descricao`,group_concat(distinct `e`.`nome` separator '; ') AS `Meio`,sum(`eq`.`quantidade`) AS `quantidade`,group_concat(distinct `eq`.`status` separator '; ') AS `status`,group_concat(distinct `eq`.`localizacao` separator '; ') AS `localizacao`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante`,`r`.`estado` AS `estado` from ((((((((((`relatorios` `r` join `equipamento` `eq` on((`r`.`id` = `eq`.`relatorios_id`))) join `observacao` `o` on((`r`.`id` = `o`.`relatorios_id`))) join `situacao` `s` on((`o`.`situacao_id` = `s`.`id`))) join `equipamentos` `e` on((`eq`.`equipamentos_id` = `e`.`id`))) join `pessoa` `pcessante` on((`r`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`r`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`))) group by `r`.`id`,`r`.`data_criacao`,`s`.`nome`,`pcessante`.`nome`,`pentrante`.`nome`,`tp_cessante`.`Posto`,`tp_entrante`.`Posto`,`r`.`estado`;
 
 -- ----------------------------
 -- View structure for view_relatorio_grupo
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_grupo`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS SELECT
-    relatorios.id AS id, 
-    relatorios.data_criacao AS data_criacao, 
-    situacao.nome AS Situacao, 
-    GROUP_CONCAT(DISTINCT observacao.descricao SEPARATOR ', ') AS Observacoes, 
-    GROUP_CONCAT(DISTINCT equipamentos.nome SEPARATOR ', ') AS Meios, 
-    GROUP_CONCAT(DISTINCT equipamento.quantidade SEPARATOR ', ') AS Quantidades, 
-    GROUP_CONCAT(DISTINCT equipamento.status SEPARATOR ', ') AS Status, 
-    GROUP_CONCAT(DISTINCT equipamento.localizacao SEPARATOR ', ') AS Localizacoes, 
-    pcessante.nome AS cessante, 
-    pentrante.nome AS entrante, 
-    tp_cessante.Posto AS posto_cessante, 
-    tp_entrante.Posto AS posto_entrante
-FROM
-    relatorios
-JOIN equipamento ON relatorios.id = equipamento.relatorios_id
-JOIN observacao ON relatorios.id = observacao.relatorios_id
-JOIN situacao ON observacao.situacao_id = situacao.id
-JOIN equipamentos ON equipamento.equipamentos_id = equipamentos.id
-INNER JOIN pessoa AS pcessante ON relatorios.tecnico_cessante_id = pcessante.id
-INNER JOIN pessoa AS pentrante ON relatorios.tecnico_entrante_id = pentrante.id
-INNER JOIN tecnicos AS tcessante ON pcessante.id = tcessante.id
-INNER JOIN tecnicos AS tentrante ON pentrante.id = tentrante.id
-INNER JOIN postosmilitares AS tp_cessante ON tcessante.posto_id = tp_cessante.Posto_Id
-INNER JOIN postosmilitares AS tp_entrante ON tentrante.posto_id = tp_entrante.Posto_Id
-GROUP BY
-    relatorios.id, 
-    relatorios.data_criacao, 
-    situacao.nome, 
-    pcessante.nome, 
-    pentrante.nome, 
-    tp_cessante.Posto, 
-    tp_entrante.Posto ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS select `relatorios`.`id` AS `id`,`relatorios`.`data_criacao` AS `data_criacao`,`situacao`.`nome` AS `Situacao`,group_concat(distinct `observacao`.`descricao` separator ', ') AS `Observacoes`,group_concat(distinct `equipamentos`.`nome` separator ', ') AS `Meios`,group_concat(distinct `equipamento`.`quantidade` separator ', ') AS `Quantidades`,group_concat(distinct `equipamento`.`status` separator ', ') AS `Status`,group_concat(distinct `equipamento`.`localizacao` separator ', ') AS `Localizacoes`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante` from ((((((((((`relatorios` join `equipamento` on((`relatorios`.`id` = `equipamento`.`relatorios_id`))) join `observacao` on((`relatorios`.`id` = `observacao`.`relatorios_id`))) join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) join `pessoa` `pcessante` on((`relatorios`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`relatorios`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`))) group by `relatorios`.`id`,`relatorios`.`data_criacao`,`situacao`.`nome`,`pcessante`.`nome`,`pentrante`.`nome`,`tp_cessante`.`Posto`,`tp_entrante`.`Posto`;
 
 -- ----------------------------
 -- View structure for view_tecnicos
 -- ----------------------------
 DROP VIEW IF EXISTS `view_tecnicos`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_tecnicos` AS SELECT
-	pessoa.imagem, 
-	tecnicos.id, 
-	pessoa.nome, 
-	tecnicos.posto_id, 
-	tecnicos.estado, 
-	postosmilitares.Posto, 
-	postosmilitares.PostoAbrev
-FROM
-	tecnicos
-	INNER JOIN
-	pessoa
-	ON 
-		tecnicos.id = pessoa.id
-	INNER JOIN
-	postosmilitares
-	ON 
-		tecnicos.posto_id = postosmilitares.Posto_Id ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_tecnicos` AS select `pessoa`.`imagem` AS `imagem`,`tecnicos`.`id` AS `id`,`pessoa`.`nome` AS `nome`,`tecnicos`.`posto_id` AS `posto_id`,`tecnicos`.`estado` AS `estado`,`postosmilitares`.`Posto` AS `Posto`,`postosmilitares`.`PostoAbrev` AS `PostoAbrev` from ((`tecnicos` join `pessoa` on((`tecnicos`.`id` = `pessoa`.`id`))) join `postosmilitares` on((`tecnicos`.`posto_id` = `postosmilitares`.`Posto_Id`)));
 
 -- ----------------------------
 -- View structure for view_user
 -- ----------------------------
 DROP VIEW IF EXISTS `view_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user` AS select `usuario`.`id` AS `id`,`usuario`.`pessoa_id` AS `pessoa_id`,`usuario`.`nomeUsuario` AS `nomeUsuario`,`usuario`.`senha` AS `senha`,`usuario`.`tipo_usuario_id` AS `tipo_usuario_id`,`usuario`.`delete_permissao` AS `delete_permissao`,`usuario`.`update_permissao` AS `update_permissao`,`usuario`.`view_permissao` AS `view_permissao`,`usuario`.`create_permissao` AS `create_permissao`,`usuario`.`estado` AS `estado`,`usuario`.`data_criacao` AS `data_criacao`,`usuario`.`data_remocao` AS `data_remocao`,`usuario`.`data_alteracao` AS `data_alteracao`,`pessoa`.`nome` AS `pessoa`,`pessoa`.`imagem` AS `imagem`,`tipousuario`.`nome` AS `tipousuario`,`tipousuario`.`descricao` AS `descricao` from ((`usuario` join `pessoa` on((`usuario`.`pessoa_id` = `pessoa`.`id`))) join `tipousuario` on((`usuario`.`tipo_usuario_id` = `tipousuario`.`id`))) where (`usuario`.`estado` = 1) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user` AS select `usuario`.`id` AS `id`,`usuario`.`pessoa_id` AS `pessoa_id`,`usuario`.`nomeUsuario` AS `nomeUsuario`,`usuario`.`senha` AS `senha`,`usuario`.`tipo_usuario_id` AS `tipo_usuario_id`,`usuario`.`delete_permissao` AS `delete_permissao`,`usuario`.`update_permissao` AS `update_permissao`,`usuario`.`view_permissao` AS `view_permissao`,`usuario`.`create_permissao` AS `create_permissao`,`usuario`.`estado` AS `estado`,`usuario`.`data_criacao` AS `data_criacao`,`usuario`.`data_remocao` AS `data_remocao`,`usuario`.`data_alteracao` AS `data_alteracao`,`pessoa`.`nome` AS `pessoa`,`pessoa`.`imagem` AS `imagem`,`tipousuario`.`nome` AS `tipousuario`,`tipousuario`.`descricao` AS `descricao` from ((`usuario` join `pessoa` on((`usuario`.`pessoa_id` = `pessoa`.`id`))) join `tipousuario` on((`usuario`.`tipo_usuario_id` = `tipousuario`.`id`))) where (`usuario`.`estado` = 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

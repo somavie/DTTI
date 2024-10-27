@@ -15,9 +15,9 @@ import React, { useCallback, useState } from "react";
 import { Formik, FormikHelpers } from "formik";
 import api from "../../helpers/api";
 import { UsuarioSchema } from "@/helpers/schemas";
-import { UsuarioType } from "@/helpers/types";
+import { TecnicoType, UsuarioType } from "@/helpers/types";
 import { useAllPessoas, useAllTiposUsuarios } from "../hooks/allselect";
-
+import { useFetchData } from "../hooks/useFetchDatas"; // O hook para buscar dados
 interface AddUsuarioProps {
   editingUsuario: UsuarioType | null;
   onCloseAndRefresh: () => void;
@@ -45,10 +45,10 @@ export const AddUser = ({
   isOpen,
   onOpenChange,
 }: AddUsuarioProps) => {
-  const { pessoas, loading: pessoasLoading } = useAllPessoas();
   const { tiposUsuario, loading: tiposUsuariosLoading } = useAllTiposUsuarios();
   const [errorMessage, setErrorMessage] = useState("");
-
+  const { data: tecnicos, loading: tecnicosLoading } =
+    useFetchData<TecnicoType>("/tecnicos");
   const initialValues: UsuarioForm = {
     id: editingUsuario?.id || 0,
     nomeUsuario: editingUsuario?.nomeUsuario || "",
@@ -130,7 +130,7 @@ export const AddUser = ({
                   <div className="text-red-600 mb-4">{errorMessage}</div>
                 )}
 
-                {pessoasLoading ? (
+                {tecnicosLoading ? (
                   <Spinner size="sm" label="Carregando pessoas..." />
                 ) : (
                   <Select
@@ -140,7 +140,7 @@ export const AddUser = ({
                       setFieldValue("pessoa_id", Number(keys.currentKey))
                     }
                   >
-                    {pessoas.map((pessoa) => (
+                    {tecnicos.map((pessoa) => (
                       <SelectItem key={pessoa.id} value={pessoa.id}>
                         {pessoa.nome}
                       </SelectItem>

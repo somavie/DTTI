@@ -68,6 +68,40 @@ export const getAllRelatorios = async (): Promise<Relatorio[]> => {
   return rows as Relatorio[];
 };
 
+// Obter o último relatório inserido
+export const getUltimoRelatorio = async (): Promise<Relatorio | null> => {
+  const [relatorioRows] = await pool.query<RowDataPacket[]>(`
+    SELECT * 
+    FROM relatorios 
+    WHERE estado = 1 
+    ORDER BY data_criacao DESC 
+    LIMIT 1
+  `);
+
+  // Verifica se algum relatório foi encontrado
+  if (relatorioRows.length === 0) {
+    return null; // Retorna null se não houver relatórios ativos
+  }
+
+  // Estrutura inicial do objeto Relatório
+  const relatorio: Relatorio = {
+    id: relatorioRows[0].id,
+    tecnico_cessante_id: relatorioRows[0].tecnico_cessante_id,
+    tecnico_entrante_id: relatorioRows[0].tecnico_entrante_id,
+    data_criacao: relatorioRows[0].data_criacao,
+    observacoes_finais: relatorioRows[0].observacoes_finais,
+    estado: relatorioRows[0].estado,
+    data_criacao_registro: relatorioRows[0].data_criacao_registro,
+    data_alteracao: relatorioRows[0].data_alteracao,
+    entrante: relatorioRows[0].entrante,
+    cessante: relatorioRows[0].cessante,
+    equipamentos: [], // Inicialmente vazio, será preenchido se necessário
+    observacoes: [], // Inicialmente vazio, será preenchido se necessário
+  };
+
+  return relatorio;
+};
+
 // Obter um relatório por ID
 export const getRelatorioById = async (
   id: number

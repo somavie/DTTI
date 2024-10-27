@@ -4,6 +4,27 @@ import * as yup from "yup";
 
 import * as Yup from "yup";
 
+// helpers/validators.ts
+
+export const validateRelatorioForm = (data: any) => {
+  const errors: { [key: string]: string } = {};
+
+  if (!data.tecnico_cessante_id) {
+    errors.tecnico_cessante_id = "Técnico cessante é obrigatório.";
+  }
+  if (!data.tecnico_entrante_id) {
+    errors.tecnico_entrante_id = "Técnico entrante é obrigatório.";
+  }
+  if (!data.observacao_final) {
+    errors.observacao_final = "A observação final é obrigatória.";
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+};
+
 export const RelatorioSchema = Yup.object().shape({
   tecnico_cessante_id: Yup.number()
     .required("O campo 'Técnico Cessante' é obrigatório.")
@@ -128,7 +149,6 @@ export const TecnicoSchema = object().shape({
     .string()
     .oneOf(["Masculino", "Feminino", "Outro"])
     .required("Gênero é obrigatório"),
-  
 });
 
 export const ProfessorSchemaOnly = object().shape({

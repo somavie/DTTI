@@ -5,8 +5,10 @@ import api from "@/helpers/api";
 import ObservacaoForm from "../observacao/add-observacao";
 import EquipamentoForm from "../equipamento/add-equipamento";
 import gerarPDF from "../pdf/relatorioPDF";
-import { Equipamento } from "@/helpers/types";
-
+import { Equipamento, TecnicoType } from "@/helpers/types";
+import { Button, Select, SelectItem } from "@nextui-org/react";
+import { useFetchData } from "../hooks/useFetchDatas";
+import { useUserData } from "../hooks/useUserData";
 interface RelatorioFormData {
   observacao_final: string;
   tecnico_cessante_id: number;
@@ -21,14 +23,17 @@ interface CreateEquipamentoInput {
 }
 
 export default function RelatorioForm() {
-  const { register, handleSubmit } = useForm<RelatorioFormData>();
+  const { register, handleSubmit, setValue, watch } =
+    useForm<RelatorioFormData>();
   const [relatorioId, setRelatorioId] = useState<number | null>(null);
   const [observacoes, setObservacoes] = useState<
     { situacao_id: number; descricao: string }[]
   >([]);
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
   const [isFinalStep, setIsFinalStep] = useState(false);
-
+  const { id: TecnicoId, userName } = useUserData();
+  const { data: tecnicos, loading: loadingTecnicos } =
+    useFetchData<TecnicoType>("/tecnicos"); // Buscando técnicos
   // Função para criar o relatório ao clicar no botão "Fazer Relatório"
   const criarRelatorio = async () => {
     try {
@@ -109,7 +114,7 @@ export default function RelatorioForm() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-xl font-bold mb-4">
-        Relatório de Equipamentos e Ocorrências
+        Relatório de Equipamentos e Ocorrências de {userName}
       </h1>
 
       {/* Botão para criar o relatório */}
@@ -155,20 +160,33 @@ export default function RelatorioForm() {
 
           <div className="mb-4">
             <label className="block mb-2">Técnico Cessante:</label>
-            <input
-              type="number"
-              className="border p-2 w-full"
-              {...register("tecnico_cessante_id")}
-            />
+            <Select
+              label="Técnico Cessante"
+              isDisabled
+              selectedKeys={new Set([String(TecnicoId)])}
+              onSelectionChange={(keys) =>
+                setValue("tecnico_cessante_id", Number(keys.currentKey))
+              }
+            >
+              {tecnicos.map((tecnico) => (
+                <SelectItem key={tecnico.id}>{tecnico.nome}</SelectItem>
+              ))}
+            </Select>
           </div>
 
           <div className="mb-4">
             <label className="block mb-2">Técnico Entrante:</label>
-            <input
-              type="number"
-              className="border p-2 w-full"
-              {...register("tecnico_entrante_id")}
-            />
+            <Select
+              label="Técnico Entrante"
+              selectedKeys={new Set([String(watch("tecnico_entrante_id"))])}
+              onSelectionChange={(keys) =>
+                setValue("tecnico_entrante_id", Number(keys.currentKey))
+              }
+            >
+              {tecnicos.map((tecnico) => (
+                <SelectItem key={tecnico.id}>{tecnico.nome}</SelectItem>
+              ))}
+            </Select>
           </div>
 
           <button className="bg-blue-500 text-white p-2" type="submit">

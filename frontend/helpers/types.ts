@@ -85,6 +85,8 @@ export interface TecnicoType {
   id: number;
   pessoa: PessoaType;
   posto_id: number; // Data é representada como string no formato 'YYYY-MM-DD'
+  imagem?: string;
+  nome?: string;
 }
 export interface PostoType {
   id: number;

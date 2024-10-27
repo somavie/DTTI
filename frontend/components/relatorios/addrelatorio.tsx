@@ -15,9 +15,10 @@ import React, { useCallback } from "react";
 import { Formik, FormikHelpers } from "formik";
 import api from "../../helpers/api";
 import { RelatorioSchema } from "@/helpers/schemas"; // Supondo que você tenha um schema de validação
-import { RelatorioType, Tecnico } from "@/helpers/types"; // Defina a interface RelatorioType e Tecnico
+import { PessoaType, RelatorioType, Tecnico } from "@/helpers/types"; // Defina a interface RelatorioType e Tecnico
 import { useFetchData } from "../hooks/useFetchDatas"; // O hook para buscar dados
-
+import ObservacaoForm from "../observacao/add-observacao";
+import EquipamentoForm from "../equipamento/add-equipamento";
 interface AddRelatorioProps {
   title: string;
   editingRelatorio: RelatorioType | null;
@@ -42,7 +43,7 @@ export const AddRelatorio = ({
   onOpenChange,
 }: AddRelatorioProps) => {
   const { data: tecnicos, loading: loadingTecnicos } =
-    useFetchData<Tecnico>("/tecnicos"); // Buscando técnicos
+    useFetchData<PessoaType>("/tecnicos"); // Buscando técnicos
 
   const initialValues: RelatorioForm = {
     id: editingRelatorio?.id || 0,
@@ -68,7 +69,7 @@ export const AddRelatorio = ({
         if (editingRelatorio) {
           await api.put(`/relatorios/${editingRelatorio.id}`, data);
         } else {
-          await api.post("/relatorios", data);
+          await api.post("/relatorios/add", data);
         }
 
         resetForm();
