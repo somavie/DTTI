@@ -158,6 +158,11 @@ export interface Equipamento {
   nome?: string;
 }
 
+export interface EquipamentosType {
+  id: number;
+  nome?: string;
+}
+
 export interface Relatorio {
   observacao_final: string;
   tecnico_cessante_id: number;
