@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
- Source Server         : MysqlDatabases
+ Source Server         : bruno
  Source Server Type    : MySQL
- Source Server Version : 100428 (10.4.28-MariaDB)
+ Source Server Version : 80038 (8.0.38)
  Source Host           : localhost:3306
- Source Schema         : sgodtti
+ Source Schema         : dtti
 
  Target Server Type    : MySQL
- Target Server Version : 100428 (10.4.28-MariaDB)
+ Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 23/10/2024 09:42:51
+ Date: 27/10/2024 23:34:52
 */
 
 SET NAMES utf8mb4;
@@ -27,49 +27,20 @@ CREATE TABLE `contato`  (
   `tipo` enum('Telefone','Email') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valor` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   CONSTRAINT `contato_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of contato
 -- ----------------------------
 INSERT INTO `contato` VALUES (1, 3, 'Telefone', '926547598', 1, '2024-09-17 10:57:36', NULL, '2024-09-17 10:57:36');
-INSERT INTO `contato` VALUES (2, 4, 'Telefone', '926545852', 1, '2024-09-17 11:48:37', NULL, '2024-09-17 11:48:37');
-INSERT INTO `contato` VALUES (3, 6, 'Telefone', '95326354', 1, '2024-09-17 11:50:30', NULL, '2024-09-17 11:50:30');
-INSERT INTO `contato` VALUES (4, 7, 'Telefone', '983884455', 1, '2024-09-24 02:32:31', NULL, '2024-09-24 02:32:31');
-INSERT INTO `contato` VALUES (5, 8, 'Telefone', '983884455', 1, '2024-09-24 02:47:06', NULL, '2024-09-24 02:47:06');
-INSERT INTO `contato` VALUES (6, 8, 'Telefone', '933445566', 1, '2024-09-24 02:47:06', NULL, '2024-09-24 02:47:06');
-INSERT INTO `contato` VALUES (7, 9, 'Telefone', '983884455', 1, '2024-09-24 23:22:22', NULL, '2024-09-24 23:22:22');
-INSERT INTO `contato` VALUES (8, 9, 'Email', 'aaaaa@gmail.com', 1, '2024-09-24 23:22:23', NULL, '2024-09-24 23:22:23');
-INSERT INTO `contato` VALUES (9, 11, 'Telefone', '92658458', 1, '2024-09-25 22:38:17', NULL, '2024-09-25 22:38:17');
-INSERT INTO `contato` VALUES (10, 13, 'Telefone', '96855522', 1, '2024-09-25 22:39:22', NULL, '2024-09-25 22:39:22');
-INSERT INTO `contato` VALUES (11, 15, 'Telefone', '926547853', 1, '2024-09-25 22:40:11', NULL, '2024-09-25 22:40:11');
-INSERT INTO `contato` VALUES (12, 17, 'Telefone', '926547598', 1, '2024-09-25 22:40:55', NULL, '2024-09-25 22:40:55');
-INSERT INTO `contato` VALUES (13, 19, 'Telefone', '9568556544', 1, '2024-09-25 22:42:06', NULL, '2024-09-25 22:42:06');
-INSERT INTO `contato` VALUES (14, 21, 'Telefone', '95645855', 1, '2024-09-25 22:43:26', NULL, '2024-09-25 22:43:26');
-INSERT INTO `contato` VALUES (15, 23, 'Telefone', '95645855', 1, '2024-09-25 22:43:40', NULL, '2024-09-25 22:43:40');
-INSERT INTO `contato` VALUES (16, 25, 'Telefone', '95654522', 1, '2024-09-25 22:44:46', NULL, '2024-09-25 22:44:46');
-INSERT INTO `contato` VALUES (17, 27, 'Telefone', '9564585', 1, '2024-09-25 22:45:30', NULL, '2024-09-25 22:45:30');
-INSERT INTO `contato` VALUES (18, 29, 'Telefone', '92654878', 1, '2024-09-25 22:47:14', NULL, '2024-09-25 22:47:14');
-INSERT INTO `contato` VALUES (19, 31, 'Telefone', '5646541656', 1, '2024-09-25 22:48:01', NULL, '2024-09-25 22:48:01');
-INSERT INTO `contato` VALUES (20, 33, 'Telefone', '96485498', 1, '2024-09-25 22:49:01', NULL, '2024-09-25 22:49:01');
-INSERT INTO `contato` VALUES (21, 35, 'Telefone', '58489798', 1, '2024-09-25 22:50:24', NULL, '2024-09-25 22:50:24');
-INSERT INTO `contato` VALUES (22, 37, 'Telefone', '456635445', 1, '2024-09-25 22:51:17', NULL, '2024-09-25 22:51:17');
-INSERT INTO `contato` VALUES (23, 39, 'Telefone', '51654168418486', 1, '2024-09-25 22:52:14', NULL, '2024-09-25 22:52:14');
-INSERT INTO `contato` VALUES (24, 41, 'Telefone', '9265487888', 1, '2024-09-26 19:43:22', NULL, '2024-09-26 19:43:22');
-INSERT INTO `contato` VALUES (25, 43, 'Telefone', '954626415641', 1, '2024-09-26 19:44:54', NULL, '2024-09-26 19:44:54');
-INSERT INTO `contato` VALUES (26, 45, 'Telefone', '956545545', 1, '2024-09-26 19:46:01', NULL, '2024-09-26 19:46:01');
-INSERT INTO `contato` VALUES (27, 48, 'Telefone', '92654759867', 1, '2024-09-27 12:56:38', NULL, '2024-09-27 12:56:38');
-INSERT INTO `contato` VALUES (28, 49, 'Telefone', '983884455', 1, '2024-09-27 16:07:55', NULL, '2024-09-27 16:07:55');
-INSERT INTO `contato` VALUES (29, 50, 'Telefone', '983884455', 1, '2024-09-27 16:19:20', NULL, '2024-09-27 16:19:20');
-INSERT INTO `contato` VALUES (30, 51, 'Telefone', '983884455', 1, '2024-09-27 16:22:31', NULL, '2024-09-27 16:22:31');
-INSERT INTO `contato` VALUES (31, 52, 'Telefone', '56456353', 1, '2024-09-29 00:47:34', NULL, '2024-09-29 00:47:34');
-INSERT INTO `contato` VALUES (32, 55, 'Telefone', '1111111', 1, '2024-09-30 01:07:28', NULL, '2024-09-30 01:07:28');
+INSERT INTO `contato` VALUES (33, 62, 'Telefone', '98766544554', 1, '2024-10-26 23:01:24', NULL, '2024-10-26 23:01:24');
+INSERT INTO `contato` VALUES (34, 63, 'Telefone', '987665445', 1, '2024-10-26 23:03:29', NULL, '2024-10-26 23:03:29');
 
 -- ----------------------------
 -- Table structure for endereco
@@ -81,9 +52,9 @@ CREATE TABLE `endereco`  (
   `numero_casa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `municipio_id`(`municipio_id` ASC) USING BTREE,
   CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -123,15 +94,15 @@ CREATE TABLE `equipamento`  (
   `localizacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `data_verificacao` date NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_table1_equipamentos1_idx`(`equipamentos_id` ASC) USING BTREE,
   INDEX `fk_equipamento_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_equipamento_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_table1_equipamentos1` FOREIGN KEY (`equipamentos_id`) REFERENCES `equipamentos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of equipamento
@@ -251,6 +222,10 @@ INSERT INTO `equipamento` VALUES (116, 1, 11, 1, 'Bom', 'dfsgfs', NULL, 1, '2024
 INSERT INTO `equipamento` VALUES (117, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
 INSERT INTO `equipamento` VALUES (118, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
 INSERT INTO `equipamento` VALUES (119, 2, 12, 2, 'Bom', 'Gabinete do Tecnico de Permanencia', NULL, 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
+INSERT INTO `equipamento` VALUES (120, 1, 21, 5, 'Mau', 'hbvnbvbjn', NULL, 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
+INSERT INTO `equipamento` VALUES (121, 1, 22, 45, 'Manutenção', 'cvnhvgnvbn', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `equipamento` VALUES (122, 2, 22, 45, 'Bom', 'bhkjkh', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `equipamento` VALUES (123, 3, 22, 1, 'Mau', ' bnbmkjknllk', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 
 -- ----------------------------
 -- Table structure for equipamentos
@@ -260,8 +235,8 @@ CREATE TABLE `equipamentos`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -282,9 +257,9 @@ CREATE TABLE `municipio`  (
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `provincia_id` int NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `provincia_id`(`provincia_id` ASC) USING BTREE,
   CONSTRAINT `municipio_ibfk_1` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -346,15 +321,15 @@ CREATE TABLE `observacao`  (
   `relatorios_id` int NOT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_observacao_situacao1_idx`(`situacao_id` ASC) USING BTREE,
   INDEX `fk_observacao_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_observacao_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 132 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of observacao
@@ -480,6 +455,9 @@ INSERT INTO `observacao` VALUES (125, 1, 11, 'fdhgfh', 1, '2024-10-20 23:07:35',
 INSERT INTO `observacao` VALUES (126, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
 INSERT INTO `observacao` VALUES (127, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
 INSERT INTO `observacao` VALUES (128, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
+INSERT INTO `observacao` VALUES (129, 1, 21, 'rfdufuyfuyt', 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
+INSERT INTO `observacao` VALUES (130, 1, 22, 'trduyguyt', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `observacao` VALUES (131, 2, 22, 'dthfgyhgfgdfg', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 
 -- ----------------------------
 -- Table structure for pessoa
@@ -492,9 +470,9 @@ CREATE TABLE `pessoa`  (
   `genero` enum('Masculino','Feminino','Outro') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `endereco_id` int NULL DEFAULT NULL,
   `municipio_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -502,7 +480,7 @@ CREATE TABLE `pessoa`  (
   INDEX `fk_pessoa_municipio1_idx`(`municipio_id` ASC) USING BTREE,
   CONSTRAINT `pessoa_ibfk_1` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pessoa_ibfk_2` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pessoa
@@ -511,61 +489,10 @@ INSERT INTO `pessoa` VALUES (1, 'Bruno Somavie ACVF', '2020-12-29', 'Masculino',
 INSERT INTO `pessoa` VALUES (2, 'Paulo Almeida', '1989-02-07', 'Masculino', '1726566254192.png', 1, '2024-09-17 10:44:14', NULL, '2024-09-27 00:04:01', 1, 1);
 INSERT INTO `pessoa` VALUES (3, 'Almeida Pereira Torres', '2024-09-03', 'Masculino', '1726567056689.png', 1, '2024-09-17 10:57:36', NULL, '2024-09-27 00:04:01', 2, 1);
 INSERT INTO `pessoa` VALUES (4, 'Daniel vaz', '2024-09-19', 'Masculino', NULL, 1, '2024-09-17 11:48:37', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (5, 'Filipe Mbassi', '1997-01-06', 'Masculino', '1726570230408.png', 1, '2024-09-17 11:50:30', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (6, 'Pedro VAZ', '2009-12-29', 'Masculino', NULL, 1, '2024-09-17 11:50:30', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (7, 'Ivone Calelesa Antonio', '1998-05-21', 'Masculino', '1727141550875.png', 1, '2024-09-24 02:32:30', NULL, '2024-09-27 00:04:01', 3, 1);
-INSERT INTO `pessoa` VALUES (8, 'Sebastião Lisboa', '1997-04-19', 'Masculino', '1727142425750.png', 1, '2024-09-24 02:47:05', NULL, '2024-09-27 00:04:01', 4, 1);
-INSERT INTO `pessoa` VALUES (9, 'Ivone Lisboa', '1989-09-22', 'Feminino', '1727216542801.png', 1, '2024-09-24 23:22:22', NULL, '2024-09-27 00:04:01', 5, 1);
-INSERT INTO `pessoa` VALUES (10, 'Pedro Filipe Mukenga', '2024-09-19', 'Masculino', '1727300297769.jpg', 1, '2024-09-25 22:38:17', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (11, 'Filipe Mukenga', '2024-09-23', 'Masculino', NULL, 1, '2024-09-25 22:38:17', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (12, 'Osvaldo Japao', '2024-09-18', 'Masculino', '1727300362200.png', 1, '2024-09-25 22:39:22', NULL, '2024-10-09 22:46:26', 2, 1);
-INSERT INTO `pessoa` VALUES (13, 'Spriano Japão', '2024-09-26', 'Masculino', NULL, 1, '2024-09-25 22:39:22', NULL, '2024-10-09 22:44:46', 2, 1);
-INSERT INTO `pessoa` VALUES (14, 'Carlos Felix Milagre', '2024-09-18', 'Masculino', '1727300411330.png', 1, '2024-09-25 22:40:11', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (15, 'Frliciano Milagre', '2024-09-20', 'Masculino', NULL, 1, '2024-09-25 22:40:11', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (16, 'Marlene Darlynd', '2024-09-20', 'Masculino', '1727300454904.png', 1, '2024-09-25 22:40:54', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (17, 'Marlene Sara Darling', '2024-10-11', 'Masculino', NULL, 1, '2024-09-25 22:40:55', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (18, 'Kamate Mateus', '2024-10-05', 'Masculino', '1727300526464.png', 1, '2024-09-25 22:42:06', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (19, 'OSvaldo Mateus', '2024-09-26', 'Masculino', NULL, 1, '2024-09-25 22:42:06', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (20, 'Serafim Mendes', '2024-09-21', 'Masculino', NULL, 1, '2024-09-25 22:43:26', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (21, 'Sá Mendes', '2024-09-04', 'Feminino', NULL, 1, '2024-09-25 22:43:26', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (22, 'Serafim Mendes', '2024-09-21', 'Masculino', NULL, 1, '2024-09-25 22:43:40', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (23, 'Sá Mendes', '2024-09-04', 'Feminino', NULL, 1, '2024-09-25 22:43:40', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (24, 'Simão Afonso', '2024-09-10', 'Masculino', '1727300686242.jpg', 1, '2024-09-25 22:44:46', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (25, 'Afonso Afonso', '2024-09-21', 'Masculino', NULL, 1, '2024-09-25 22:44:46', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (26, 'Famer Gamba', '2024-09-14', 'Masculino', '1727300730662.jpg', 1, '2024-09-25 22:45:30', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (27, 'Mateus Gamba', '2024-09-30', 'Masculino', NULL, 1, '2024-09-25 22:45:30', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (28, 'Simão Catembo', '2024-09-27', 'Masculino', '1727300834155.png', 1, '2024-09-25 22:47:14', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (29, 'Simao Catembo', '2024-09-26', 'Masculino', NULL, 1, '2024-09-25 22:47:14', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (30, 'Oseias André', '2024-09-08', 'Masculino', '1727300881280.png', 1, '2024-09-25 22:48:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (31, 'Pedro André', '2024-09-28', 'Masculino', NULL, 1, '2024-09-25 22:48:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (32, 'Jonas Dos Santos', '2024-09-19', 'Masculino', '1727300941337.png', 1, '2024-09-25 22:49:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (33, 'Diana dos Santos', '2024-09-25', 'Feminino', NULL, 1, '2024-09-25 22:49:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (34, 'José Alvaro', '2024-09-20', 'Masculino', '1727301024477.png', 1, '2024-09-25 22:50:24', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (35, 'Pdro Alvaro', '2024-09-24', 'Masculino', NULL, 1, '2024-09-25 22:50:24', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (36, 'Orvanda Neto', '2024-09-04', 'Feminino', '1727301077071.png', 1, '2024-09-25 22:51:17', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (37, 'Famer Neto', '2024-09-07', 'Masculino', NULL, 1, '2024-09-25 22:51:17', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (38, 'Omar André', '2024-09-03', 'Masculino', '1727301134457.png', 1, '2024-09-25 22:52:14', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (39, 'Catembo André', '2024-09-22', 'Masculino', NULL, 1, '2024-09-25 22:52:14', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (40, 'Tiago Arão', '2024-09-19', 'Masculino', '1727376202832.png', 1, '2024-09-26 19:43:22', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (41, 'Simao Arão', '2024-09-16', 'Masculino', NULL, 1, '2024-09-26 19:43:22', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (42, 'Arieth Ndonfula', '2024-09-26', 'Feminino', '1727376294332.png', 1, '2024-09-26 19:44:54', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (43, 'Vania Ndofula', '1999-02-22', 'Masculino', NULL, 1, '2024-09-26 19:44:54', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (44, 'Sofia Pedro', '1980-02-24', 'Feminino', '1727376361333.png', 1, '2024-09-26 19:46:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (45, 'Amadeu Pedro', '1989-02-02', 'Masculino', NULL, 1, '2024-09-26 19:46:01', NULL, '2024-09-27 00:04:01', NULL, 1);
-INSERT INTO `pessoa` VALUES (46, 'Orvanda', '2024-09-19', 'Feminino', '1727392217670.png', 1, '2024-09-27 00:10:17', NULL, '2024-09-27 00:35:06', 1, 2);
-INSERT INTO `pessoa` VALUES (47, 'Sousa Neto', '2024-09-26', 'Masculino', '1727392581646.png', 1, '2024-09-27 00:16:21', NULL, '2024-09-27 00:34:02', 2, 7);
-INSERT INTO `pessoa` VALUES (48, 'Maria Lisboa', '1995-05-05', 'Feminino', '1727438197934.jpg', 1, '2024-09-27 12:56:37', NULL, '2024-09-27 12:56:37', 8, 7);
-INSERT INTO `pessoa` VALUES (49, 'Sebas Anto Dias', '2020-12-12', 'Masculino', '1727449675116.jpg', 1, '2024-09-27 16:07:55', NULL, '2024-09-27 16:07:55', 9, 1);
-INSERT INTO `pessoa` VALUES (50, 'Elisio Jorge Claudio Neto', '1990-12-12', 'Masculino', '1727450360383.jpg', 1, '2024-09-27 16:19:20', NULL, '2024-09-27 16:19:20', 10, 1);
-INSERT INTO `pessoa` VALUES (51, 'Sebastião Lisboa', '2024-08-28', 'Masculino', '1727450551154.jpg', 1, '2024-09-27 16:22:31', NULL, '2024-09-27 16:22:31', 11, 1);
-INSERT INTO `pessoa` VALUES (52, 'Ricardo Lopes', '2024-09-24', 'Masculino', '1727567254398.png', 1, '2024-09-29 00:47:34', NULL, '2024-09-29 00:47:34', 12, 1);
-INSERT INTO `pessoa` VALUES (53, 'Mufema Inês', '1221-02-22', 'Feminino', '1727654099196.png', 1, '2024-09-30 00:54:59', NULL, '2024-09-30 00:58:37', 2, 2);
-INSERT INTO `pessoa` VALUES (54, 'gfhfgyjh', '2024-09-14', 'Masculino', '1727654127681.png', 1, '2024-09-30 00:55:27', NULL, '2024-09-30 00:55:27', 3, 4);
-INSERT INTO `pessoa` VALUES (55, 'MArilha Mendonça', '1111-02-11', 'Feminino', '1727654848632.png', 1, '2024-09-30 01:07:28', NULL, '2024-09-30 01:07:28', 15, 1);
-INSERT INTO `pessoa` VALUES (56, 'ASfgjkn skfnkldnsl', '1998-06-10', 'Masculino', '1727690138448.jpg', 1, '2024-09-30 10:55:38', NULL, '2024-09-30 10:55:38', 6, 2);
-INSERT INTO `pessoa` VALUES (57, 'Maria Lisboa Filha', '2003-09-12', 'Feminino', '1727757279588.jpg', 1, '2024-10-01 05:34:39', NULL, '2024-10-01 05:34:39', 16, 10);
-INSERT INTO `pessoa` VALUES (58, 'Maria Lisboa Filha', '2012-05-15', 'Feminino', '1727757705276.jpg', 1, '2024-10-01 05:41:45', NULL, '2024-10-01 05:41:45', 16, 10);
-INSERT INTO `pessoa` VALUES (59, 'Jerusa Siladas', '2017-04-04', 'Feminino', '1727758384541.webp', 1, '2024-10-01 05:53:04', NULL, '2024-10-01 05:53:04', 17, 14);
+INSERT INTO `pessoa` VALUES (60, 'Sebastião Augusto Lisboa António', '1998-12-12', 'Masculino', NULL, 1, '2024-10-26 12:30:39', NULL, '2024-10-26 12:30:39', NULL, 6);
+INSERT INTO `pessoa` VALUES (61, 'Sebanoide Juninho', '1990-04-12', 'Masculino', NULL, 1, '2024-10-26 22:45:44', NULL, '2024-10-26 22:45:44', NULL, 3);
+INSERT INTO `pessoa` VALUES (62, 'Albino Jorge', '1990-02-11', 'Masculino', NULL, 1, '2024-10-26 23:01:24', NULL, '2024-10-26 23:01:24', NULL, 6);
+INSERT INTO `pessoa` VALUES (63, 'Albino Jorge 3', '1990-02-11', 'Masculino', NULL, 1, '2024-10-26 23:03:29', NULL, '2024-10-26 23:03:29', NULL, 6);
 
 -- ----------------------------
 -- Table structure for posto
@@ -576,8 +503,8 @@ CREATE TABLE `posto`  (
   `nome` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `sigla` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -589,6 +516,63 @@ INSERT INTO `posto` VALUES (1, 'Tenente', 'TNT', 1, '2024-10-20 10:45:13', '2024
 INSERT INTO `posto` VALUES (2, 'Civil', 'CV', 1, '2024-10-20 10:45:24', '2024-10-20 10:45:32', NULL);
 
 -- ----------------------------
+-- Table structure for postosmilitares
+-- ----------------------------
+DROP TABLE IF EXISTS `postosmilitares`;
+CREATE TABLE `postosmilitares`  (
+  `Posto_Id` smallint NOT NULL,
+  `Cod_categoria` tinyint NULL DEFAULT NULL,
+  `Posto` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `PostoAbrev` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `Equiv` tinyint NULL DEFAULT NULL,
+  PRIMARY KEY (`Posto_Id`) USING BTREE,
+  INDEX `Cod_categoria`(`Cod_categoria` ASC) USING BTREE,
+  CONSTRAINT `postosmilitares_ibfk_1` FOREIGN KEY (`Cod_categoria`) REFERENCES `tbcategoriapatente` (`CodCategoriaPatente`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of postosmilitares
+-- ----------------------------
+INSERT INTO `postosmilitares` VALUES (100, 1, 'GENERAL CEMG', 'GCEM', 1);
+INSERT INTO `postosmilitares` VALUES (101, 1, 'GENERAL  (CEM/GA/R)', 'GCEA', 2);
+INSERT INTO `postosmilitares` VALUES (102, 1, 'GENERAL-DE-EXERCITO', 'GENEX', 3);
+INSERT INTO `postosmilitares` VALUES (103, 1, 'ALMIRANTE DE ARMADA', 'ALMA', 3);
+INSERT INTO `postosmilitares` VALUES (104, 1, 'GENERAL DE AVIAÇAO', 'GENA', 3);
+INSERT INTO `postosmilitares` VALUES (105, 1, 'GENERAL', 'GEN', 4);
+INSERT INTO `postosmilitares` VALUES (106, 1, 'ALMIRANTE', 'ALM', 4);
+INSERT INTO `postosmilitares` VALUES (107, 1, 'T. GENERAL', 'TGEN', 5);
+INSERT INTO `postosmilitares` VALUES (108, 1, 'VICE-ALMIRANTE', 'VALM', 5);
+INSERT INTO `postosmilitares` VALUES (109, 1, 'BRIGADEIRO', 'BRIG', 6);
+INSERT INTO `postosmilitares` VALUES (110, 1, 'CONTRA-ALMIRANTE', 'CALM', 6);
+INSERT INTO `postosmilitares` VALUES (111, 1, 'CORONEL', 'COR', 7);
+INSERT INTO `postosmilitares` VALUES (112, 1, 'CAP. DE-MAR-E-GUERRA', 'CMG', 7);
+INSERT INTO `postosmilitares` VALUES (113, 1, 'T. CORONEL', 'TCOR', 8);
+INSERT INTO `postosmilitares` VALUES (114, 1, 'CAP. DE FRAGATA', 'CFR', 8);
+INSERT INTO `postosmilitares` VALUES (115, 1, 'MAJOR', 'MAJ', 9);
+INSERT INTO `postosmilitares` VALUES (116, 1, 'CAP. DE CORVETA', 'CCV', 9);
+INSERT INTO `postosmilitares` VALUES (117, 1, 'CAPITAO', 'CAP', 10);
+INSERT INTO `postosmilitares` VALUES (118, 1, 'TTE DE NAVIO', 'TTN', 10);
+INSERT INTO `postosmilitares` VALUES (119, 1, 'TTE DE FRAGATA', 'TTF', 11);
+INSERT INTO `postosmilitares` VALUES (120, 1, 'TENENTE', 'TTE', 11);
+INSERT INTO `postosmilitares` VALUES (121, 1, 'SUB-TENENTE', 'STT', 12);
+INSERT INTO `postosmilitares` VALUES (122, 1, 'TTE DE CORVETA', 'TTC', 12);
+INSERT INTO `postosmilitares` VALUES (123, 1, 'ASPIRANTE', 'ASP', 13);
+INSERT INTO `postosmilitares` VALUES (125, 2, 'SARGENTO MAIOR', 'SGTM', 14);
+INSERT INTO `postosmilitares` VALUES (126, 2, 'SARGENTO-CHEFE', 'SGTC', 15);
+INSERT INTO `postosmilitares` VALUES (127, 2, 'SARGENTO-AJUDANTE', 'SGTA', 16);
+INSERT INTO `postosmilitares` VALUES (128, 2, '1º SARGENTO', '1SGT', 17);
+INSERT INTO `postosmilitares` VALUES (129, 2, '2º SARGENTO', '2SGT', 18);
+INSERT INTO `postosmilitares` VALUES (130, 2, 'SUB-SARGENTO', 'SSGT', 19);
+INSERT INTO `postosmilitares` VALUES (131, 3, '1º CABO', '1CB', 20);
+INSERT INTO `postosmilitares` VALUES (132, 3, 'CABO', 'CB', 20);
+INSERT INTO `postosmilitares` VALUES (133, 3, '2º CABO', '2CB', 22);
+INSERT INTO `postosmilitares` VALUES (134, 3, 'MARINHEIRO', 'MR', 22);
+INSERT INTO `postosmilitares` VALUES (135, 3, 'GRUMETE', 'GR', 23);
+INSERT INTO `postosmilitares` VALUES (136, 3, 'SOLDADO', 'SOL', 23);
+INSERT INTO `postosmilitares` VALUES (137, 3, 'RECRUTA', 'RECR', 24);
+INSERT INTO `postosmilitares` VALUES (138, 4, 'CIVIL', 'CVL', 60);
+
+-- ----------------------------
 -- Table structure for provincia
 -- ----------------------------
 DROP TABLE IF EXISTS `provincia`;
@@ -596,9 +580,9 @@ CREATE TABLE `provincia`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -635,31 +619,43 @@ CREATE TABLE `relatorios`  (
   `data_criacao` date NULL DEFAULT NULL,
   `observacoes_finais` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao_registro` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `tecnico_cessante_id`(`tecnico_cessante_id` ASC) USING BTREE,
-  INDEX `tecnico_entrante_id`(`tecnico_entrante_id` ASC) USING BTREE,
-  CONSTRAINT `relatorios_ibfk_1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `tecnicos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `relatorios_ibfk_2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `tecnicos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `fk_relatorios_pessoa1_idx`(`tecnico_cessante_id` ASC) USING BTREE,
+  INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
+  CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
 -- ----------------------------
-INSERT INTO `relatorios` VALUES (1, 1, 2, '2024-10-20', 'os sistemas foram todos assegurdos duarante as minhas 24 horas', 1, '2024-10-20 11:59:40', '2024-10-20 12:02:23', NULL);
-INSERT INTO `relatorios` VALUES (2, 1, 2, '2024-10-20', 'tudo funcionouu plenamente durante as 24 horas', 1, '2024-10-20 12:07:51', '2024-10-20 12:15:10', NULL);
-INSERT INTO `relatorios` VALUES (3, 1, 2, '2024-10-20', 'hjkljkl', 1, '2024-10-20 15:52:11', '2024-10-20 17:34:14', NULL);
-INSERT INTO `relatorios` VALUES (4, NULL, NULL, NULL, NULL, 1, '2024-10-20 17:34:42', '2024-10-20 17:34:42', NULL);
-INSERT INTO `relatorios` VALUES (5, 1, 2, '2024-10-20', 'tudo se ebcontra em pleno funcionamento', 1, '2024-10-20 17:34:43', '2024-10-20 18:12:48', NULL);
-INSERT INTO `relatorios` VALUES (6, 1, 2, '2024-10-20', 'Tudo esta bem', 1, '2024-10-20 18:13:05', '2024-10-20 18:22:25', NULL);
-INSERT INTO `relatorios` VALUES (7, 1, 2, '2024-10-20', 'Tudo correu bem sem nada acreser', 1, '2024-10-20 18:22:46', '2024-10-20 21:11:19', NULL);
-INSERT INTO `relatorios` VALUES (8, 1, 1, '2024-10-20', 'Tudo funcionando', 1, '2024-10-20 21:18:15', '2024-10-20 22:23:18', NULL);
-INSERT INTO `relatorios` VALUES (9, NULL, NULL, NULL, NULL, 1, '2024-10-20 22:46:55', '2024-10-20 22:46:55', NULL);
-INSERT INTO `relatorios` VALUES (10, NULL, NULL, NULL, NULL, 1, '2024-10-20 23:05:45', '2024-10-20 23:05:45', NULL);
-INSERT INTO `relatorios` VALUES (11, 1, 2, '2024-10-20', 'dsfdsf', 1, '2024-10-20 23:06:38', '2024-10-20 23:07:36', NULL);
-INSERT INTO `relatorios` VALUES (12, 1, 2, '2024-10-23', 'Durante as 24h não se verificou nada ', 1, '2024-10-23 09:33:43', '2024-10-23 09:39:18', NULL);
+INSERT INTO `relatorios` VALUES (1, 1, 2, '2024-10-20', 'os sistemas foram todos assegurdos duarante as minhas 24 horas', 1, '2024-10-20 11:59:40', '2024-10-26 23:22:08', NULL);
+INSERT INTO `relatorios` VALUES (2, 1, 2, '2024-10-20', 'tudo funcionouu plenamente durante as 24 horas', 1, '2024-10-20 12:07:51', '2024-10-26 23:22:19', NULL);
+INSERT INTO `relatorios` VALUES (3, 2, 1, '2024-10-20', 'hjkljkl', 1, '2024-10-20 15:52:11', '2024-10-26 23:22:29', NULL);
+INSERT INTO `relatorios` VALUES (4, 2, 1, NULL, NULL, 1, '2024-10-20 17:34:42', '2024-10-26 23:22:46', NULL);
+INSERT INTO `relatorios` VALUES (5, 63, 2, '2024-10-20', 'tudo se ebcontra em pleno funcionamento', 1, '2024-10-20 17:34:43', '2024-10-26 23:22:58', NULL);
+INSERT INTO `relatorios` VALUES (6, 1, 2, '2024-10-20', 'Tudo esta bem', 1, '2024-10-20 18:13:05', '2024-10-26 23:23:21', NULL);
+INSERT INTO `relatorios` VALUES (7, 0, 0, '2024-10-20', 'Tudo correu bem sem nada acreser', 1, '2024-10-20 18:22:46', '2024-10-20 21:11:19', NULL);
+INSERT INTO `relatorios` VALUES (8, 0, 0, '2024-10-20', 'Tudo funcionando', 1, '2024-10-20 21:18:15', '2024-10-20 22:23:18', NULL);
+INSERT INTO `relatorios` VALUES (9, 0, 0, NULL, NULL, 1, '2024-10-20 22:46:55', '2024-10-20 22:46:55', NULL);
+INSERT INTO `relatorios` VALUES (10, 0, 0, NULL, NULL, 1, '2024-10-20 23:05:45', '2024-10-20 23:05:45', NULL);
+INSERT INTO `relatorios` VALUES (11, 0, 0, '2024-10-20', 'dsfdsf', 1, '2024-10-20 23:06:38', '2024-10-20 23:07:36', NULL);
+INSERT INTO `relatorios` VALUES (12, 0, 0, '2024-10-23', 'Durante as 24h não se verificou nada ', 1, '2024-10-23 09:33:43', '2024-10-23 09:39:18', NULL);
+INSERT INTO `relatorios` VALUES (13, 0, 0, NULL, NULL, 1, '2024-10-23 19:51:08', '2024-10-23 19:51:08', NULL);
+INSERT INTO `relatorios` VALUES (15, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:11:43', '2024-10-27 10:11:43', NULL);
+INSERT INTO `relatorios` VALUES (16, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:12:17', '2024-10-27 10:12:17', NULL);
+INSERT INTO `relatorios` VALUES (17, NULL, NULL, NULL, NULL, 1, '2024-10-27 10:12:48', '2024-10-27 10:12:48', NULL);
+INSERT INTO `relatorios` VALUES (18, 1, 2, '2024-10-17', 'rfgf', 1, '2024-10-27 10:14:35', '2024-10-27 10:14:35', NULL);
+INSERT INTO `relatorios` VALUES (19, NULL, NULL, NULL, NULL, 1, '2024-10-27 22:37:36', '2024-10-27 22:37:36', NULL);
+INSERT INTO `relatorios` VALUES (20, NULL, NULL, NULL, NULL, 1, '2024-10-27 22:39:57', '2024-10-27 22:39:57', NULL);
+INSERT INTO `relatorios` VALUES (21, 2, 1, '2024-10-27', 'gfxbvx', 1, '2024-10-27 22:42:28', '2024-10-27 22:49:38', NULL);
+INSERT INTO `relatorios` VALUES (22, 2, 1, '2024-10-27', 'mn,mn,', 1, '2024-10-27 22:50:05', '2024-10-27 22:51:06', NULL);
+INSERT INTO `relatorios` VALUES (23, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
+INSERT INTO `relatorios` VALUES (24, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
+INSERT INTO `relatorios` VALUES (25, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:33:29', '2024-10-27 23:33:29', NULL);
 
 -- ----------------------------
 -- Table structure for situacao
@@ -669,8 +665,8 @@ CREATE TABLE `situacao`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -686,24 +682,24 @@ INSERT INTO `situacao` VALUES (2, 'VOIP', 1, '2024-10-20 10:47:03', '2024-10-20 
 -- ----------------------------
 DROP TABLE IF EXISTS `tecnicos`;
 CREATE TABLE `tecnicos`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `telefone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `id` int NOT NULL,
+  `posto_id` smallint NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `posto_id` int NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_tecnicos_posto1_idx`(`posto_id` ASC) USING BTREE,
-  CONSTRAINT `fk_tecnicos_posto1` FOREIGN KEY (`posto_id`) REFERENCES `posto` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `fk_tecnicos_pessoa1_idx`(`id` ASC) USING BTREE,
+  CONSTRAINT `fk_tecnicos_pessoa1` FOREIGN KEY (`id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `tecnicos_ibfk_1` FOREIGN KEY (`posto_id`) REFERENCES `postosmilitares` (`Posto_Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tecnicos
 -- ----------------------------
-INSERT INTO `tecnicos` VALUES (1, 'Bruno', '24354546', 1, '2024-10-20 10:45:54', '2024-10-20 10:45:54', NULL, 1);
-INSERT INTO `tecnicos` VALUES (2, 'Sebastiao', '13123', 1, '2024-10-20 10:46:17', '2024-10-20 10:46:17', NULL, 2);
+INSERT INTO `tecnicos` VALUES (2, 117, 1, '2024-10-20 10:45:54', '2024-10-26 23:30:33', NULL);
+INSERT INTO `tecnicos` VALUES (1, 120, 1, '2024-10-20 10:46:17', '2024-10-26 16:08:39', NULL);
+INSERT INTO `tecnicos` VALUES (63, 120, 1, '2024-10-26 23:03:29', '2024-10-26 23:03:29', NULL);
 
 -- ----------------------------
 -- Table structure for tipousuario
@@ -714,9 +710,9 @@ CREATE TABLE `tipousuario`  (
   `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -724,7 +720,7 @@ CREATE TABLE `tipousuario`  (
 -- Records of tipousuario
 -- ----------------------------
 INSERT INTO `tipousuario` VALUES (1, 'Admin', 'pessoa que faz a manutençãoi e configuração do sistema', 1, '2024-09-17 09:37:56', NULL, '2024-09-17 09:37:56');
-INSERT INTO `tipousuario` VALUES (2, 'Professor', 'pessoa responsavel por avaliar alunos e dar aulas', 1, '2024-09-17 09:38:34', NULL, '2024-09-17 09:38:34');
+INSERT INTO `tipousuario` VALUES (2, 'Tecnico', 'pessoa responsavel por reportar', 1, '2024-09-17 09:38:34', NULL, '2024-10-27 19:45:02');
 
 -- ----------------------------
 -- Table structure for usuario
@@ -741,64 +737,81 @@ CREATE TABLE `usuario`  (
   `view_permissao` tinyint(1) NULL DEFAULT 1,
   `create_permissao` tinyint(1) NULL DEFAULT 0,
   `estado` tinyint(1) NULL DEFAULT 1,
-  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
-  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `pessoa_id`(`pessoa_id` ASC) USING BTREE,
   INDEX `tipo_usuario_id`(`tipo_usuario_id` ASC) USING BTREE,
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`tipo_usuario_id`) REFERENCES `tipousuario` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 1, 'dias', '$2a$10$vsPH8QlmVRUe0xj2sQhi1uLa3FnKnf7AqIJuyNUQGxc5MWXFu3FZy', 1, 1, 1, 1, 1, 1, '2024-09-17 09:39:03', NULL, '2024-09-23 20:23:20');
 INSERT INTO `usuario` VALUES (2, 2, 'isana', '$2a$10$4uKMLmfCPJd94plHQI8fYuPZMH9M4r4pzgKfIZ.bpzXcHlqjwIOMa', 2, 0, 1, 1, 0, 0, '2024-09-23 20:26:21', NULL, '2024-10-23 08:50:45');
-INSERT INTO `usuario` VALUES (3, 3, 'APT', '$2a$10$x9GbJzEc.mDCrU8mTuwCB.CFt76bWVooEJkCOHEbREBwdmMP52G0O', 2, 1, 1, 1, 1, 1, '2024-10-03 20:17:31', NULL, '2024-10-03 20:17:31');
-INSERT INTO `usuario` VALUES (4, 53, 'ines', '$2a$10$O5cMAqt6WNIIOnXMvUiph.MAokVefN5VQZRU7nXjtJmp3XmuSuoZS', 3, 1, 1, 1, 1, 1, '2024-10-09 07:06:22', NULL, '2024-10-09 07:06:22');
+INSERT INTO `usuario` VALUES (5, 63, 'AJ', '$2a$10$TcHGFCzcBQRU0tFL3fNiDuwZ.SGcSIz.RrpGGbhbv7tJ6LEYjThAy', 2, 1, 1, 1, 1, 1, '2024-10-27 19:49:46', NULL, '2024-10-27 19:49:46');
 
 -- ----------------------------
 -- View structure for view_equipamento
 -- ----------------------------
 DROP VIEW IF EXISTS `view_equipamento`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_equipamento` AS select `equipamento`.`id` AS `id`,`equipamento`.`equipamentos_id` AS `equipamentos_id`,`equipamento`.`relatorios_id` AS `relatorios_id`,`equipamento`.`quantidade` AS `quantidade`,`equipamento`.`status` AS `status`,`equipamento`.`localizacao` AS `localizacao`,`equipamentos`.`nome` AS `nome`,`equipamento`.`estado` AS `estado` from (`equipamento` join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_equipamento` AS select `equipamento`.`id` AS `id`,`equipamento`.`equipamentos_id` AS `equipamentos_id`,`equipamento`.`relatorios_id` AS `relatorios_id`,`equipamento`.`quantidade` AS `quantidade`,`equipamento`.`status` AS `status`,`equipamento`.`localizacao` AS `localizacao`,`equipamentos`.`nome` AS `nome`,`equipamento`.`estado` AS `estado` from (`equipamento` join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`)));
+
+-- ----------------------------
+-- View structure for view_municipios
+-- ----------------------------
+DROP VIEW IF EXISTS `view_municipios`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_municipios` AS select `municipio`.`id` AS `id`,`municipio`.`nome` AS `nome`,`municipio`.`provincia_id` AS `provincia_id`,`provincia`.`nome` AS `provincia` from (`municipio` join `provincia` on((`municipio`.`provincia_id` = `provincia`.`id`)));
 
 -- ----------------------------
 -- View structure for view_observacao
 -- ----------------------------
 DROP VIEW IF EXISTS `view_observacao`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`)));
 
 -- ----------------------------
 -- View structure for view_pessoas
 -- ----------------------------
 DROP VIEW IF EXISTS `view_pessoas`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_pessoas` AS select `pessoa`.`id` AS `id`,`pessoa`.`nome` AS `nome`,concat(`provincia`.`nome`,', ',`municipio`.`nome`,', ',`endereco`.`bairro`,', ',`endereco`.`numero_casa`) AS `endereco_completo`,`pessoa`.`genero` AS `genero`,`pessoa`.`data_nascimento` AS `data_nascimento`,`pessoa`.`endereco_id` AS `endereco_id`,`pessoa`.`imagem` AS `imagem`,`naturalidade`.`nome` AS `naturalidade` from ((((`pessoa` join `endereco` on((`pessoa`.`endereco_id` = `endereco`.`id`))) join `municipio` on((`endereco`.`municipio_id` = `municipio`.`id`))) join `provincia` on((`municipio`.`provincia_id` = `provincia`.`id`))) join `municipio` `naturalidade` on((`pessoa`.`municipio_id` = `naturalidade`.`id`))) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_pessoas` AS select `pessoa`.`id` AS `id`,`pessoa`.`nome` AS `nome`,`pessoa`.`genero` AS `genero`,`pessoa`.`data_nascimento` AS `data_nascimento`,`pessoa`.`imagem` AS `imagem`,`naturalidade`.`nome` AS `naturalidade` from (`pessoa` join `municipio` `naturalidade` on((`pessoa`.`municipio_id` = `naturalidade`.`id`)));
+
+-- ----------------------------
+-- View structure for view_postos
+-- ----------------------------
+DROP VIEW IF EXISTS `view_postos`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_postos` AS select `postosmilitares`.`Posto_Id` AS `id`,`postosmilitares`.`Posto` AS `posto`,`postosmilitares`.`PostoAbrev` AS `postoAbrev` from `postosmilitares`;
 
 -- ----------------------------
 -- View structure for view_relatorio
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS select `entrante`.`nome` AS `entrante`,`cessante`.`nome` AS `cessante`,`relatorios`.`id` AS `id`,`relatorios`.`tecnico_cessante_id` AS `tecnico_cessante_id`,`relatorios`.`tecnico_entrante_id` AS `tecnico_entrante_id`,`relatorios`.`data_criacao` AS `data_criacao`,`relatorios`.`observacoes_finais` AS `observacoes_finais`,`relatorios`.`estado` AS `estado` from ((`relatorios` join `tecnicos` `entrante` on((`relatorios`.`tecnico_cessante_id` = `entrante`.`id`))) join `tecnicos` `cessante` on((`relatorios`.`tecnico_entrante_id` = `cessante`.`id`))) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio` AS select `relatorios`.`id` AS `id`,`relatorios`.`tecnico_cessante_id` AS `tecnico_cessante_id`,`relatorios`.`tecnico_entrante_id` AS `tecnico_entrante_id`,`relatorios`.`data_criacao` AS `data_criacao`,`relatorios`.`observacoes_finais` AS `observacoes_finais`,`relatorios`.`estado` AS `estado`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante` from ((((((`relatorios` join `pessoa` `pcessante` on((`relatorios`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`relatorios`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`)));
 
 -- ----------------------------
 -- View structure for view_relatorio_all
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_all`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS select `r`.`id` AS `id`,`r`.`data_criacao` AS `data_criacao`,`s`.`nome` AS `Situacao`,group_concat(distinct `o`.`descricao` separator '; ') AS `descricao`,group_concat(distinct `e`.`nome` separator '; ') AS `Meio`,sum(`eq`.`quantidade`) AS `quantidade`,group_concat(distinct `eq`.`status` separator '; ') AS `status`,group_concat(distinct `eq`.`localizacao` separator '; ') AS `localizacao`,`entrante`.`nome` AS `entrante`,`cessante`.`nome` AS `cessante`,`r`.`estado` AS `estado` from ((((((`relatorios` `r` join `equipamento` `eq` on((`r`.`id` = `eq`.`relatorios_id`))) join `observacao` `o` on((`r`.`id` = `o`.`relatorios_id`))) join `situacao` `s` on((`o`.`situacao_id` = `s`.`id`))) join `equipamentos` `e` on((`eq`.`equipamentos_id` = `e`.`id`))) join `tecnicos` `cessante` on((`r`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`r`.`tecnico_entrante_id` = `entrante`.`id`))) group by `r`.`id`,`s`.`nome`,`entrante`.`nome`,`cessante`.`nome`,`r`.`estado` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_all` AS select `r`.`id` AS `id`,`r`.`data_criacao` AS `data_criacao`,`s`.`nome` AS `Situacao`,group_concat(distinct `o`.`descricao` separator '; ') AS `descricao`,group_concat(distinct `e`.`nome` separator '; ') AS `Meio`,sum(`eq`.`quantidade`) AS `quantidade`,group_concat(distinct `eq`.`status` separator '; ') AS `status`,group_concat(distinct `eq`.`localizacao` separator '; ') AS `localizacao`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante`,`r`.`estado` AS `estado` from ((((((((((`relatorios` `r` join `equipamento` `eq` on((`r`.`id` = `eq`.`relatorios_id`))) join `observacao` `o` on((`r`.`id` = `o`.`relatorios_id`))) join `situacao` `s` on((`o`.`situacao_id` = `s`.`id`))) join `equipamentos` `e` on((`eq`.`equipamentos_id` = `e`.`id`))) join `pessoa` `pcessante` on((`r`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`r`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`))) group by `r`.`id`,`r`.`data_criacao`,`s`.`nome`,`pcessante`.`nome`,`pentrante`.`nome`,`tp_cessante`.`Posto`,`tp_entrante`.`Posto`,`r`.`estado`;
 
 -- ----------------------------
 -- View structure for view_relatorio_grupo
 -- ----------------------------
 DROP VIEW IF EXISTS `view_relatorio_grupo`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS select `relatorios`.`id` AS `id`,`relatorios`.`data_criacao` AS `data_criacao`,`situacao`.`nome` AS `Situacao`,group_concat(distinct `observacao`.`descricao` separator ', ') AS `Observacoes`,group_concat(distinct `equipamentos`.`nome` separator ', ') AS `Meios`,group_concat(distinct `equipamento`.`quantidade` separator ', ') AS `Quantidades`,group_concat(distinct `equipamento`.`status` separator ', ') AS `Status`,group_concat(distinct `equipamento`.`localizacao` separator ', ') AS `Localizacoes`,`entrante`.`nome` AS `Entrante`,`cessante`.`nome` AS `Cessante` from ((((((`relatorios` join `equipamento` on((`relatorios`.`id` = `equipamento`.`relatorios_id`))) join `observacao` on((`relatorios`.`id` = `observacao`.`relatorios_id`))) join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) join `tecnicos` `cessante` on((`relatorios`.`tecnico_cessante_id` = `cessante`.`id`))) join `tecnicos` `entrante` on((`relatorios`.`tecnico_entrante_id` = `entrante`.`id`))) group by `relatorios`.`id`,`relatorios`.`data_criacao`,`situacao`.`nome`,`entrante`.`nome`,`cessante`.`nome` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_relatorio_grupo` AS select `relatorios`.`id` AS `id`,`relatorios`.`data_criacao` AS `data_criacao`,`situacao`.`nome` AS `Situacao`,group_concat(distinct `observacao`.`descricao` separator ', ') AS `Observacoes`,group_concat(distinct `equipamentos`.`nome` separator ', ') AS `Meios`,group_concat(distinct `equipamento`.`quantidade` separator ', ') AS `Quantidades`,group_concat(distinct `equipamento`.`status` separator ', ') AS `Status`,group_concat(distinct `equipamento`.`localizacao` separator ', ') AS `Localizacoes`,`pcessante`.`nome` AS `cessante`,`pentrante`.`nome` AS `entrante`,`tp_cessante`.`Posto` AS `posto_cessante`,`tp_entrante`.`Posto` AS `posto_entrante` from ((((((((((`relatorios` join `equipamento` on((`relatorios`.`id` = `equipamento`.`relatorios_id`))) join `observacao` on((`relatorios`.`id` = `observacao`.`relatorios_id`))) join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))) join `equipamentos` on((`equipamento`.`equipamentos_id` = `equipamentos`.`id`))) join `pessoa` `pcessante` on((`relatorios`.`tecnico_cessante_id` = `pcessante`.`id`))) join `pessoa` `pentrante` on((`relatorios`.`tecnico_entrante_id` = `pentrante`.`id`))) join `tecnicos` `tcessante` on((`pcessante`.`id` = `tcessante`.`id`))) join `tecnicos` `tentrante` on((`pentrante`.`id` = `tentrante`.`id`))) join `postosmilitares` `tp_cessante` on((`tcessante`.`posto_id` = `tp_cessante`.`Posto_Id`))) join `postosmilitares` `tp_entrante` on((`tentrante`.`posto_id` = `tp_entrante`.`Posto_Id`))) group by `relatorios`.`id`,`relatorios`.`data_criacao`,`situacao`.`nome`,`pcessante`.`nome`,`pentrante`.`nome`,`tp_cessante`.`Posto`,`tp_entrante`.`Posto`;
+
+-- ----------------------------
+-- View structure for view_tecnicos
+-- ----------------------------
+DROP VIEW IF EXISTS `view_tecnicos`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_tecnicos` AS select `pessoa`.`imagem` AS `imagem`,`tecnicos`.`id` AS `id`,`pessoa`.`nome` AS `nome`,`tecnicos`.`posto_id` AS `posto_id`,`tecnicos`.`estado` AS `estado`,`postosmilitares`.`Posto` AS `Posto`,`postosmilitares`.`PostoAbrev` AS `PostoAbrev` from ((`tecnicos` join `pessoa` on((`tecnicos`.`id` = `pessoa`.`id`))) join `postosmilitares` on((`tecnicos`.`posto_id` = `postosmilitares`.`Posto_Id`)));
 
 -- ----------------------------
 -- View structure for view_user
 -- ----------------------------
 DROP VIEW IF EXISTS `view_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user` AS select `usuario`.`id` AS `id`,`usuario`.`pessoa_id` AS `pessoa_id`,`usuario`.`nomeUsuario` AS `nomeUsuario`,`usuario`.`senha` AS `senha`,`usuario`.`tipo_usuario_id` AS `tipo_usuario_id`,`usuario`.`delete_permissao` AS `delete_permissao`,`usuario`.`update_permissao` AS `update_permissao`,`usuario`.`view_permissao` AS `view_permissao`,`usuario`.`create_permissao` AS `create_permissao`,`usuario`.`estado` AS `estado`,`usuario`.`data_criacao` AS `data_criacao`,`usuario`.`data_remocao` AS `data_remocao`,`usuario`.`data_alteracao` AS `data_alteracao`,`pessoa`.`nome` AS `pessoa`,`pessoa`.`imagem` AS `imagem`,`tipousuario`.`nome` AS `tipousuario`,`tipousuario`.`descricao` AS `descricao` from ((`usuario` join `pessoa` on((`usuario`.`pessoa_id` = `pessoa`.`id`))) join `tipousuario` on((`usuario`.`tipo_usuario_id` = `tipousuario`.`id`))) where (`usuario`.`estado` = 1) ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user` AS select `usuario`.`id` AS `id`,`usuario`.`pessoa_id` AS `pessoa_id`,`usuario`.`nomeUsuario` AS `nomeUsuario`,`usuario`.`senha` AS `senha`,`usuario`.`tipo_usuario_id` AS `tipo_usuario_id`,`usuario`.`delete_permissao` AS `delete_permissao`,`usuario`.`update_permissao` AS `update_permissao`,`usuario`.`view_permissao` AS `view_permissao`,`usuario`.`create_permissao` AS `create_permissao`,`usuario`.`estado` AS `estado`,`usuario`.`data_criacao` AS `data_criacao`,`usuario`.`data_remocao` AS `data_remocao`,`usuario`.`data_alteracao` AS `data_alteracao`,`pessoa`.`nome` AS `pessoa`,`pessoa`.`imagem` AS `imagem`,`tipousuario`.`nome` AS `tipousuario`,`tipousuario`.`descricao` AS `descricao` from ((`usuario` join `pessoa` on((`usuario`.`pessoa_id` = `pessoa`.`id`))) join `tipousuario` on((`usuario`.`tipo_usuario_id` = `tipousuario`.`id`))) where (`usuario`.`estado` = 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

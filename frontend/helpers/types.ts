@@ -75,9 +75,38 @@ export interface PessoaType {
   data_nascimento: string; // Data é representada como string no formato 'YYYY-MM-DD'
   genero: "Masculino" | "Feminino" | "Outro";
   imagem?: string;
-  endereco_id: number;
+  endereco_id?: number;
+  contatos: ContatoType[];
+  documentos?: DocumentoType;
   endereco_completo?: string;
   municipio_id: number;
+}
+export interface TecnicoType {
+  id: number;
+  pessoa: PessoaType;
+  posto_id: number; // Data é representada como string no formato 'YYYY-MM-DD'
+  imagem?: string;
+  nome?: string;
+}
+export interface PostoType {
+  id: number;
+  posto: string;
+  postoAbrev: string;
+}
+
+export interface ContatoType {
+  id: number;
+  cont_pessoa_id: number; // ID da pessoa associada ao contato
+  valor: string; // Valor do contato (e.g. email, telefone)
+  tipo: "email" | "telefone"; // Tipo de contato
+}
+
+export interface DocumentoType {
+  id: number;
+  doc_pessoa_id: number; // ID da pessoa associada ao documento
+  tipo: "BI" | "Passaporte" | "Outro"; // Tipo de documento
+  numero: string; // Número do documento
+  data_validade?: string; // Data de validade do documento, pode ser nulo
 }
 
 export interface ProvinciaType {
@@ -129,6 +158,11 @@ export interface Equipamento {
   nome?: string;
 }
 
+export interface EquipamentosType {
+  id: number;
+  nome?: string;
+}
+
 export interface Relatorio {
   observacao_final: string;
   tecnico_cessante_id: number;
@@ -164,4 +198,18 @@ export interface RelatorioType {
   data_alteracao: Date;
   observacoes?: Observacao[];
   equipamentos?: Equipamento[];
+}
+
+export interface TipoUsuarioType {
+  id: number;
+  nome: string;
+  descricao?: string;
+}
+
+export interface Endereco {
+  id: number;
+  municipio_id: number;
+  bairro: string;
+  numero_casa: string;
+  endereco_completo: string;
 }

@@ -21,15 +21,14 @@ export const createPessoa = async (
   nome: string,
   data_nascimento: Date | string,
   genero: "Masculino" | "Feminino" | "Outro",
-  endereco_id?: number,
   municipio_id?: number,
   imagem?: string // Campo imagem como parâmetro opcional
 ): Promise<number> => {
   try {
     const [result] = await pool.query(
-      `INSERT INTO pessoa (nome, data_nascimento, genero, endereco_id, municipio_id, imagem, estado)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [nome, data_nascimento, genero, endereco_id, municipio_id, imagem, 1] // Define estado como ativo (1)
+      `INSERT INTO pessoa (nome, data_nascimento, genero, municipio_id, imagem, estado)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [nome, data_nascimento, genero, municipio_id, imagem, 1] // Define estado como ativo (1)
     );
     console.log("Query SQL:", result);
     return (result as ResultSetHeader).insertId; // Alterado para usar ResultSetHeader

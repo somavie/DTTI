@@ -5,7 +5,7 @@ import path from "path";
 // Criar uma pessoa
 export const createPessoa = async (req: Request, res: Response) => {
   try {
-    const { nome, data_nascimento, genero, endereco_id, municipio_id } =
+    const { nome, data_nascimento, genero, municipio_id } =
       req.body;
 
     // Validação básica dos dados
@@ -22,7 +22,6 @@ export const createPessoa = async (req: Request, res: Response) => {
       nome,
       data_nascimento,
       genero,
-      endereco_id,
       municipio_id,
       imagem
     );

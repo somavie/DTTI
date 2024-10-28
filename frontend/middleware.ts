@@ -57,13 +57,7 @@ export function middleware(request: NextRequest) {
     const accessControl: Record<string, string[]> = {
       Admin: protectedRoutes,
 
-      Operador: [
-        "/admEscolar/gPessoa/pessoa",
-
-        "/admEscolar/gPessoa/endereco",
-
-        "/profile",
-      ],
+      Tecnico: ["/reportar", "/profile"],
     };
 
     // Redireciona se o usuário tentar acessar uma rota sem permissão

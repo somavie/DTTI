@@ -10,14 +10,17 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  Autocomplete,
+  AutocompleteItem,
 } from "@nextui-org/react";
+import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import { Formik, FormikHelpers, ErrorMessage } from "formik";
 import api from "../../helpers/api";
 import { PessoaSchema } from "@/helpers/schemas";
-import { useAllEnderecos } from "../hooks/allselect";
-import { useAllMunicipios } from "../hooks/allselect"; // Hook para buscar municípios
-import { PessoaType } from "@/helpers/types";
+import { useFetchData } from "../hooks/useFetchDatas"; // O hook para buscar dados
+import { PessoaType, MunicipioType } from "@/helpers/types";
+import { Delete, PlusIcon, Search } from "lucide-react";
 
 interface AddPessoaProps {
   title: string;
@@ -27,15 +30,6 @@ interface AddPessoaProps {
   onOpenChange: (open: boolean) => void;
 }
 
-interface PessoaForm {
-  id: number;
-  nome: string;
-  data_nascimento: string; // Data é representada como string no formato 'YYYY-MM-DD'
-  genero: "Masculino" | "Feminino" | "Outro";
-  endereco_id: number;
-  municipio_id: number; // Campo para município
-  imagem: File | null; // Campo para a imagem
-}
 
 export const AddPessoa = ({
   title,
@@ -44,42 +38,49 @@ export const AddPessoa = ({
   isOpen,
   onOpenChange,
 }: AddPessoaProps) => {
-  const { endereco, loading: enderecosLoading } = useAllEnderecos();
-  const { municipios, loading: municipiosLoading } = useAllMunicipios(); // Hook para buscar municípios
+
+  const { data: municipios, loading: municipiosLoading } =
+  useFetchData<MunicipioType>("/municipios");
   const [imagem, setImagem] = useState<File | null>(null);
 
-  const initialValues: PessoaForm = {
+  const initialValues: PessoaType = {
     id: editingPessoa?.id || 0,
     nome: editingPessoa?.nome || "",
     data_nascimento: editingPessoa?.data_nascimento || "", // Garante que a data seja uma string
     genero: editingPessoa?.genero || "Masculino",
-    endereco_id: editingPessoa?.endereco_id || 0,
     municipio_id: editingPessoa?.municipio_id || 0, // Inicializa o município
-    imagem: null, // Inicializa o campo da imagem como null
+    imagem: editingPessoa?.imagem || "", // Inicializa o campo da imagem como null
+    contatos: editingPessoa?.contatos || [
+      {
+        id: 0,
+        cont_pessoa_id: 0,
+        tipo: "telefone",
+        valor: "",
+      },
+    ],
   };
 
   const handlePessoaSubmit = useCallback(
-    async (values: PessoaForm, { resetForm }: FormikHelpers<PessoaForm>) => {
+    async (values: PessoaType, { resetForm }: FormikHelpers<PessoaType>) => {
       try {
         const formData = new FormData();
         formData.append("nome", values.nome);
         formData.append("data_nascimento", values.data_nascimento);
         formData.append("genero", values.genero);
-        formData.append("endereco_id", String(values.endereco_id));
         formData.append("municipio_id", String(values.municipio_id));
 
-        if (imagem) {
-          formData.append("imagem", imagem); // Adiciona a imagem ao FormData
+        if (
+          values.imagem &&
+          typeof values.imagem !== "string"
+        ) {
+          formData.append("imagem", values.imagem);
         }
+
 
         if (editingPessoa) {
           await api.put(`/pessoas/${editingPessoa.id}`, formData);
         } else {
-          await api.post("/pessoas", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          await api.post("/pessoas", formData);
         }
 
         resetForm();
@@ -98,131 +99,260 @@ export const AddPessoa = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+    <Modal
+      size="5xl"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      placement="center"
+      backdrop="blur"
+      isDismissable={false}
+      isKeyboardDismissDisabled={true}
+      scrollBehavior="outside"
+      classNames={{
+        body: "py-6",
+        base: "border-[#292f46] pb-6",
+        header: "border-b-[1px] border-[#292f46]",
+        footer: "border-t-[1px] border-[#292f46]",
+        closeButton: "hover:bg-white/5 active:bg-white/10",
+      }}
+    >
       <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
-            <ModalBody>
-              <Formik
-                initialValues={initialValues}
-                enableReinitialize
-                validationSchema={PessoaSchema}
-                onSubmit={handlePessoaSubmit}
-              >
-                {({ values, errors, touched, handleChange, handleSubmit }) => (
-                  <>
-                    <div className="flex flex-col gap-4 mb-4">
-                      {enderecosLoading ? (
-                        <Spinner size="sm" label="Carregando endereços..." />
-                      ) : (
+        <ModalHeader className="flex flex-col gap-1 items-center">
+          <h1 className="text-2xl">
+            {editingPessoa ? "Editar Pessoa" : "Cadastro de Pessoa"}
+          </h1>
+        </ModalHeader>
+        <ModalBody>
+          <Formik
+            initialValues={initialValues}
+            enableReinitialize
+            validationSchema={PessoaSchema}
+            onSubmit={handlePessoaSubmit}
+          >
+            {({ values, handleChange, handleSubmit, setFieldValue }) => (
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="col-span-2">
+                    <h3 className="text-lg font-semibold">Dados Pessoais</h3>
+                  </div>
+                  <Input
+                    label="Nome"
+                    name="nome"
+                    value={values.nome}
+                    onChange={handleChange}
+                    size="sm"
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      type="date"
+                      label="Data de Nascimento"
+                      name="data_nascimento"
+                      value={values.data_nascimento}
+                      onChange={handleChange}
+                      size="sm"
+                    />
+                    <Select
+                      label="Gênero"
+                      size="sm"
+                      selectedKeys={new Set([values.genero])}
+                      onSelectionChange={(keys) =>
+                        setFieldValue("genero", String(keys.currentKey))
+                      }
+                    >
+                      <SelectItem key="Masculino">Masculino</SelectItem>
+                      <SelectItem key="Feminino">Feminino</SelectItem>
+                    </Select>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {/* Mapeando os contatos */}
+                    {values.contatos?.map((contato, index) => (
+                      <div key={index} className="flex gap-2 mb-1 items-end">
                         <Select
-                          label="Endereço"
-                          selectedKeys={new Set([String(values.endereco_id)])}
+                          className="w-24"
+                          size="sm"
+                          labelPlacement="outside"
+                          label="Tipo de Contato"
+                          selectedKeys={new Set([contato.tipo])}
                           onSelectionChange={(keys) =>
-                            handleChange({
-                              target: {
-                                name: "endereco_id",
-                                value: Number(keys.currentKey),
-                              },
-                            })
+                            setFieldValue(
+                              `contatos[${index}].tipo`,
+                              String(keys.currentKey)
+                            )
                           }
                         >
-                          {endereco?.map((end) => (
-                            <SelectItem key={end.id}>
-                              {end.endereco_completo}
-                            </SelectItem>
-                          ))}
+                          <SelectItem key="Telefone">Telefone</SelectItem>
+                          <SelectItem key="Email">Email</SelectItem>
                         </Select>
-                      )}
+                        <div className="w-64">
+                          <Input
+                            variant="underlined"
+                            size="sm"
+                            label="Contato"
+                            name={`contatos[${index}].valor`}
+                            value={contato.valor}
+                            onChange={handleChange}
+                          />
+                        </div>
 
-                      {municipiosLoading ? (
-                        <Spinner size="sm" label="Carregando municípios..." />
-                      ) : (
-                        <Select
-                          label="Município"
-                          selectedKeys={new Set([String(values.municipio_id)])}
-                          onSelectionChange={(keys) =>
-                            handleChange({
-                              target: {
-                                name: "municipio_id",
-                                value: Number(keys.currentKey),
-                              },
-                            })
-                          }
-                        >
-                          {municipios?.map((municipio) => (
-                            <SelectItem key={municipio.id}>
-                              {municipio.nome}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                      )}
+                        {/* Botão para remover contato (não aparece no índice 0) */}
+                        {values.contatos.length > 1 && index > 0 && (
+                          <Button
+                            isIconOnly
+                            size="sm"
+                            variant="light"
+                            className="ml-2 text-red-600"
+                            onPress={() => {
+                              const newContatos = values.contatos?.filter(
+                                (_, i) => i !== index
+                              );
+                              setFieldValue("contatos", newContatos);
+                            }}
+                          >
+                            <Delete />
+                          </Button>
+                        )}
 
-                      <Input
-                        variant="bordered"
-                        label="Nome"
-                        value={values.nome}
-                        isInvalid={!!errors.nome && !!touched.nome}
-                        errorMessage={errors.nome}
-                        onChange={handleChange("nome")}
-                        placeholder="Digite o nome"
-                      />
-                      <Input
-                        variant="bordered"
-                        type="date"
-                        label="Data de Nascimento"
-                        value={values.data_nascimento}
-                        isInvalid={
-                          !!errors.data_nascimento && !!touched.data_nascimento
+                        {/* Botão para adicionar contato na última linha */}
+                        {index === values.contatos.length - 1 && (
+                          <Button
+                            isIconOnly
+                            size="sm"
+                            variant="light"
+                            className="ml-2"
+                            onPress={() =>
+                              setFieldValue("contatos", [
+                                ...values.contatos,
+                                { tipo: "", valor: "" },
+                              ])
+                            }
+                          >
+                            <PlusIcon />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2 mt-2">
+                    {municipiosLoading ? (
+                      <Spinner label="Carregando municípios..." />
+                    ) : (
+                      <Autocomplete
+                        classNames={{
+                          base: "max-w-xs",
+                          listboxWrapper: "max-h-[320px]",
+                          selectorButton: "text-default-500",
+                        }}
+                        defaultItems={municipios}
+                        selectedKey={String(values.municipio_id)}
+                        onSelectionChange={
+                          (key) =>
+                            setFieldValue("municipio_id", Number(key)) // Atualiza o município selecionado
                         }
-                        errorMessage={errors.data_nascimento}
-                        onChange={handleChange("data_nascimento")}
-                      />
-                      <Select
-                        label="Gênero"
-                        selectedKeys={new Set([values.genero])}
-                        onSelectionChange={(keys) =>
-                          handleChange({
-                            target: {
-                              name: "genero",
-                              value: keys.currentKey as
-                                | "Masculino"
-                                | "Feminino"
-                                | "Outro",
-                            },
-                          })
+                        inputProps={{
+                          classNames: {
+                            input: "ml-1",
+                            inputWrapper: "h-[48px]",
+                          },
+                        }}
+                        listboxProps={{
+                          hideSelectedIcon: true,
+                          itemClasses: {
+                            base: [
+                              "rounded-medium",
+                              "text-default-500",
+                              "transition-opacity",
+                              "data-[hover=true]:text-foreground",
+                              "dark:data-[hover=true]:bg-default-50",
+                              "data-[pressed=true]:opacity-70",
+                              "data-[hover=true]:bg-default-200",
+                              "data-[selectable=true]:focus:bg-default-100",
+                              "data-[focus-visible=true]:ring-default-500",
+                            ],
+                          },
+                        }}
+                        aria-label="Selecione um município"
+                        placeholder="Natural de...  "
+                        popoverProps={{
+                          offset: 10,
+                          classNames: {
+                            base: "rounded-large",
+                            content:
+                              "p-1 border-small border-default-100 bg-background",
+                          },
+                        }}
+                        startContent={
+                          <Search
+                            className="text-default-400"
+                            strokeWidth={2.5}
+                            size={20}
+                          />
                         }
                       >
-                        <SelectItem key="Masculino">Masculino</SelectItem>
-                        <SelectItem key="Feminino">Feminino</SelectItem>
-                        <SelectItem key="Outro">Outro</SelectItem>
-                      </Select>
-                      <Input
-                        variant="bordered"
-                        type="file"
-                        label="Imagem"
-                        accept="image/*"
-                        onChange={handleImagemChange}
-                      />
-                    </div>
-                    <Button
-                      onPress={(e) => {
-                        // Previna o comportamento padrão
-                        handleSubmit(); // Chama a função de envio
-                      }}
-                      variant="flat"
-                      color="primary"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                        {(municipios) => (
+                          <AutocompleteItem
+                            key={municipios.id}
+                            textValue={municipios.nome}
+                          >
+                            <div className="flex justify-between items-center">
+                              <div className="flex gap-2 items-center">
+                                <div className="flex flex-col">
+                                  <span className="text-small">
+                                    {municipios.nome}
+                                  </span>
+                                </div>
+                              </div>
+                              <Button
+                                className="border-small mr-0.5 font-medium shadow-small"
+                                radius="full"
+                                size="sm"
+                                variant="bordered"
+                              >
+                                Add
+                              </Button>
+                            </div>
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                    )}
+
+                    <label
+                      className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                      htmlFor="img"
                     >
-                      {editingPessoa ? "Atualizar Pessoa" : "Cadastrar Pessoa"}
-                    </Button>
-                  </>
-                )}
-              </Formik>
-            </ModalBody>
-          </>
-        )}
+                      <Image src="/upload.png" alt="" width={28} height={28} />
+                      <span>Carregar a Foto</span>
+                    </label>
+                    <Input
+                      type="file"
+                      label="Imagem"
+                      name="imagem"
+                      accept="image/*"
+                      className="hidden"
+                      id="img"
+                      onChange={(e) => {
+                        const file = e.currentTarget.files?.[0];
+                        setFieldValue("imagem", file || null);
+                      }}
+                    />
+                  </div>
+
+                  
+                </div>
+
+                <div className="mt-6 flex justify-end gap-4">
+                  <Button type="submit">
+                    {editingPessoa ? "Atualizar" : "Salvar"}
+                  </Button>
+                  <Button variant="light" onPress={() => onOpenChange(false)}>
+                    Cancelar
+                  </Button>
+                </div>
+              </form>
+            )}
+          </Formik>
+        </ModalBody>
       </ModalContent>
     </Modal>
   );

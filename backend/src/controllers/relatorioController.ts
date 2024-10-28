@@ -37,6 +37,24 @@ export const createRelatorio = async (req: Request, res: Response) => {
 };
 export const CreateRelatorioE = async (req: Request, res: Response) => {
   try {
+    // const {tecnico_entrante_id } = req.body;
+    // Obter o último relatório
+    const ultimoRelatorio = await relatorioService.getUltimoRelatorio();
+
+    // if (ultimoRelatorio) {
+    //   // Se o tecnico_entrante_id está vazio, atualiza o último relatório
+    //   if (!ultimoRelatorio.tecnico_entrante_id) {
+    //     await relatorioService.updateRelatorio(ultimoRelatorio.id, {
+    //       tecnico_entrante_id,
+    //     });
+    //     return res
+    //       .status(200)
+    //       .json({
+    //         message: "Último relatório atualizado com o técnico entrante.",
+    //       });
+    //   }
+    // }
+
     const insertId = await relatorioService.createRelatorioE();
     res
       .status(201)

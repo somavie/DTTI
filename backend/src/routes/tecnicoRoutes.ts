@@ -3,11 +3,11 @@ import * as tecnicoController from "../controllers/tecnicoController";
 
 const router = express.Router();
 
-router.post("/", tecnicoController.createTecnico);
-router.get("/", tecnicoController.getAllTecnicos);
-router.get("/:id", tecnicoController.getTecnicoById);
-router.put("/:id", tecnicoController.updateTecnico);
-router.patch("/:id", tecnicoController.softDeleteTecnico); // Soft delete
-router.delete("/tecnico/:id", tecnicoController.deleteTecnico); // Hard delete
+router.post("/", tecnicoController.createTecnicoController);
+router.get("/", tecnicoController.getAllTecnicosController);
+router.get("/:id", tecnicoController.getTecnicoByIdController);
+router.put("/:id", tecnicoController.updateTecnicoController);
+router.patch("/:id", tecnicoController.softDeleteTecnicoController); // Soft delete
+router.delete("/tecnico/:id", tecnicoController.deleteTecnicoController); // Hard delete
 
 export default router;

@@ -14,7 +14,7 @@ import enderecoRoutes from "./routes/enderecoRoutes";
 import municipioRoutes from "./routes/municipioRoutes";
 
 import pessoaRoutes from "./routes/pessoaRoutes";
-
+import contatoRoutes from "./routes/contatoRoutes";
 import provinciaRoutes from "./routes/provinciaRoutes";
 
 import tipoUsuarioRoutes from "./routes/tipoUsuarioRoutes";
@@ -50,7 +50,7 @@ app.use("/enderecos", verifyToken, checkPermissionsAuto, enderecoRoutes);
 app.use("/municipios", verifyToken, checkPermissionsAuto, municipioRoutes);
 
 app.use("/pessoas", verifyToken, checkPermissionsAuto, pessoaRoutes);
-
+app.use("/contatos", verifyToken, checkPermissionsAuto, contatoRoutes);
 app.use("/provincias", verifyToken, checkPermissionsAuto, provinciaRoutes);
 app.use("/tipousuarios", verifyToken, checkPermissionsAuto, tipoUsuarioRoutes);
 app.use("/postos", postoRoutes); // Usar as rotas de posto

@@ -78,10 +78,11 @@ export const useUserData = (): UserData => {
               if (pessoa) {
                 setUserName(pessoa.nome);
                 setUserImage(pessoa.imagem ?? null);
+                setID(pessoa.id);
               }
 
               setUserType(tipousuario ? tipousuario.nome : null);
-              setID(decoded?.id);
+              //setID(decoded?.id);
 
               setPermissions({
                 canDelete: !!usuario.delete_permissao,

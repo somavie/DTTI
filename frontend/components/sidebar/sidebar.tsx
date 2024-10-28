@@ -64,6 +64,11 @@ export const SidebarWrapper = () => {
                       href: "/pessoas", // Alias
                       icon: <Users />,
                     },
+                    {
+                      label: "Tecnicos",
+                      href: "/tecnicos", // Alias
+                      icon: <Users />,
+                    },
 
                     {
                       label: "Endereços",
@@ -73,7 +78,7 @@ export const SidebarWrapper = () => {
                     {
                       label: "Relatorio",
                       href: "/Relatorio", // Alias
-                      icon: <List/>,
+                      icon: <List />,
                     },
                   ]}
                 />
@@ -101,8 +106,25 @@ export const SidebarWrapper = () => {
               </>
             )}
 
+            {(tipoUser === "Admin" || tipoUser === "Tecnico") && (
+              <>
+                {/* Módulo: Tecnico */}
+                <CollapseItems
+                  title="Reportar"
+                  icon={<AccountsIcon />}
+                  items={[
+                    {
+                      label: "Relatar",
+                      href: "/reportar", // Alias
+                      icon: <Users />,
+                    },
+                  ]}
+                />
+              </>
+            )}
+
             {/* Módulo: Aluno/Encarregado */}
-            {tipoUser === "Admin" && (
+            {(tipoUser === "Admin" || tipoUser === "Tecnico") && (
               <CollapseItems
                 title="Minha Conta"
                 icon={<ReportsIcon />}
