@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 27/10/2024 23:34:52
+ Date: 28/10/2024 22:49:43
 */
 
 SET NAMES utf8mb4;
@@ -249,6 +249,25 @@ INSERT INTO `equipamentos` VALUES (2, 'Telefone', 1, '2024-10-20 10:44:05', '202
 INSERT INTO `equipamentos` VALUES (3, 'Servidor', 1, '2024-10-20 10:44:14', '2024-10-20 10:44:14', NULL);
 
 -- ----------------------------
+-- Table structure for grupo
+-- ----------------------------
+DROP TABLE IF EXISTS `grupo`;
+CREATE TABLE `grupo`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `qtds` int NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of grupo
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for municipio
 -- ----------------------------
 DROP TABLE IF EXISTS `municipio`;
@@ -310,6 +329,34 @@ INSERT INTO `municipio` VALUES (39, 'Chongoroi', 4, 1, '2024-09-17 09:35:16', NU
 INSERT INTO `municipio` VALUES (40, 'Cubal', 4, 1, '2024-09-17 09:35:16', NULL, NULL);
 INSERT INTO `municipio` VALUES (41, 'Ganda', 4, 1, '2024-09-17 09:35:16', NULL, NULL);
 INSERT INTO `municipio` VALUES (42, 'Lobito', 4, 1, '2024-09-17 09:35:16', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for métrica
+-- ----------------------------
+DROP TABLE IF EXISTS `métrica`;
+CREATE TABLE `métrica`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `grupo_id` int NOT NULL,
+  `turno_id` int NOT NULL,
+  `relatorio_id` int NOT NULL,
+  `qtds_online` int NOT NULL,
+  `qtds_offline` int NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
+  INDEX `turno_id`(`turno_id` ASC) USING BTREE,
+  INDEX `relatorio_id`(`relatorio_id` ASC) USING BTREE,
+  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of métrica
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for observacao
@@ -627,7 +674,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
@@ -656,6 +703,7 @@ INSERT INTO `relatorios` VALUES (22, 2, 1, '2024-10-27', 'mn,mn,', 1, '2024-10-2
 INSERT INTO `relatorios` VALUES (23, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
 INSERT INTO `relatorios` VALUES (24, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:13:08', '2024-10-27 23:13:08', NULL);
 INSERT INTO `relatorios` VALUES (25, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:33:29', '2024-10-27 23:33:29', NULL);
+INSERT INTO `relatorios` VALUES (26, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:35:13', '2024-10-27 23:35:13', NULL);
 
 -- ----------------------------
 -- Table structure for situacao
@@ -721,6 +769,26 @@ CREATE TABLE `tipousuario`  (
 -- ----------------------------
 INSERT INTO `tipousuario` VALUES (1, 'Admin', 'pessoa que faz a manutençãoi e configuração do sistema', 1, '2024-09-17 09:37:56', NULL, '2024-09-17 09:37:56');
 INSERT INTO `tipousuario` VALUES (2, 'Tecnico', 'pessoa responsavel por reportar', 1, '2024-09-17 09:38:34', NULL, '2024-10-27 19:45:02');
+
+-- ----------------------------
+-- Table structure for turno
+-- ----------------------------
+DROP TABLE IF EXISTS `turno`;
+CREATE TABLE `turno`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hora_inicio` time NOT NULL,
+  `hora_fim` time NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of turno
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for usuario
