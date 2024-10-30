@@ -1,0 +1,14 @@
+
+grupo(id,qtds
+,nome)----  8- qtds online qtds ofline -12 qtds online qtds ofline  18  qtds online qtds ofline
+
+
+turno(id,hora_inicio,hora_fim,nome)
+
+métrica(
+grupo_id
+turno_id
+relatorio_id
+qtds online
+qtds ofline
+)

@@ -25,7 +25,9 @@ import relatorioRoutes from "./routes/relatorioRoutes"; // Rota para relatorios
 import equipamentoRoutes from "./routes/equipamentoRoutes"; // Rota para equipamentos
 import observacaoRoutes from "./routes/observacaoRoutes"; // Rota para observacao
 import equipamentosRoutes from "./routes/equipamentosRoutes";
-
+import grupoRoutes from "./routes/grupoRoutes";
+import turnoRoutes from "./routes/turnoRoutes";
+import metricaRoutes from "./routes/metricaRoutes";
 
 import { verifyToken } from "./middleware/verifyToken";
 
@@ -44,6 +46,15 @@ dotenv.config();
 
 // Usar as rotas com verificação automática de permissões
 app.use("/auth", authRoutes);
+
+// Rota para a tabela 'grupo'
+app.use("/grupos", verifyToken, checkPermissionsAuto, grupoRoutes);
+
+// Rota para a tabela 'turno'
+app.use("/turnos", verifyToken, checkPermissionsAuto, turnoRoutes);
+
+// Rota para a tabela 'métrica'
+app.use("/metricas", verifyToken, checkPermissionsAuto, metricaRoutes);
 
 app.use("/enderecos", verifyToken, checkPermissionsAuto, enderecoRoutes);
 
