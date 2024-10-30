@@ -1,99 +1,97 @@
-import { Equipamento } from "@/helpers/types"; // Certifique-se de que a interface está correta
-import { Select, SelectItem, Spinner } from "@nextui-org/react"; // Importa Select e SelectItem do NextUI
-import { useFetchData } from "../hooks/useFetchDatas"; // Importa o hook de busca de dados
+import { Equipamento } from "@/helpers/types"
+import { Select, SelectItem, Spinner, Button, Input, Card, CardBody, CardHeader } from "@nextui-org/react"
+import { useFetchData } from "../hooks/useFetchDatas"
+import { useEffect } from "react"
 
 interface EquipamentoType {
-  id: number;
-  nome: string;
+  id: number
+  nome: string
 }
 
 interface EquipamentoFormProps {
-  equipamentos: Equipamento[];
-  setEquipamentos: React.Dispatch<React.SetStateAction<Equipamento[]>>;
+  equipamentos: Equipamento[]
+  setEquipamentos: React.Dispatch<React.SetStateAction<Equipamento[]>>
 }
 
-export default function EquipamentoForm({
-  equipamentos,
-  setEquipamentos,
-}: EquipamentoFormProps) {
-  // Buscando equipamentos
-  const { data: Equipamentos, loading: loadingEquipamentos } =
-    useFetchData<EquipamentoType>("/equipamentos");
+export default function EquipamentoForm({ equipamentos, setEquipamentos }: EquipamentoFormProps) {
+  const { data: Equipamentos, loading: loadingEquipamentos } = useFetchData<EquipamentoType>("/equipamentos")
 
-  // Função para adicionar novos equipamentos dinamicamente
+  useEffect(() => {
+    if (equipamentos.length === 0) {
+      setEquipamentos([{ equipamento_id: 0, quantidade: 0, status: "Bom", localizacao: "" }])
+    }
+  }, [equipamentos, setEquipamentos])
+
   const adicionarNovoEquipamento = () => {
-    setEquipamentos([
-      ...equipamentos,
-      { equipamento_id: 0, quantidade: 0, status: "Bom", localizacao: "" }, // Definir "Bom" como valor padrão
-    ]);
-  };
+    setEquipamentos([...equipamentos, { equipamento_id: 0, quantidade: 0, status: "Bom", localizacao: "" }])
+  }
+
+  const removerEquipamento = (index: number) => {
+    setEquipamentos(equipamentos.filter((_, i) => i !== index))
+  }
 
   return (
-    <div>
-      <h2 className="text-lg font-bold mb-4">Adicionar Equipamentos</h2>
+    <div className="space-y-4">
+      <h2 className="text-lg font-bold">Adicionar Equipamentos</h2>
       {loadingEquipamentos ? (
-        <Spinner /> // Mostra um spinner enquanto os dados estão sendo carregados
+        <Spinner />
       ) : (
         equipamentos.map((equipamento, index) => (
-          <div key={index} className="mb-4 p-4 border border-gray-300 rounded">
-            <h3 className="font-semibold mb-2">Equipamento {index + 1}</h3>
-            <div className="mb-4">
-              <label className="block mb-2">Equipamento:</label>
+          <Card key={index} className="w-full">
+            <CardHeader className="flex justify-between items-center">
+              <h3 className="font-semibold">Equipamento {index + 1}</h3>
+              {index > 0 && (
+                <Button color="danger" variant="light" onClick={() => removerEquipamento(index)}>
+                  Remover
+                </Button>
+              )}
+            </CardHeader>
+            <CardBody className="space-y-4">
               <Select
                 label="Escolha um Equipamento"
                 selectedKeys={new Set([String(equipamento.equipamento_id)])}
                 onSelectionChange={(keys) => {
-                  const selectedKey = keys.currentKey;
+                  const selectedKey = keys.currentKey
                   if (selectedKey) {
                     setEquipamentos((prev) =>
                       prev.map((equip, i) =>
-                        i === index
-                          ? { ...equip, equipamento_id: Number(selectedKey) }
-                          : equip
+                        i === index ? { ...equip, equipamento_id: Number(selectedKey) } : equip
                       )
-                    );
+                    )
                   }
                 }}
               >
                 {Equipamentos?.map((equip) => (
-                  <SelectItem key={equip.id}>
-                    {equip.nome} {/* Assumindo que 'nome' é o campo desejado */}
+                  <SelectItem key={equip.id} value={equip.id}>
+                    {equip.nome}
                   </SelectItem>
                 ))}
               </Select>
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Quantidade:</label>
-              <input
+
+              <Input
                 type="number"
-                className="border p-2 w-full"
-                value={equipamento.quantidade}
+                label="Quantidade"
+                value={equipamento.quantidade.toString()}
                 onChange={(e) =>
                   setEquipamentos((prev) =>
                     prev.map((equip, i) =>
-                      i === index
-                        ? { ...equip, quantidade: +e.target.value }
-                        : equip
+                      i === index ? { ...equip, quantidade: +e.target.value } : equip
                     )
                   )
                 }
               />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Estado:</label>
+
               <Select
-                label="Escolha um Estado"
+                label="Estado"
                 selectedKeys={new Set([equipamento.status])}
                 onSelectionChange={(keys) => {
-                  const selectedKey = keys.currentKey;
+                  const selectedKey = keys.currentKey
                   if (selectedKey) {
                     setEquipamentos((prev) =>
                       prev.map((equip, i) =>
-                        i === index
-                          ? { ...equip, status: selectedKey } // Mantendo como string
-                          : equip
+                        i === index ? { ...equip, status: selectedKey } : equip
                       )
-                    );
+                    )
                   }
                 }}
               >
@@ -101,33 +99,26 @@ export default function EquipamentoForm({
                 <SelectItem key="Mau">Mau</SelectItem>
                 <SelectItem key="Manutenção">Manutenção</SelectItem>
               </Select>
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Localização:</label>
-              <input
+
+              <Input
                 type="text"
-                className="border p-2 w-full"
+                label="Localização"
                 value={equipamento.localizacao}
                 onChange={(e) =>
                   setEquipamentos((prev) =>
                     prev.map((equip, i) =>
-                      i === index
-                        ? { ...equip, localizacao: e.target.value }
-                        : equip
+                      i === index ? { ...equip, localizacao: e.target.value } : equip
                     )
                   )
                 }
               />
-            </div>
-          </div>
+            </CardBody>
+          </Card>
         ))
       )}
-      <button
-        className="bg-green-500 text-white p-2"
-        onClick={adicionarNovoEquipamento}
-      >
+      <Button color="success" onClick={adicionarNovoEquipamento}>
         + Adicionar Outro Equipamento
-      </button>
+      </Button>
     </div>
-  );
+  )
 }

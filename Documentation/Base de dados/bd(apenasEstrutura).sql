@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 27/10/2024 23:34:43
+ Date: 28/10/2024 22:49:51
 */
 
 SET NAMES utf8mb4;
@@ -91,6 +91,21 @@ CREATE TABLE `equipamentos`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for grupo
+-- ----------------------------
+DROP TABLE IF EXISTS `grupo`;
+CREATE TABLE `grupo`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `qtds` int NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for municipio
 -- ----------------------------
 DROP TABLE IF EXISTS `municipio`;
@@ -106,6 +121,30 @@ CREATE TABLE `municipio`  (
   INDEX `provincia_id`(`provincia_id` ASC) USING BTREE,
   CONSTRAINT `municipio_ibfk_1` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for métrica
+-- ----------------------------
+DROP TABLE IF EXISTS `métrica`;
+CREATE TABLE `métrica`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `grupo_id` int NOT NULL,
+  `turno_id` int NOT NULL,
+  `relatorio_id` int NOT NULL,
+  `qtds_online` int NOT NULL,
+  `qtds_offline` int NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
+  INDEX `turno_id`(`turno_id` ASC) USING BTREE,
+  INDEX `relatorio_id`(`relatorio_id` ASC) USING BTREE,
+  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for observacao
@@ -213,7 +252,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for situacao
@@ -260,6 +299,22 @@ CREATE TABLE `tipousuario`  (
   `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for turno
+-- ----------------------------
+DROP TABLE IF EXISTS `turno`;
+CREATE TABLE `turno`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hora_inicio` time NOT NULL,
+  `hora_fim` time NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  `data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for usuario
