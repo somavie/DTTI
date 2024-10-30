@@ -5,6 +5,7 @@ import { Button, Spinner } from "@nextui-org/react";
 import api from "../../helpers/api";
 import { AddRelatorio } from "./addrelatorio";
 import { RelatorioType } from "@/helpers/types";
+import { VisualizarRelatorioModal } from "./view-relatorio";
 import { PlusIcon } from "../icons/plus-icon";
 import { TableWrapper } from "../tableDinamica/table";
 import { useDisclosure } from "@nextui-org/react";
@@ -14,10 +15,10 @@ export const Relatorios = () => {
   const [allRelatorios, setAllRelatorios] = useState<RelatorioType[]>([]); // Todos os dados para pesquisa
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [editingRelatorio, setEditingRelatorio] =
-    useState<RelatorioType | null>(null);
+  const [isViewing, setIsViewing] = useState<boolean>(false);
+  const [editingRelatorio, setEditingRelatorio] = useState<RelatorioType | null>(null);
+  const [viewingRelatorio, setViewingRelatorio] = useState<any | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const columns = [
     "cessante",
     "entrante",
@@ -63,6 +64,13 @@ export const Relatorios = () => {
     onOpen();
   }, [onOpen]);
 
+  // Função para abrir a modal
+  const handleView = (relatorio: RelatorioType) => {
+    setViewingRelatorio(relatorio);
+    setIsViewing(true);
+  };
+
+
   const handleDeleteRelatorio = useCallback(
     async (id: number) => {
       if (confirm("Tem certeza que deseja eliminar este relatório?")) {
@@ -107,6 +115,7 @@ export const Relatorios = () => {
               columns={columns}
               headers={headers}
               onEdit={handleEditRelatorio}
+              onView={handleView}
               onDelete={handleDeleteRelatorio}
               columnConfig={{
                 data_criacao: (item) =>
@@ -118,6 +127,13 @@ export const Relatorios = () => {
             />
           )}
         </div>
+        {viewingRelatorio && (
+        <VisualizarRelatorioModal
+          isOpen={isViewing}
+          onClose={() => setIsViewing(false)}
+          relatorio={viewingRelatorio}
+        />
+      )}
         <AddRelatorio
           title={"Relatório"}
           editingRelatorio={editingRelatorio}
