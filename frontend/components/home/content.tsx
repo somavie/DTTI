@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardDashboard } from "../home/CardDashboard";
 import { Spinner } from "@nextui-org/react";
-
 import dynamic from "next/dynamic";
 import { Props } from "react-apexcharts";
 
@@ -19,22 +18,27 @@ export const Content = () => {
   const [series, setSeries] = useState<Props["series"]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
+  useEffect(() => {
+    // Simular carregamento de dados
+    setTimeout(() => {
+      setLoading(false);
+      // Aqui você pode adicionar a lógica real para carregar os dados do gráfico
+    }, 2000);
+  }, []);
+
   return (
-    <div className="h-full flex flex-col items-center justify-center lg:px-8">
-      {/* Card Section */}
-      <div className="flex flex-col items-center w-full max-w-[90rem] gap-6 mb-6">
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 w-full">
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="space-y-6">
+        <div className="w-full">
           <CardDashboard />
         </div>
-      </div>
-
-      {/* Chart Section */}
-      <div className="w-full bg-default-50 shadow-lg rounded-2xl p-6 flex items-center justify-center">
-        {loading ? (
-          <Spinner size="lg" label="Carregando gráfico..." />
-        ) : (
-          <Chart series={series} categories={categories} />
-        )}
+        <div className="w-full bg-content1 shadow-lg rounded-2xl p-6 flex items-center justify-center min-h-[400px]">
+          {loading ? (
+            <Spinner size="lg" label="Carregando gráfico..." />
+          ) : (
+            <Chart series={series} categories={categories} />
+          )}
+        </div>
       </div>
     </div>
   );

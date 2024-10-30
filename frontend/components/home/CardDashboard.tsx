@@ -1,52 +1,55 @@
-// components/CardDashboard.tsx
+// CardDashboard.tsx
 import React from "react";
-import { CardBalance } from "./CardBalance";
-import {
-  FaChalkboardTeacher,
-  FaUserCog,
-  FaUserTie,
-  FaUsers,
-  FaDesktop,
-} from "react-icons/fa";
-
-import { useFetchUsuario } from "../hooks/allselect"; // Importe o hook para usuários
+import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
+import { FaChalkboardTeacher, FaUserCog, FaUserTie, FaUsers, FaDesktop } from "react-icons/fa";
+import { useFetchUsuario } from "../hooks/allselect";
 import { useFetchData } from "../hooks/useFetchDatas";
-import { Equipamento, EquipamentosType, TecnicoType } from "@/helpers/types";
+import { EquipamentosType, TecnicoType } from "@/helpers/types";
+
+const CardItem = ({ title, count, icon: Icon, color }) => (
+  <Card className="w-full h-full">
+    <CardBody className={`flex flex-row items-center justify-between p-4 ${color}`}>
+      <div>
+        <p className="text-sm font-medium text-white/80">{title}</p>
+        <p className="text-2xl font-bold text-white">{count}</p>
+      </div>
+      <Icon size={40} className="text-white/80" />
+    </CardBody>
+  </Card>
+);
 
 export const CardDashboard: React.FC = () => {
-  // Hooks para obter os dados
+  const { usuarios, loading: loadingUsuarios } = useFetchUsuario();
+  const { data: tecnicos, loading: loadingTecnicos } = useFetchData<TecnicoType>("/tecnicos");
+  const { data: equipamentos, loading: loadingEquipamentos } = useFetchData<EquipamentosType>("/equipamentos");
 
-  const { usuarios } = useFetchUsuario();
-  const { data: tecnicos, loading: loadingTecnicos } =
-    useFetchData<TecnicoType>("/tecnicos"); // Buscando técnicos
-  const { data: equipamentos, loading: loadingequipamentos } =
-    useFetchData<EquipamentosType>("/equipamentos"); // Buscando técnicos
-  // Contadores
-  const numeroDeequipamentos = equipamentos ? equipamentos.length : 0;
-  const numeroDeTecnicos = tecnicos ? tecnicos.length : 0;
-  const numeroDeFuncionarios = 0;
-  const numeroDeUsuarios = usuarios ? usuarios.length : 0;
-  const numeroDeTurmas = 0;
+  const isLoading = loadingUsuarios || loadingTecnicos || loadingEquipamentos;
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-48 flex items-center justify-center">
+        <Spinner size="lg" label="Carregando dados..." />
+      </div>
+    );
+  }
+
+  const numeroDeEquipamentos = equipamentos?.length || 0;
+  const numeroDeTecnicos = tecnicos?.length || 0;
+  const numeroDeUsuarios = usuarios?.length || 0;
+  const numeroDeOcorrencias = 0; // Substitua por dados reais quando disponíveis
+
+  const cards = [
+    { title: "Tecnicos", count: numeroDeTecnicos, icon: FaUserCog, color: "bg-blue-600" },
+    { title: "Meios", count: numeroDeEquipamentos, icon: FaDesktop, color: "bg-purple-600" },
+    { title: "Usuários", count: numeroDeUsuarios, icon: FaUsers, color: "bg-pink-600" },
+    { title: "Ocorrências", count: numeroDeOcorrencias, icon: FaChalkboardTeacher, color: "bg-green-600" },
+  ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 xl:gap-4">
-      <CardBalance
-        title="Tecnicos"
-        count={numeroDeTecnicos}
-        icon={FaUserCog}
-        bgColor="bg-blue-500"
-        textColor="text-white"
-      />
-      <CardBalance
-        title="Meios"
-        count={numeroDeequipamentos}
-        icon={FaDesktop}
-        bgColor="bg-green-500"
-        textColor="text-white"
-      />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {cards.map((card, index) => (
+        <CardItem key={index} {...card} />
+      ))}
     </div>
   );
 };
-function useFetchTurmas(): { usuarios: any } {
-  throw new Error("Function not implemented.");
-}
