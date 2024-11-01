@@ -32,6 +32,14 @@ const nextConfig = {
         source: "/tecnicos",
         destination: "/tecnico",
       },
+      {
+        source: "/grupos",
+        destination: "/grs/grupos",
+      },
+      {
+        source: "/addQtd",
+        destination: "/grs/addQtd",
+      },
 
       {
         source: "/enderecos",

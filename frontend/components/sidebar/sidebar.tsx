@@ -82,6 +82,22 @@ export const SidebarWrapper = () => {
                     },
                   ]}
                 />
+                <CollapseItems
+                  title="GRS"
+                  icon={<IdentificationIcon />}
+                  items={[
+                    {
+                      label: "Grupos",
+                      href: "/grupos", // Alias
+                      icon: <Users />,
+                    },
+                    {
+                      label: "Adicionar dados",
+                      href: "/addQtd", // Alias
+                      icon: <Users />,
+                    },
+                  ]}
+                />
               </>
             )}
             {tipoUser === "Admin" && (

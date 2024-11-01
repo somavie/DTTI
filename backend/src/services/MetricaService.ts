@@ -17,6 +17,13 @@ export default class MetricaService {
     );
     return rows[0];
   }
+  static async getByDay(date: string) {
+    const [rows] = await pool.query<RowDataPacket[]>(
+      "SELECT * FROM view_metrica_dia WHERE data_criacao = ?",
+      [date]
+    );
+    return rows;
+  }
 
   static async create(data: {
     grupo_id: number;

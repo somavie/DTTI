@@ -199,6 +199,11 @@ export interface RelatorioType {
   observacoes?: Observacao[];
   equipamentos?: Equipamento[];
 }
+export interface GrupoGrsType {
+  id: number;
+  nome: string;
+  qtds: number;
+}
 
 export interface TipoUsuarioType {
   id: number;

@@ -150,6 +150,10 @@ export const TecnicoSchema = object().shape({
     .oneOf(["Masculino", "Feminino", "Outro"])
     .required("Gênero é obrigatório"),
 });
+export const GrupoSchema = object().shape({
+  nome: yup.string().required("Nome é obrigatório"),
+  qtds: number().required("A quantidade de radios no grupo"),
+});
 
 export const ProfessorSchemaOnly = object().shape({
   funcionario_id: number().required("O ID do funcionário é obrigatório"),

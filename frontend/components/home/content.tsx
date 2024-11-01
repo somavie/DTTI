@@ -4,14 +4,12 @@ import { CardDashboard } from "../home/CardDashboard";
 import { Spinner } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import { Props } from "react-apexcharts";
+import GraficoRadiosOnline from "../grupos_grs/graficoEstabilidade"; // Importe o componente de gráfico
 
-// Carregar o gráfico dinamicamente
-const Chart = dynamic(
-  () => import("../charts/steam").then((mod) => mod.Steam),
-  {
-    ssr: false,
-  }
-);
+// Carregar o gráfico Steam dinamicamente
+const Chart = dynamic(() => import("../charts/steam").then((mod) => mod.Steam), {
+  ssr: false,
+});
 
 export const Content = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,6 +30,17 @@ export const Content = () => {
         <div className="w-full">
           <CardDashboard />
         </div>
+
+        {/* Gráfico de porcentagem de rádios online por turno */}
+        <div className="w-full bg-content1 shadow-lg rounded-2xl p-6 flex items-center justify-center min-h-[400px]">
+          {loading ? (
+            <Spinner size="lg" label="Carregando gráfico..." />
+          ) : (
+            <GraficoRadiosOnline />  
+          )}
+        </div>
+
+        {/* Gráfico Steam */}
         <div className="w-full bg-content1 shadow-lg rounded-2xl p-6 flex items-center justify-center min-h-[400px]">
           {loading ? (
             <Spinner size="lg" label="Carregando gráfico..." />

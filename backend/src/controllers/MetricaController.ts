@@ -13,6 +13,11 @@ export default class MetricaController {
     const metrica = await MetricaService.getById(Number(id));
     res.json(metrica);
   }
+  static async getByDay(req: Request, res: Response) {
+    const { data } = req.params;
+    const metrica = await MetricaService.getByDay(String(data));
+    res.json(metrica);
+  }
 
   static async create(req: Request, res: Response) {
     const id = await MetricaService.create(req.body);

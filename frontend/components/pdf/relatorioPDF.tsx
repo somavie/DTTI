@@ -2,11 +2,70 @@ import jsPDF from "jspdf";
 import autoTable, { UserOptions } from "jspdf-autotable";
 import { buscarDadosRelatorio } from "./relatorio";
 import { Equipamento, Observacao } from "@/helpers/types";
+import { gerarQRCode } from "../QRCode/QRCodeComponent";
+import api from '@/helpers/api';
+import dayjs from 'dayjs';
 
-import { gerarQRCode } from "../QRCode/QRCodeComponent"; // Importando o gerador de QR Code
 // Interface para estender o tipo jsPDF e incluir lastAutoTable
 interface jsPDFWithAutoTable extends jsPDF {
   lastAutoTable?: { finalY: number };
+}
+
+// Tipo para os dados do registro
+type RegistroType = {
+  entries_count: number;
+  grupo_nome: string;
+  total_online: number;
+  qtds_fixa: number;
+};
+
+// Função para buscar dados do gráfico
+async function fetchGraphData(date: string) {
+  try {
+    const response = await api.get<RegistroType[]>(`/metricas/data/${date}`);
+    return response.data.map((registro) => {
+      const totalEsperadoRadios = registro.qtds_fixa * registro.entries_count;
+      const porcentagem = (registro.total_online / totalEsperadoRadios) * 100;
+      return { grupo: registro.grupo_nome, porcentagem: Math.round(porcentagem) };
+    });
+  } catch (error) {
+    console.error('Erro ao buscar dados do gráfico:', error);
+    return [];
+  }
+}
+
+// Função para desenhar o gráfico
+function drawGraph(doc: jsPDFWithAutoTable, data: { grupo: string; porcentagem: number }[], startY: number) {
+  const marginLeft = 15;
+  const marginRight = 15;
+  const graphWidth = doc.internal.pageSize.getWidth() - marginLeft - marginRight;
+  const graphHeight = 100;
+
+  doc.setFontSize(14);
+  doc.text("Porcentagem de Rádios Online por Grupo", doc.internal.pageSize.getWidth() / 2, startY, { align: "center" });
+
+  if (data.length === 0) {
+    doc.setFontSize(12);
+    doc.text("Dados não preenchidos para esta data.", doc.internal.pageSize.getWidth() / 2, startY + 20, { align: "center" });
+    return startY + 40; // Retorna uma posição Y após a mensagem
+  }
+
+  const barWidth = graphWidth / data.length;
+
+  data.forEach((item, index) => {
+    const barHeight = (item.porcentagem / 100) * graphHeight;
+    const x = marginLeft + index * barWidth;
+    const y = startY + graphHeight - barHeight + 10;
+
+    doc.setFillColor(index % 2 === 0 ? "#8884d8" : "#82ca9d");
+    doc.rect(x, y, barWidth - 2, barHeight, "F");
+
+    doc.setFontSize(8);
+    doc.text(item.grupo, x + barWidth / 2, startY + graphHeight + 15, { align: "center" });
+    doc.text(`${item.porcentagem}%`, x + barWidth / 2, y - 2, { align: "center" });
+  });
+
+  return startY + graphHeight + 30;
 }
 
 export default async function gerarPDF(relatorioId: number) {
@@ -138,8 +197,17 @@ export default async function gerarPDF(relatorioId: number) {
   // Pega a última posição Y após a tabela
   const finalY = doc.lastAutoTable?.finalY || yPosition;
 
-  // Calcula a posição para o QR code
-  yPosition = finalY + 20;
+  // Calculate the date for the graph (one day before data_criacao)
+  const graphDate = dayjs(data_criacao).subtract(1, 'day').format('YYYY-MM-DD');
+
+  // Fetch graph data
+  const graphData = await fetchGraphData(graphDate);
+
+  // Add the graph
+  const graphY = drawGraph(doc, graphData, finalY + 20);
+
+  // Adjust QR code position
+  yPosition = graphY + 20;
 
   // Verifica se há espaço suficiente para o QR code, senão, adiciona nova página
   if (yPosition + 60 > pageHeight) {
@@ -153,6 +221,7 @@ export default async function gerarPDF(relatorioId: number) {
   // Centraliza e adiciona o QR code no PDF
   const qrXPosition = (pageWidth - 40) / 2; // Centralizar o QR code de 40mm
   doc.addImage(qrCode, "JPEG", qrXPosition, yPosition, 40, 40);
+
   // Salva o PDF
   doc.save(`relatorio_${relatorioId}.pdf`);
 }
