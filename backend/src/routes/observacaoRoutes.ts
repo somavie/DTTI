@@ -12,7 +12,12 @@ router.get("/", observacaoController.getAllObservacoesController);
 // Rota para obter uma observação específica por situacao_id e relatorios_id
 router.get(
   "/:situacao_id/:relatorios_id",
-  observacaoController.getObservacaoByIdController
+  observacaoController.getObservacaoBySituacao_idController
+);
+// Rota para obter uma observação específica por relatorios_id
+router.get(
+  "/:relatorios_id",
+  observacaoController.getObservacaoByRelatorioNullController
 );
 
 // Rota para atualizar uma observação específica
@@ -20,6 +25,8 @@ router.put(
   "/:situacao_id/:relatorios_id",
   observacaoController.updateObservacaoController
 );
+
+router.patch("/:id", observacaoController.updateObservacaoController);
 
 // Rota para soft delete de uma observação
 router.patch(

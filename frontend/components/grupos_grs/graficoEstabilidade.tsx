@@ -59,31 +59,33 @@ const GraficoRadiosOnline: React.FC<GraficoRadiosOnlineProps> = ({ defaultDate =
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-semibold text-center mb-4">Porcentagem de Rádios Online por Grupo</h2>
+    <div className="w-full h-full flex flex-col">
       <DatePicker
         value={selectedDate}
         onChange={handleDateChange}
         label="Selecione a Data"
+        className="mb-4"
       />
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="grupo" />
-          <YAxis domain={[0, 100]} unit="%" />
-          <Tooltip formatter={(value: number) => `${value}%`} />
-          <Bar
-            dataKey="porcentagem"
-            barSize={30}
-            fill="#8884d8"
-            label={{ position: 'top', formatter: (value: number) => `${value}%` }}
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="flex-grow">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="grupo" />
+            <YAxis domain={[0, 100]} unit="%" />
+            <Tooltip formatter={(value: number) => `${value}%`} />
+            <Bar
+              dataKey="porcentagem"
+              barSize={30}
+              fill="#8884d8"
+              label={{ position: 'top', formatter: (value: number) => `${value}%` }}
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

@@ -26,12 +26,23 @@ interface CreateEquipamentoInput {
 
 export default function RelatorioForm() {
   const { register, handleSubmit, setValue, watch } = useForm<RelatorioFormData>()
-  const [observacoes, setObservacoes] = useState<{ situacao_id: number; descricao: string }[]>([])
+  const [observacoes, setObservacoes] = useState<{id: number; situacao_id: number; descricao: string }[]>([])
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
   const [currentStep, setCurrentStep] = useState(1)
   const { id: TecnicoId, userName } = useUserData()
   const { data: tecnicos, loading: loadingTecnicos } = useFetchData<TecnicoType>("/tecnicos")
 
+  useEffect(() => {
+    const carregarObservacoesSemRelatorio = async () => {
+      try {
+        const response = await api.get("/observacoes/relatorios_id=null")
+        setObservacoes(response.data)
+      } catch (error) {
+        console.error("Erro ao carregar observações:", error)
+      }
+    }
+    carregarObservacoesSemRelatorio()
+  }, [])
   useEffect(() => {
     if (TecnicoId) {
       setValue("tecnico_cessante_id", TecnicoId)
@@ -39,39 +50,53 @@ export default function RelatorioForm() {
   }, [TecnicoId, setValue])
 
   const criarRelatorio = async (data: RelatorioFormData) => {
-    const { tecnico_cessante_id, tecnico_entrante_id, observacao_final } = data
+    const { tecnico_cessante_id, tecnico_entrante_id, observacao_final } = data;
     try {
       const response = await api.post("/relatorios/add", {
         tecnico_cessante_id: Number(tecnico_cessante_id),
         tecnico_entrante_id: Number(tecnico_entrante_id),
         data_criacao: new Date(),
         observacoes_finais: observacao_final || undefined,
-      })
-      const relatorioId = response.data.id
-
+      });
+      const relatorioId = response.data.id;
+  
       await Promise.all(
         observacoes.map((observacao) => {
-          const observacaoData = { ...observacao, relatorios_id: relatorioId }
-          return api.post("/observacoes", observacaoData)
+          if (observacao.id) {
+            // Atualizar observação existente
+            return api.patch(`/observacoes/${observacao.id}`, {
+              ...observacao,
+              relatorios_id: relatorioId,
+            });
+          } else {
+            // Criar nova observação
+            return api.post("/observacoes", {
+              ...observacao,
+              relatorios_id: relatorioId,
+            });
+          }
         })
-      )
-
+      );
+  
       await Promise.all(
         equipamentos.map((equipamento) => {
           const equipamentoData: CreateEquipamentoInput = {
             ...equipamento,
             relatorios_id: relatorioId,
-          }
-          return api.post("/equipamento", equipamentoData)
+          };
+          return api.post("/equipamento", equipamentoData);
         })
-      )
-
-      await gerarPDF(relatorioId)
-      alert("Relatório salvo e PDF gerado com sucesso!")
+      );
+  
+      await gerarPDF(relatorioId);
+      alert("Relatório salvo e PDF gerado com sucesso!");
     } catch (error) {
-      console.error("Erro ao finalizar o relatório:", error)
+      //adicionar o delete do relatoriom em caso de falha
+      console.error("Erro ao finalizar o relatório:", error);
+      alert("Erro ao finalizar o relatório. Tente novamente.");
     }
-  }
+  };
+  
 
   const onSubmitFinalizar = (data: RelatorioFormData) => {
     criarRelatorio(data)
@@ -96,6 +121,7 @@ export default function RelatorioForm() {
             aria-label="Progresso do formulário"
             value={(currentStep / 3) * 100}
             className="mb-4"
+            classNames={{indicator: "bg-blue-500",}}
           />
           {currentStep === 1 && (
             <>
@@ -157,10 +183,10 @@ export default function RelatorioForm() {
           <Spacer y={4} />
 
           <div className="flex justify-between">
-            <Button color="secondary" onClick={prevStep} isDisabled={currentStep === 1}>
+            <Button color="danger" onClick={prevStep} isDisabled={currentStep === 1}>
               Voltar
             </Button>
-            <Button color="secondary" onClick={nextStep} isDisabled={currentStep === 3}>
+            <Button className="bg-blue-500 text-white" onClick={nextStep} isDisabled={currentStep === 3}>
               Próximo
             </Button>
           </div>

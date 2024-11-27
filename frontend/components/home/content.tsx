@@ -1,52 +1,84 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { CardDashboard } from "../home/CardDashboard";
-import { Spinner } from "@nextui-org/react";
-import dynamic from "next/dynamic";
-import { Props } from "react-apexcharts";
-import GraficoRadiosOnline from "../grupos_grs/graficoEstabilidade"; // Importe o componente de gráfico
-
-// Carregar o gráfico Steam dinamicamente
-const Chart = dynamic(() => import("../charts/steam").then((mod) => mod.Steam), {
-  ssr: false,
-});
+import { Spinner, Button } from "@nextui-org/react";
+import GraficoRadiosOnline from "../grupos_grs/graficoEstabilidade";
+import ObservacaoForm from "../observacao/add-observacao";
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
+import api from "@/helpers/api";  // Supondo que você tenha um helper para requisições API
+import { Observacao } from "@/helpers/types";
 
 export const Content = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [series, setSeries] = useState<Props["series"]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [observacoes, setObservacoes] = useState<Observacao[]>([]);
+  const { toast } = useToast()
 
   useEffect(() => {
-    // Simular carregamento de dados
     setTimeout(() => {
       setLoading(false);
-      // Aqui você pode adicionar a lógica real para carregar os dados do gráfico
     }, 2000);
   }, []);
 
+  // Função para cadastrar observações sem relatório
+  const cadastrarObservacaoSemRelatorio = async () => {
+    try {
+      await Promise.all(
+        observacoes.map((observacao) => {
+          return api.post("/observacoes", {
+            ...observacao,
+            relatorios_id: null  // Define o `relatorios_id` como null
+          });
+        })
+      );
+      toast({
+        title: 'Sucesso!',
+        description: 'Dados registrados com sucesso.',
+        duration: 3000,
+      })
+    } catch (error) {
+      console.error('Erro ao registrar dados:', error)
+      toast({
+        title: 'Erro',
+        description: 'Ocorreu um erro ao registrar os dados. Por favor, tente novamente.',
+        duration: 5000,
+        variant: 'destructive',
+      })
+    }
+  };
+
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="space-y-6">
-        <div className="w-full">
+    <div className="w-full min-h-screen bg-background p-6">
+      <div className="space-y-8">
+        <div className="w-full bg-background shadow-md dark:shadow-none rounded-lg p-6">
           <CardDashboard />
         </div>
 
-        {/* Gráfico de porcentagem de rádios online por turno */}
-        <div className="w-full bg-content1 shadow-lg rounded-2xl p-6 flex items-center justify-center min-h-[400px]">
-          {loading ? (
-            <Spinner size="lg" label="Carregando gráfico..." />
-          ) : (
-            <GraficoRadiosOnline />  
-          )}
-        </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-background shadow-md dark:shadow-none rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Porcentagem de Rádios Online por Grupo</h2>
+            <div className="w-full h-[400px]">
+              {loading ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Spinner size="lg" label="Carregando gráfico..." />
+                </div>
+              ) : (
+                <GraficoRadiosOnline />
+              )}
+            </div>
+          </div>
 
-        {/* Gráfico Steam */}
-        <div className="w-full bg-content1 shadow-lg rounded-2xl p-6 flex items-center justify-center min-h-[400px]">
-          {loading ? (
-            <Spinner size="lg" label="Carregando gráfico..." />
-          ) : (
-            <Chart series={series} categories={categories} />
-          )}
+          <div className="bg-background shadow-md dark:shadow-none rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Adicionar Observações</h2>
+            <ObservacaoForm observacoes={observacoes} setObservacoes={setObservacoes} />
+            <Toaster />
+            <Button 
+              className="bg-blue-500 text-white mt-2" 
+              onClick={cadastrarObservacaoSemRelatorio}>
+              Cadastrar
+            </Button>
+          </div>
         </div>
       </div>
     </div>

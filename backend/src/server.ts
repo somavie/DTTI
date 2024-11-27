@@ -16,7 +16,7 @@ import municipioRoutes from "./routes/municipioRoutes";
 import pessoaRoutes from "./routes/pessoaRoutes";
 import contatoRoutes from "./routes/contatoRoutes";
 import provinciaRoutes from "./routes/provinciaRoutes";
-
+import causaRoutes from"./routes/causaRoutes";
 import tipoUsuarioRoutes from "./routes/tipoUsuarioRoutes";
 import postoRoutes from "./routes/postoRoutes"; // Rota para posto
 import situacaoRoutes from "./routes/situacaoRoutes"; // Rota para situacao
@@ -63,6 +63,7 @@ app.use("/municipios", verifyToken, checkPermissionsAuto, municipioRoutes);
 app.use("/pessoas", verifyToken, checkPermissionsAuto, pessoaRoutes);
 app.use("/contatos", verifyToken, checkPermissionsAuto, contatoRoutes);
 app.use("/provincias", verifyToken, checkPermissionsAuto, provinciaRoutes);
+app.use("/causas", verifyToken, checkPermissionsAuto, causaRoutes);
 app.use("/tipousuarios", verifyToken, checkPermissionsAuto, tipoUsuarioRoutes);
 app.use("/postos", postoRoutes); // Usar as rotas de posto
 app.use("/situacoes", situacaoRoutes); // Usar as rotas de situacao

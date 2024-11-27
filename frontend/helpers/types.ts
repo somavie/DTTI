@@ -141,6 +141,7 @@ export interface MeioType {
 }
 
 export interface Observacao {
+  id:number;
   situacao_id: number;
   descricao: string;
   nome?: string; // Pode ser string ou null

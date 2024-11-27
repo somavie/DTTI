@@ -2,6 +2,7 @@ import { Observacao } from "@/helpers/types"
 import { Select, SelectItem, Spinner, Button, Textarea, Card, CardBody, CardHeader } from "@nextui-org/react"
 import { useFetchData } from "../hooks/useFetchDatas"
 import { useEffect } from "react"
+import { PlusIcon } from "../icons/plus-icon"
 
 interface SituacaoType {
   id: number
@@ -18,12 +19,12 @@ export default function ObservacaoForm({ observacoes, setObservacoes }: Observac
 
   useEffect(() => {
     if (observacoes.length === 0) {
-      setObservacoes([{ situacao_id: 0, descricao: "" }])
+      setObservacoes([{ id: 0, situacao_id: 0, descricao: "" }])
     }
   }, [observacoes, setObservacoes])
 
   const adicionarNovaObservacao = () => {
-    setObservacoes([...observacoes, { situacao_id: 0, descricao: "" }])
+    setObservacoes([...observacoes, {id: 0, situacao_id: 0, descricao: "" }])
   }
 
   const removerObservacao = (index: number) => {
@@ -81,8 +82,8 @@ export default function ObservacaoForm({ observacoes, setObservacoes }: Observac
           </Card>
         ))
       )}
-      <Button color="success" onClick={adicionarNovaObservacao}>
-        + Adicionar Outra Observação
+      <Button isIconOnly  color="success" onClick={adicionarNovaObservacao}>
+        <PlusIcon />
       </Button>
     </div>
   )

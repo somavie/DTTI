@@ -36,7 +36,7 @@ export const getAllObservacoes = async (): Promise<Observacao[]> => {
 };
 
 // Obter uma observação por ID
-export const getObservacaoById = async (
+export const getObservacaoBysituacao_id = async (
   situacao_id: number,
   relatorios_id: number
 ): Promise<Observacao | null> => {
@@ -47,26 +47,58 @@ export const getObservacaoById = async (
   const [observacao] = rows as Observacao[];
   return observacao || null;
 };
+// Função para obter um observacao por ID
+export const getObservacaoById = async (id: number): Promise<Observacao | null> => {
+  const [rows] = await pool.query("SELECT * FROM observacao WHERE id = ?", [id]);
+  const result = rows as Observacao[];
+  return result.length > 0 ? result[0] : null;
+};
+// Obter observações sem relatorio_id de um dia especifico
+export const getObservacaoByRelatorioNull = async (
+  relatorios_id: number
+): Promise<Observacao[] | null> => {
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM view_observacao WHERE  relatorios_id IS NULL AND estado = 1`,
+    [ relatorios_id]
+  );
+  
+  return rows as Observacao[];
+};
 
 // Atualizar uma observação por ID
 export const updateObservacao = async (
-  situacao_id: number,
-  relatorios_id: number,
-  updateData: Partial<
-    Omit<
-      Observacao,
-      "situacao_id" | "relatorios_id" | "data_criacao" | "data_alteracao"
-    >
-  >
+  id: number,
+  updateData: Partial<{
+    descricao: string;
+    estado: number;
+    relatorios_id: number;
+  }>
 ): Promise<boolean> => {
-  const { descricao, estado } = updateData;
+  // Obter as chaves e valores enviados
+  const fields = Object.keys(updateData) as (keyof typeof updateData)[];
+  const values = fields.map((field) => updateData[field]);
 
-  const [result] = await pool.execute(
-    `UPDATE observacao SET descricao = ?, estado = ?, data_alteracao = ? WHERE situacao_id = ? AND relatorios_id = ?`,
-    [descricao, estado, new Date(), situacao_id, relatorios_id]
-  );
+  // Verificar se há campos para atualizar
+  if (fields.length === 0) {
+    return false; // Nenhum dado para atualizar
+  }
 
-  return (result as any).affectedRows > 0;
+  // Construir a cláusula SET dinamicamente
+  const setClause = fields.map((field) => `${field} = ?`).join(", ");
+
+  // Adicionar o ID ao final dos valores para o WHERE
+  values.push(id);
+  try {
+    const [result] = await pool.query<ResultSetHeader>(
+      `UPDATE observacao SET ${setClause}  WHERE id = ?`,
+      [...values, new Date(), id]
+    );
+
+    return result.affectedRows > 0; // Retornar se alguma linha foi afetada
+  } catch (error) {
+    console.error("Erro ao atualizar observação:", error);
+    throw error; // Lançar o erro para tratamento
+  }
 };
 
 // Soft delete de uma observação
