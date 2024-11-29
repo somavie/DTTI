@@ -12,9 +12,16 @@ interface SituacaoType {
 interface ObservacaoFormProps {
   observacoes: Observacao[]
   setObservacoes: React.Dispatch<React.SetStateAction<Observacao[]>>
+  onCadastrar?: () => void
+  showCadastrarButton?: boolean
 }
 
-export default function ObservacaoForm({ observacoes, setObservacoes }: ObservacaoFormProps) {
+export default function ObservacaoForm({ 
+  observacoes, 
+  setObservacoes, 
+  onCadastrar, 
+  showCadastrarButton = false 
+}: ObservacaoFormProps) {
   const { data: Situacao, loading: loadingSituacao } = useFetchData<SituacaoType>("/situacoes")
 
   useEffect(() => {
@@ -82,9 +89,19 @@ export default function ObservacaoForm({ observacoes, setObservacoes }: Observac
           </Card>
         ))
       )}
-      <Button isIconOnly  color="success" onClick={adicionarNovaObservacao}>
-        <PlusIcon />
-      </Button>
+      <div className="flex justify-end space-x-2">
+        <Button isIconOnly color="success" onClick={adicionarNovaObservacao}>
+          <PlusIcon />
+        </Button>
+        {showCadastrarButton && onCadastrar && (
+          <Button 
+            className="bg-blue-500 text-white" 
+            onClick={onCadastrar}>
+            Cadastrar
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
+

@@ -70,14 +70,21 @@ export const Content = () => {
           </div>
 
           <div className="bg-background shadow-md dark:shadow-none rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Adicionar Observações</h2>
-            <ObservacaoForm observacoes={observacoes} setObservacoes={setObservacoes} />
-            <Toaster />
-            <Button 
-              className="bg-blue-500 text-white mt-2" 
-              onClick={cadastrarObservacaoSemRelatorio}>
-              Cadastrar
-            </Button>
+            {loading ? (
+              <div className="w-full h-full flex items-center justify-center">
+              <Spinner size="lg" label="Carregando form..." />
+              </div>
+             ) : (<>
+              <ObservacaoForm 
+                observacoes={observacoes} 
+                setObservacoes={setObservacoes} 
+                onCadastrar={cadastrarObservacaoSemRelatorio}
+                showCadastrarButton={true}
+              />
+              <Toaster />
+               </>)
+            }
+            
           </div>
         </div>
       </div>
