@@ -25,6 +25,9 @@ import {
   BookOpenIcon,
   BookAIcon,
   List,
+  Radio,
+  SmartphoneNfc,
+  MonitorCheck,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 
@@ -87,14 +90,24 @@ export const SidebarWrapper = () => {
                   icon={<IdentificationIcon />}
                   items={[
                     {
+                      label: "Radios",
+                      href: "/radio", // Alias
+                      icon: <Radio />,
+                    },
+                    {
+                      label: "Entidades",
+                      href: "/entidade", // Alias
+                      icon: <Users />,
+                    },
+                    {
                       label: "Grupos",
                       href: "/grupos", // Alias
-                      icon: <Users />,
+                      icon: <SmartphoneNfc />,
                     },
                     {
                       label: "Adicionar dados",
                       href: "/addQtd", // Alias
-                      icon: <Users />,
+                      icon: <MonitorCheck />,
                     },
                   ]}
                 />

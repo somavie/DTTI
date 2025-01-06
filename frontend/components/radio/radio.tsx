@@ -4,18 +4,18 @@ import { Button, Spinner } from "@nextui-org/react";
 import { useCallback, useEffect, useState } from "react";
 import { TableWrapper } from "@/components/tableDinamica/table";
 import api from "../../helpers/api";
-import { GrupoType } from "@/helpers/types";
-import { GrupoForm } from "./grupo-form";
-import { ViewGrupoModal } from "./view-grupo";
+import { RadioType } from "@/helpers/types";
+import { RadioForm } from "./radio-form";
+import { ViewRadioModal } from "./radio-view";
 import { useDisclosure } from "@nextui-org/react";
 import { PlusIcon } from "../icons/plus-icon";
 
-export const Grupo = () => {
-  const [grupos, setGrupos] = useState<GrupoType[]>([]);
+export const Radio = () => {
+  const [radios, setRadios] = useState<RadioType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [editingGrupo, setEditingGrupo] = useState<GrupoType | null>(null);
-  const [selectedGrupo, setSelectedGrupo] = useState<GrupoType | null>(null);
+  const [editingRadio, setEditingRadio] = useState<RadioType | null>(null);
+  const [selectedRadio, setSelectedRadio] = useState<RadioType | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { 
     isOpen: isViewOpen, 
@@ -23,63 +23,63 @@ export const Grupo = () => {
     onOpenChange: onViewOpenChange 
   } = useDisclosure();
 
-  const fetchGrupos = useCallback(async () => {
+  const fetchRadios = useCallback(async () => {
     try {
-      const response = await api.get("/grupo");
-      setGrupos(response.data);
+      const response = await api.get("/radios");
+      setRadios(response.data);
     } catch (err) {
-      setError("Failed to fetch grupos");
+      setError("Failed to fetch radios");
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchGrupos();
-  }, [fetchGrupos]);
+    fetchRadios();
+  }, [fetchRadios]);
 
-  const handleEditGrupo = useCallback(
-    (grupo: GrupoType) => {
-      setEditingGrupo(grupo);
+  const handleEditRadio = useCallback(
+    (radio: RadioType) => {
+      setEditingRadio(radio);
       onOpen();
     },
     [onOpen]
   );
 
-  const handleViewGrupo = useCallback(
-    (grupo: GrupoType) => {
-      setSelectedGrupo(grupo);
+  const handleViewRadio = useCallback(
+    (radio: RadioType) => {
+      setSelectedRadio(radio);
       onViewOpen();
     },
     [onViewOpen]
   );
 
-  const handleNewGrupo = useCallback(() => {
-    setEditingGrupo(null);
+  const handleNewRadio = useCallback(() => {
+    setEditingRadio(null);
     onOpen();
   }, [onOpen]);
 
-  const handleDeleteGrupo = useCallback(
+  const handleDeleteRadio = useCallback(
     async (id: number) => {
-      if (confirm("Tem certeza que deseja eliminar este grupo?")) {
+      if (confirm("Tem certeza que deseja eliminar este rádio?")) {
         try {
-          await api.delete(`/grupos/${id}`);
-          fetchGrupos();
+          await api.delete(`/radios/${id}`);
+          fetchRadios();
         } catch (error) {
-          console.error("Erro ao eliminar grupo:", error);
+          console.error("Erro ao eliminar rádio:", error);
         }
       }
     },
-    [fetchGrupos]
+    [fetchRadios]
   );
 
-  const columns = ["id", "nome", "codname"];
-  const headers = ["ID", "Nome", "Codname"];
+  const columns = ["id", "numero_serie", "identificador", "situacao"];
+  const headers = ["ID", "Número de Série", "Identificador", "Situação"];
 
   return (
     <>
       <div className="my-2 px-4 lg:px-6 max-w-[95rem] mx-auto w-full flex flex-col gap-4">
-        <h3 className="text-4xl font-semibold">Grupos</h3>
+        <h3 className="text-4xl font-semibold">Rádios</h3>
         <div className="flex justify-between flex-wrap gap-4 items-center">
           <div className="flex items-center gap-3 flex-wrap md:flex-nowrap"></div>
           <div className="flex flex-row gap-3.5 flex-wrap">
@@ -87,9 +87,9 @@ export const Grupo = () => {
               startContent={<PlusIcon />}
               color="primary"
               className="bg-blue-600 hover:bg-blue-700 text-white"
-              onPress={handleNewGrupo}
+              onPress={handleNewRadio}
             >
-              Adicionar Grupo
+              Adicionar Rádio
             </Button>
           </div>
         </div>
@@ -102,26 +102,26 @@ export const Grupo = () => {
           {error && <div>{error}</div>}
           {!loading && !error && (
             <TableWrapper
-              data={grupos}
+              data={radios}
               columns={columns}
               headers={headers}
-              onEdit={handleEditGrupo}
-              onDelete={handleDeleteGrupo}
-              onView={handleViewGrupo}
+              onEdit={handleEditRadio}
+              onDelete={handleDeleteRadio}
+              onView={handleViewRadio}
             />
           )}
         </div>
 
-        <GrupoForm
-          editingGrupo={editingGrupo}
-          onCloseAndRefresh={fetchGrupos}
+        <RadioForm
+          editingRadio={editingRadio}
+          onCloseAndRefresh={fetchRadios}
           isOpen={isOpen}
           onOpenChange={onOpenChange}
         />
 
-        {selectedGrupo && (
-          <ViewGrupoModal
-            grupo={selectedGrupo}
+        {selectedRadio && (
+          <ViewRadioModal
+            radio={selectedRadio}
             isOpen={isViewOpen}
             onClose={onViewOpenChange}
           />
@@ -131,5 +131,5 @@ export const Grupo = () => {
   );
 };
 
-export default Grupo;
+export default Radio;
 

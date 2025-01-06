@@ -37,6 +37,14 @@ const nextConfig = {
         destination: "/grs/grupos",
       },
       {
+        source: "/entidade",
+        destination: "/grs/entidade",
+      },
+      {
+        source: "/radio",
+        destination: "/grs/radio",
+      },
+      {
         source: "/addQtd",
         destination: "/grs/addQtd",
       },

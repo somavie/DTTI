@@ -11,11 +11,25 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 01/11/2024 01:56:11
+ Date: 18/12/2024 20:19:59
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for causas
+-- ----------------------------
+DROP TABLE IF EXISTS `causas`;
+CREATE TABLE `causas`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for contato
@@ -54,6 +68,62 @@ CREATE TABLE `endereco`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for entidade_grupo
+-- ----------------------------
+DROP TABLE IF EXISTS `entidade_grupo`;
+CREATE TABLE `entidade_grupo`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `entidade_id` int NOT NULL,
+  `grupo_id` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `entidade_id`(`entidade_id` ASC) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
+  CONSTRAINT `entidade_grupo_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `entidade_grupo_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for entidade_radio
+-- ----------------------------
+DROP TABLE IF EXISTS `entidade_radio`;
+CREATE TABLE `entidade_radio`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `entidade_id` int NOT NULL,
+  `radio_id` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `entidade_id`(`entidade_id` ASC) USING BTREE,
+  INDEX `radio_id`(`radio_id` ASC) USING BTREE,
+  CONSTRAINT `entidade_radio_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `entidade_radio_ibfk_2` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for entidades
+-- ----------------------------
+DROP TABLE IF EXISTS `entidades`;
+CREATE TABLE `entidades`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `grupo_id` int NULL DEFAULT NULL,
+  `codname` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `indicativo` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for equipamento
 -- ----------------------------
 DROP TABLE IF EXISTS `equipamento`;
@@ -74,7 +144,7 @@ CREATE TABLE `equipamento`  (
   INDEX `fk_equipamento_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_equipamento_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_table1_equipamentos1` FOREIGN KEY (`equipamentos_id`) REFERENCES `equipamentos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for equipamentos
@@ -103,7 +173,22 @@ CREATE TABLE `grupo`  (
   `data_remocao` timestamp NULL DEFAULT NULL,
   `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for grupos
+-- ----------------------------
+DROP TABLE IF EXISTS `grupos`;
+CREATE TABLE `grupos`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `codname` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for municipio
@@ -144,7 +229,7 @@ CREATE TABLE `métrica`  (
   CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for observacao
@@ -153,7 +238,8 @@ DROP TABLE IF EXISTS `observacao`;
 CREATE TABLE `observacao`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `situacao_id` int NOT NULL,
-  `relatorios_id` int NOT NULL,
+  `causa_id` int NULL DEFAULT NULL,
+  `relatorios_id` int NULL DEFAULT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
   `data_criacao` timestamp NULL DEFAULT current_timestamp,
@@ -162,9 +248,11 @@ CREATE TABLE `observacao`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_observacao_situacao1_idx`(`situacao_id` ASC) USING BTREE,
   INDEX `fk_observacao_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
+  INDEX `causa_id`(`causa_id` ASC) USING BTREE,
   CONSTRAINT `fk_observacao_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+  CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `observacao_ibfk_1` FOREIGN KEY (`causa_id`) REFERENCES `causas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for pessoa
@@ -234,6 +322,24 @@ CREATE TABLE `provincia`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for radios
+-- ----------------------------
+DROP TABLE IF EXISTS `radios`;
+CREATE TABLE `radios`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `numero_serie` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `identificador` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1,
+  `localizacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `situacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for relatorios
 -- ----------------------------
 DROP TABLE IF EXISTS `relatorios`;
@@ -252,7 +358,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for situacao
@@ -267,6 +373,21 @@ CREATE TABLE `situacao`  (
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for status_radios
+-- ----------------------------
+DROP TABLE IF EXISTS `status_radios`;
+CREATE TABLE `status_radios`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `radio_id` int NOT NULL,
+  `data_hora` timestamp NOT NULL DEFAULT current_timestamp,
+  `status` tinyint(1) NOT NULL,
+  `usuario` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `radio_id`(`radio_id` ASC) USING BTREE,
+  CONSTRAINT `status_radios_ibfk_1` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tecnicos
@@ -372,6 +493,23 @@ ORDER BY
     g.nome ASC ;
 
 -- ----------------------------
+-- View structure for view_metrica_teste
+-- ----------------------------
+DROP VIEW IF EXISTS `view_metrica_teste`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_metrica_teste` AS SELECT
+    `métrica`.id, 
+    `métrica`.grupo_id, 
+    `métrica`.turno_id, 
+    `métrica`.relatorio_id, 
+    `métrica`.qtds_online, 
+    `métrica`.qtds_offline, 
+    `métrica`.data_criacao
+FROM
+    `métrica`
+WHERE
+    DATE(`métrica`.data_criacao) = '2024-12-09' AND turno_id ='1' ;
+
+-- ----------------------------
 -- View structure for view_municipios
 -- ----------------------------
 DROP VIEW IF EXISTS `view_municipios`;
@@ -381,7 +519,25 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_municipios` AS sele
 -- View structure for view_observacao
 -- ----------------------------
 DROP VIEW IF EXISTS `view_observacao`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))); ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS SELECT
+	observacao.id AS id, 
+	situacao.nome, 
+	observacao.situacao_id AS situacao_id, 
+	observacao.relatorios_id AS relatorios_id, 
+	observacao.descricao AS descricao, 
+	observacao.estado AS estado
+FROM
+	(
+		observacao
+		join
+		situacao
+		ON 
+			(
+				(
+					observacao.situacao_id = situacao.id
+				)
+			)
+	) ;
 
 -- ----------------------------
 -- View structure for view_pessoas

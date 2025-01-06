@@ -24,6 +24,13 @@ export default class MetricaService {
     );
     return rows;
   }
+  static async getByDayTurno(date: string, turno_id: string,) {
+    const [rows] = await pool.query<RowDataPacket[]>(
+      "SELECT * FROM métrica WHERE DATE(data_criacao) = ? AND turno_id = ?",
+      [date, turno_id]
+    );
+    return rows;
+  }
 
   static async create(data: {
     grupo_id: number;
@@ -62,3 +69,4 @@ export default class MetricaService {
     );
   }
 }
+

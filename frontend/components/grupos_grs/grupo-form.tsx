@@ -3,48 +3,44 @@
 import {
   Button,
   Input,
-  Spinner,
   Modal,
   ModalBody,
-  Select,
-  SelectItem,
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
 import React, { useCallback } from "react";
 import { Formik, FormikHelpers } from "formik";
 import api from "../../helpers/api";
-import { GrupoSchema } from "@/helpers/schemas"; // Defina o esquema de validação para Grupo
-import { GrupoGrsType } from "@/helpers/types";
+import { GrupoSchema } from "@/helpers/schemas";
+import { GrupoType } from "@/helpers/types";
 
-interface AddGrupoProps {
-  editingGrupo: GrupoGrsType | null;
+interface GrupoFormProps {
+  editingGrupo: GrupoType | null;
   onCloseAndRefresh: () => void;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-interface GrupoForm {
+interface GrupoFormValues {
   id: number;
   nome: string;
-  qtds: number;
+  codname: string;
 }
 
-export const AddGrupo = ({
+export const GrupoForm = ({
   editingGrupo,
   onCloseAndRefresh,
   isOpen,
   onOpenChange,
-}: AddGrupoProps) => {
-
-  const initialValues: GrupoForm = {
+}: GrupoFormProps) => {
+  const initialValues: GrupoFormValues = {
     id: editingGrupo?.id || 0,
     nome: editingGrupo?.nome || "",
-    qtds: editingGrupo?.qtds || 0,
+    codname: editingGrupo?.codname || "",
   };
 
   const handleGrupoSubmit = useCallback(
-    async (values: GrupoForm, { resetForm }: FormikHelpers<GrupoForm>) => {
+    async (values: GrupoFormValues, { resetForm }: FormikHelpers<GrupoFormValues>) => {
       try {
         if (editingGrupo) {
           await api.put(`/grupos/${editingGrupo.id}`, values);
@@ -68,7 +64,7 @@ export const AddGrupo = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              {editingGrupo ? "Editar Grupo" : "Cadastrar Grupo"}
+              {editingGrupo ? "Editar Grupo" : "Cadastro de Grupo"}
             </ModalHeader>
             <ModalBody>
               <Formik
@@ -87,17 +83,17 @@ export const AddGrupo = ({
                         isInvalid={!!errors.nome && !!touched.nome}
                         errorMessage={errors.nome}
                         onChange={handleChange("nome")}
-                        placeholder="Digite o nome da grupo"
+                        placeholder="Digite o nome do grupo"
                       />
                       <Input
                         variant="bordered"
-                        type="number"
-                        label="qtds"
-                        value={values.qtds.toString()}
-                        isInvalid={!!errors.qtds && !!touched.qtds}
-                        errorMessage={errors.qtds}
-                        onChange={handleChange("qtds")}
-                        placeholder="Digite o qtds da grupo"
+                        label="Codname"
+                        value={values.codname}
+                        isInvalid={!!errors.codname && !!touched.codname}
+                        errorMessage={errors.codname}
+                        onChange={handleChange("codname")}
+                        placeholder="Digite o codname do grupo"
+                        maxLength={10}
                       />
                     </div>
                     <Button

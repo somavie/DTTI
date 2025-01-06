@@ -3,63 +3,67 @@
 import {
   Button,
   Input,
+  Select,
+  SelectItem,
   Spinner,
   Modal,
   ModalBody,
-  Select,
-  SelectItem,
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Formik, FormikHelpers } from "formik";
 import api from "../../helpers/api";
-import { GrupoSchema } from "@/helpers/schemas"; // Defina o esquema de validação para Grupo
-import { GrupoGrsType } from "@/helpers/types";
+import { EntidadeSchema } from "@/helpers/schemas";
+import { EntidadeType } from "@/helpers/types";
+import { useAllGrupos } from "../hooks/allselect";
 
-interface AddGrupoProps {
-  editingGrupo: GrupoGrsType | null;
+interface EntidadeFormProps {
+  editingEntidade: EntidadeType | null;
   onCloseAndRefresh: () => void;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-interface GrupoForm {
+interface EntidadeFormValues {
   id: number;
   nome: string;
-  qtds: number;
+  indicativo: number;
+  
 }
 
-export const AddGrupo = ({
-  editingGrupo,
+export const EntidadeForm = ({
+  editingEntidade,
   onCloseAndRefresh,
   isOpen,
   onOpenChange,
-}: AddGrupoProps) => {
+}: EntidadeFormProps) => {
+  const { grupos, loading: gruposLoading } = useAllGrupos();
 
-  const initialValues: GrupoForm = {
-    id: editingGrupo?.id || 0,
-    nome: editingGrupo?.nome || "",
-    qtds: editingGrupo?.qtds || 0,
+  const initialValues: EntidadeFormValues = {
+    id: editingEntidade?.id || 0,
+    nome: editingEntidade?.nome || "",
+    indicativo: editingEntidade?.indicativo || 0,
+    
   };
 
-  const handleGrupoSubmit = useCallback(
-    async (values: GrupoForm, { resetForm }: FormikHelpers<GrupoForm>) => {
+  const handleEntidadeSubmit = useCallback(
+    async (values: EntidadeFormValues, { resetForm }: FormikHelpers<EntidadeFormValues>) => {
       try {
-        if (editingGrupo) {
-          await api.put(`/grupos/${editingGrupo.id}`, values);
+        if (editingEntidade) {
+          await api.put(`/entidades/${editingEntidade.id}`, values);
         } else {
-          await api.post("/grupos", values);
+          await api.post("/entidades", values);
         }
 
         resetForm();
         onCloseAndRefresh();
         onOpenChange(false);
       } catch (error) {
-        console.error("Erro ao criar/atualizar grupo:", error);
+        console.error("Erro ao criar/atualizar entidade:", error);
       }
     },
-    [editingGrupo, onCloseAndRefresh, onOpenChange]
+    [editingEntidade, onCloseAndRefresh, onOpenChange]
   );
 
   return (
@@ -68,14 +72,14 @@ export const AddGrupo = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              {editingGrupo ? "Editar Grupo" : "Cadastrar Grupo"}
+              {editingEntidade ? "Editar Entidade" : "Cadastro de Entidade"}
             </ModalHeader>
             <ModalBody>
               <Formik
                 initialValues={initialValues}
                 enableReinitialize
-                validationSchema={GrupoSchema}
-                onSubmit={handleGrupoSubmit}
+                validationSchema={EntidadeSchema}
+                onSubmit={handleEntidadeSubmit}
               >
                 {({ values, errors, touched, handleChange, handleSubmit }) => (
                   <>
@@ -87,18 +91,19 @@ export const AddGrupo = ({
                         isInvalid={!!errors.nome && !!touched.nome}
                         errorMessage={errors.nome}
                         onChange={handleChange("nome")}
-                        placeholder="Digite o nome da grupo"
+                        placeholder="Digite o nome da entidade"
                       />
                       <Input
                         variant="bordered"
                         type="number"
-                        label="qtds"
-                        value={values.qtds.toString()}
-                        isInvalid={!!errors.qtds && !!touched.qtds}
-                        errorMessage={errors.qtds}
-                        onChange={handleChange("qtds")}
-                        placeholder="Digite o qtds da grupo"
+                        label="Indicativo"
+                        value={values.indicativo.toString()}
+                        isInvalid={!!errors.indicativo && !!touched.indicativo}
+                        errorMessage={errors.indicativo}
+                        onChange={handleChange("indicativo")}
+                        placeholder="Digite o indicativo"
                       />
+                      
                     </div>
                     <Button
                       onPress={() => {
@@ -109,7 +114,7 @@ export const AddGrupo = ({
                       color="primary"
                       className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                     >
-                      {editingGrupo ? "Atualizar Grupo" : "Cadastrar Grupo"}
+                      {editingEntidade ? "Atualizar Entidade" : "Cadastrar Entidade"}
                     </Button>
                   </>
                 )}

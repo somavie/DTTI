@@ -18,6 +18,11 @@ export default class MetricaController {
     const metrica = await MetricaService.getByDay(String(data));
     res.json(metrica);
   }
+  static async getByDayTurno(req: Request, res: Response) {
+    const { data, turno_id } = req.params;
+    const metrica = await MetricaService.getByDayTurno(String(data), String(turno_id));
+    res.json(metrica);
+  }
 
   static async create(req: Request, res: Response) {
     const id = await MetricaService.create(req.body);
@@ -36,3 +41,4 @@ export default class MetricaController {
     res.sendStatus(204);
   }
 }
+ 

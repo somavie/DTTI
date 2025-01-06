@@ -11,11 +11,31 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 01/11/2024 01:55:56
+ Date: 18/12/2024 03:04:48
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for causas
+-- ----------------------------
+DROP TABLE IF EXISTS `causas`;
+CREATE TABLE `causas`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of causas
+-- ----------------------------
+INSERT INTO `causas` VALUES (1, 'Queda de energia', 1, '2024-11-18 11:55:22', '2024-11-18 11:55:22', NULL);
+INSERT INTO `causas` VALUES (2, 'Queda do Sinal de Internet', 1, '2024-11-18 11:55:55', '2024-11-18 11:55:55', NULL);
 
 -- ----------------------------
 -- Table structure for contato
@@ -83,6 +103,228 @@ INSERT INTO `endereco` VALUES (16, 14, NULL, NULL, 1, '2024-09-30 13:35:03', NUL
 INSERT INTO `endereco` VALUES (17, 10, '', 'Boa Vista', 1, '2024-10-01 05:53:04', NULL, '2024-10-01 05:53:04');
 
 -- ----------------------------
+-- Table structure for entidade_grupo
+-- ----------------------------
+DROP TABLE IF EXISTS `entidade_grupo`;
+CREATE TABLE `entidade_grupo`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `entidade_id` int NOT NULL,
+  `grupo_id` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `entidade_id`(`entidade_id` ASC) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
+  CONSTRAINT `entidade_grupo_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `entidade_grupo_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of entidade_grupo
+-- ----------------------------
+INSERT INTO `entidade_grupo` VALUES (1, 1, 1, 0, '2024-12-16 06:43:28', '2024-12-17 11:40:58', '2024-12-17 11:40:58');
+INSERT INTO `entidade_grupo` VALUES (2, 2, 1, 0, '2024-12-16 08:58:45', '2024-12-17 11:40:58', '2024-12-17 11:40:58');
+INSERT INTO `entidade_grupo` VALUES (3, 3, 1, 0, '2024-12-17 11:40:58', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
+INSERT INTO `entidade_grupo` VALUES (4, 5, 1, 0, '2024-12-17 11:40:58', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
+INSERT INTO `entidade_grupo` VALUES (5, 1, 1, 0, '2024-12-17 11:42:29', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
+INSERT INTO `entidade_grupo` VALUES (6, 2, 1, 0, '2024-12-17 11:42:29', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
+INSERT INTO `entidade_grupo` VALUES (7, 4, 1, 1, '2024-12-17 11:50:04', '2024-12-17 11:50:04', NULL);
+INSERT INTO `entidade_grupo` VALUES (8, 1, 1, 1, '2024-12-17 12:05:56', '2024-12-17 12:05:56', NULL);
+INSERT INTO `entidade_grupo` VALUES (9, 21, 1, 0, '2024-12-17 12:05:56', '2024-12-17 12:32:07', '2024-12-17 12:32:07');
+INSERT INTO `entidade_grupo` VALUES (10, 3, 1, 0, '2024-12-17 12:18:24', '2024-12-17 12:32:05', '2024-12-17 12:32:05');
+INSERT INTO `entidade_grupo` VALUES (11, 2, 1, 1, '2024-12-17 12:36:34', '2024-12-17 12:36:34', NULL);
+INSERT INTO `entidade_grupo` VALUES (12, 11, 1, 0, '2024-12-17 12:51:32', '2024-12-17 12:51:45', '2024-12-17 12:51:45');
+
+-- ----------------------------
+-- Table structure for entidade_radio
+-- ----------------------------
+DROP TABLE IF EXISTS `entidade_radio`;
+CREATE TABLE `entidade_radio`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `entidade_id` int NOT NULL,
+  `radio_id` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `entidade_id`(`entidade_id` ASC) USING BTREE,
+  INDEX `radio_id`(`radio_id` ASC) USING BTREE,
+  CONSTRAINT `entidade_radio_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `entidade_radio_ibfk_2` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of entidade_radio
+-- ----------------------------
+INSERT INTO `entidade_radio` VALUES (1, 1, 11, 0, '2024-12-16 08:27:09', '2024-12-17 17:55:16', '2024-12-17 17:55:16');
+INSERT INTO `entidade_radio` VALUES (2, 3, 1, 0, '2024-12-16 08:58:00', '2024-12-17 18:27:20', '2024-12-17 18:27:20');
+INSERT INTO `entidade_radio` VALUES (3, 2, 15, 0, '2024-12-17 12:37:36', '2024-12-17 18:14:05', '2024-12-17 18:14:05');
+INSERT INTO `entidade_radio` VALUES (4, 4, 61, 0, '2024-12-17 17:54:47', '2024-12-17 19:52:04', '2024-12-17 19:52:04');
+INSERT INTO `entidade_radio` VALUES (5, 1, 1, 0, '2024-12-17 17:55:16', '2024-12-17 18:26:46', '2024-12-17 18:26:46');
+INSERT INTO `entidade_radio` VALUES (6, 2, 61, 1, '2024-12-17 18:14:05', '2024-12-17 18:14:05', NULL);
+INSERT INTO `entidade_radio` VALUES (7, 1, 13, 0, '2024-12-17 18:26:46', '2024-12-17 19:03:13', '2024-12-17 19:03:13');
+INSERT INTO `entidade_radio` VALUES (8, 3, 25, 1, '2024-12-17 18:27:20', '2024-12-17 18:27:20', NULL);
+INSERT INTO `entidade_radio` VALUES (9, 1, 27, 1, '2024-12-17 19:03:13', '2024-12-17 19:03:13', NULL);
+
+-- ----------------------------
+-- Table structure for entidades
+-- ----------------------------
+DROP TABLE IF EXISTS `entidades`;
+CREATE TABLE `entidades`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `grupo_id` int NULL DEFAULT NULL,
+  `codname` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `indicativo` int NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `grupo_id`(`grupo_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of entidades
+-- ----------------------------
+INSERT INTO `entidades` VALUES (1, 'Chefe do SISM', NULL, NULL, 0, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (2, 'Chefe Adj do SISM', NULL, NULL, 0, 1, '2024-12-15 23:07:49', '2024-12-17 10:10:17', NULL);
+INSERT INTO `entidades` VALUES (3, 'Inspector do SISM', NULL, NULL, 1, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (4, 'Conselheiro', NULL, NULL, 2, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (5, 'Chefe de Gabinete do Chefe do SISM', NULL, NULL, 3, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (6, 'Chefe Direcção de Coordenação Operacional', NULL, NULL, 4, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (7, 'Chef. Dir. Intel. Militar. Estratégica', NULL, NULL, 5, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (8, 'Chef. Dir. Contra Inteligência Militar', NULL, NULL, 6, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (9, 'Chef. Inteligência Militar', NULL, NULL, 7, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (10, 'Chefe Direção MININT e Polícia Nacional', NULL, NULL, 9, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (11, 'Director do ISUD', NULL, NULL, 10, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (12, 'Cmdte da BATOP', NULL, NULL, 11, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (13, 'Cmdte do RDE', NULL, NULL, 12, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (14, 'Chefe Gabinete Jurídico', NULL, NULL, 13, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (15, 'Chef. Dir. Informação e Análise', NULL, NULL, 14, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (16, 'Chef. Dir. Telec. Tecn. de Informação', NULL, NULL, 15, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (17, 'Chef. Dir. Investigação Operativa', NULL, NULL, 16, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (18, 'Chef. Dir. Segurança Electrônica', NULL, NULL, 17, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (19, 'Chef. Dir. Segurança e Protecção', NULL, NULL, 18, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (20, 'Chefe Gabinete de Comunicação Institucional', NULL, NULL, 19, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (21, 'Chefe Adj. do Gabinete do Chefe do SISM', NULL, NULL, 20, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (22, 'Chefe do GEPE', NULL, NULL, 21, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (23, 'Chef. Dir. Recursos Humanos', NULL, NULL, 22, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (24, 'Chef. Dir. Administração e Finanças', NULL, NULL, 23, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (25, 'Chef. Dir. Apoio Tecnico-Material', NULL, NULL, 24, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (26, 'Chefe Adj. Dir. de Recursos Humanos', NULL, NULL, 25, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (27, 'Chef. do Centro de Formação de Especialistas', NULL, NULL, 26, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (28, 'Chefe de Secretaria Administrativa', NULL, NULL, 27, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (29, 'Oficial de Campo do Chefe do SISM', NULL, NULL, 28, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (30, 'Conselheiro', NULL, NULL, 29, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (31, 'Chefe da DATO', NULL, NULL, 30, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (32, 'TG Tony Catembo', NULL, NULL, 31, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (33, 'Chefe da DIC', NULL, NULL, 32, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (34, 'Chefe Adjunto da DPIME', NULL, NULL, 33, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (35, 'Chefe da DIA da DPIME', NULL, NULL, 34, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (36, 'Chefe Adjunto DIC', NULL, NULL, 35, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (37, 'Chefe Adjunto GEP', NULL, NULL, 36, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (38, 'Chefe Adjunto DATO', NULL, NULL, 37, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (39, 'Chefe Adjunto DAFSG', NULL, NULL, 38, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (40, 'Chefe R.Transportes', NULL, NULL, 39, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (41, 'VICE ALMIRANTE DIMOXI', NULL, NULL, 40, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (42, 'BRIGADEIRO MBUILA', NULL, NULL, 41, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (43, 'BRIGADEIRO HENRIQUES', NULL, NULL, 43, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (44, 'BRIGADEIRO QUINANGA', NULL, NULL, 44, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (45, 'CHEFE DA ESCOLTA DO GENERAL CHEFE', NULL, NULL, 45, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (46, 'MISSÃO MILITAR MOÇAMBIQUE', NULL, NULL, 1, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (47, 'MISSÃO MILITAR MOÇAMBIQUE', NULL, NULL, 2, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (48, 'CHEFE DEPART. PLANEAM. ORG/DTTI', NULL, NULL, 0, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (49, 'CHEFE DEPART. TECNOL. INFORM/DTTI', NULL, NULL, 0, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (50, 'Chefe da Força Tarefa', NULL, NULL, 0, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (51, 'OFICIAL DIA SISM', NULL, NULL, 1, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (52, 'Base Fixa R.Transportes', NULL, NULL, 5, 1, '2024-12-15 23:07:49', '2024-12-15 23:07:49', NULL);
+INSERT INTO `entidades` VALUES (53, 'Chef. Adj da DIO', NULL, NULL, 1, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (54, 'Chefe de Departamento', NULL, NULL, 2, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (55, 'Chefe de Departamento', NULL, NULL, 3, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (56, 'Chef. DIO Província de Cabinda', NULL, NULL, 4, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (57, 'Chef. DIO Província de Benguela', NULL, NULL, 5, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (58, 'Chef. DIO Província do Moxico', NULL, NULL, 6, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (59, 'Chef. DIO Província do Huambo', NULL, NULL, 7, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (60, 'Chef. DIO Província da Lunda Norte', NULL, NULL, 8, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (61, 'Chef. DIO Província da Lunda Sul', NULL, NULL, 9, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (62, 'Chef. DIO Província do Bié', NULL, NULL, 10, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (63, 'Chef. DIO Província do Cuanza Norte', NULL, NULL, 11, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (64, 'Chef. DIO Província do Cuanza Sul', NULL, NULL, 12, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (65, 'Chef. DIO Província do Uige', NULL, NULL, 13, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (66, 'Chef. DIO Província de Malange', NULL, NULL, 14, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (67, 'Chef. DIO Província do Bengo', NULL, NULL, 15, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (68, 'Chef. DIO Província do K. Kubango', NULL, NULL, 16, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (69, 'Chef. DIO Província da Huila', NULL, NULL, 17, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (70, 'Chef. DIO Província do Namibe', NULL, NULL, 18, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (71, 'Chef. DIO Província do Cunene', NULL, NULL, 19, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (72, 'Chef. DIO Província de Luanda', NULL, NULL, 20, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (73, 'Chef. DIO Província do Zaire', NULL, NULL, 21, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (74, 'Coordenador Nacional', NULL, NULL, 22, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (75, 'Coordenador Adjunto Nacional', NULL, NULL, 23, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (76, 'Coordenador Provincial de Cabinda', NULL, NULL, 24, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (77, 'Coordenador Provincial de Benguela', NULL, NULL, 25, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (78, 'Coordenador Provincial do Moxico', NULL, NULL, 26, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (79, 'Coordenador Provincial do Huambo', NULL, NULL, 27, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (80, 'Coordenador Provincial Lunda Norte', NULL, NULL, 28, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (81, 'Coordenador Provincial Lunda Sul', NULL, NULL, 29, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (82, 'Coordenador Provincial do Bié', NULL, NULL, 30, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (83, 'Coordenador Provincial Cuanza Norte', NULL, NULL, 31, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (84, 'Coordenador Provincial Cuanza Sul', NULL, NULL, 32, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (85, 'Coordenador Provincial do Uige', NULL, NULL, 33, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (86, 'Coordenador Provincial de Malange', NULL, NULL, 34, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (87, 'Coordenador Provincial do Bengo', NULL, NULL, 35, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (88, 'Coordenador Provincial K. Kubango', NULL, NULL, 36, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (89, 'Coordenador Provincial da Huila', NULL, NULL, 37, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (90, 'Coordenador Provincial do Namibe', NULL, NULL, 38, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (91, 'Coordenador Provincial do Cunene', NULL, NULL, 39, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (92, 'Coordenador Provincial de Luanda', NULL, NULL, 40, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (93, 'Coordenador Provincial do Zaire', NULL, NULL, 41, 1, '2024-12-15 23:11:45', '2024-12-15 23:11:45', NULL);
+INSERT INTO `entidades` VALUES (94, '2º Cmdte da BATOP', NULL, NULL, 1, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (95, 'Chef. E. Maior BATOP', NULL, NULL, 2, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (96, 'Cmdtes da URATOP CABINDA', NULL, NULL, 3, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (97, 'Cmdtes da URATOP SAURIMO', NULL, NULL, 4, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (98, 'Cmdtes das URATOPs', NULL, NULL, 5, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (99, 'Cmdtes da URATOP HUAMBO', NULL, NULL, 6, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (100, 'Cmdtes da URATOP HUILA', NULL, NULL, 7, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (101, 'Segundo Comandante do RDE', NULL, NULL, 8, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (102, 'Chefe do Estado Maior RDE', NULL, NULL, 9, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (103, 'Chefe Operações RDE', NULL, NULL, 10, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (104, 'Oficial Guarda Superior BATOP', NULL, NULL, 11, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (105, 'Oficial de Transmissões BATOP', NULL, NULL, 12, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (106, 'Chefe de Operações BATOP', NULL, NULL, 13, 1, '2024-12-15 23:16:24', '2024-12-15 23:16:24', NULL);
+INSERT INTO `entidades` VALUES (107, 'URATOP Cabinda', NULL, NULL, 1, 1, '2024-12-15 23:17:11', '2024-12-15 23:17:11', NULL);
+INSERT INTO `entidades` VALUES (108, 'URATOP Saurimo', NULL, NULL, 2, 1, '2024-12-15 23:17:11', '2024-12-15 23:17:11', NULL);
+INSERT INTO `entidades` VALUES (109, 'URATOP Huambo', NULL, NULL, 3, 1, '2024-12-15 23:17:11', '2024-12-15 23:17:11', NULL);
+INSERT INTO `entidades` VALUES (110, 'URATOP Lubango', NULL, NULL, 4, 1, '2024-12-15 23:17:11', '2024-12-15 23:17:11', NULL);
+INSERT INTO `entidades` VALUES (111, 'Chef. Adj. DPCIM', NULL, NULL, 1, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (112, 'Chefe da CIM R.M. Luanda', NULL, NULL, 2, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (113, 'Dir. Organização Informação', NULL, NULL, 3, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (114, 'Dir. Operativa', NULL, NULL, 4, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (115, 'Chef. CIM EXE', NULL, NULL, 5, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (116, 'Chef. CIM FAN', NULL, NULL, 6, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (117, 'Chef. CIM MGA', NULL, NULL, 7, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (118, 'Chef. U. APOIO', NULL, NULL, 8, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (119, 'Chef. ESCOLA DE FORÇAS ESPECIAIS', NULL, NULL, 9, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (120, 'Chef. ESG', NULL, NULL, 10, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (121, 'Chef. ISTEM', NULL, NULL, 11, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (122, 'Chef. Campo Militar do Grafanil', NULL, NULL, 12, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (123, 'Chef. BATOP', NULL, NULL, 13, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (124, 'Chef. RDE', NULL, NULL, 14, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (125, 'Chef. BCA 1', NULL, NULL, 15, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (126, 'Chef. BCA 2', NULL, NULL, 16, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (127, 'Chef. CIM BCA 3 NAMIBE', NULL, NULL, 17, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (128, 'Chef. BRIGADA DE FORÇAS ESPECIAIS', NULL, NULL, 18, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (129, 'Chef. DIRECÇÃO PRINCIPAL DE LOISTICA', NULL, NULL, 19, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (130, 'Chef. HOSPITAL MILITAR', NULL, NULL, 20, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (131, 'Chef. DIR SAUDE', NULL, NULL, 21, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (132, 'Chef. CIM do ISUD', NULL, NULL, 22, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+INSERT INTO `entidades` VALUES (133, 'OFICIAL DIA DCIM', NULL, NULL, 2, 1, '2024-12-15 23:19:16', '2024-12-15 23:19:16', NULL);
+
+-- ----------------------------
 -- Table structure for equipamento
 -- ----------------------------
 DROP TABLE IF EXISTS `equipamento`;
@@ -103,7 +345,7 @@ CREATE TABLE `equipamento`  (
   INDEX `fk_equipamento_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_equipamento_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_table1_equipamentos1` FOREIGN KEY (`equipamentos_id`) REFERENCES `equipamentos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of equipamento
@@ -228,6 +470,14 @@ INSERT INTO `equipamento` VALUES (121, 1, 22, 45, 'Manutenção', 'cvnhvgnvbn', 
 INSERT INTO `equipamento` VALUES (122, 2, 22, 45, 'Bom', 'bhkjkh', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 INSERT INTO `equipamento` VALUES (123, 3, 22, 1, 'Mau', ' bnbmkjknllk', NULL, 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
 INSERT INTO `equipamento` VALUES (124, 2, 27, 1, 'Bom', 'Sala Tecnica', NULL, 1, '2024-10-31 12:23:57', '2024-10-31 12:23:57', NULL);
+INSERT INTO `equipamento` VALUES (125, 1, 28, 5, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `equipamento` VALUES (126, 2, 28, 5, 'Bom', 'Sala tecnica', NULL, 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `equipamento` VALUES (127, 3, 28, 1, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `equipamento` VALUES (128, 1, 28, 6, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `equipamento` VALUES (129, 2, 33, 1, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-18 15:07:11', '2024-11-18 15:07:11', NULL);
+INSERT INTO `equipamento` VALUES (131, 3, 45, 4, 'Bom', 'tecnica', NULL, 1, '2024-11-18 17:40:19', '2024-11-18 17:40:19', NULL);
+INSERT INTO `equipamento` VALUES (132, 2, 46, 3, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-29 10:29:45', '2024-11-29 10:29:45', NULL);
+INSERT INTO `equipamento` VALUES (133, 1, 47, 1, 'Bom', 'sala tecnica', NULL, 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
 
 -- ----------------------------
 -- Table structure for equipamentos
@@ -263,16 +513,63 @@ CREATE TABLE `grupo`  (
   `data_remocao` timestamp NULL DEFAULT NULL,
   `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of grupo
 -- ----------------------------
-INSERT INTO `grupo` VALUES (1, 44, 'Chita', 1, '2024-10-30 12:22:15', NULL, '2024-10-30 12:22:15');
+INSERT INTO `grupo` VALUES (1, 43, 'Chita', 1, '2024-10-30 12:22:15', NULL, '2024-12-13 13:32:28');
 INSERT INTO `grupo` VALUES (2, 43, 'Leopardo', 1, '2024-10-30 12:22:35', NULL, '2024-10-30 12:22:35');
 INSERT INTO `grupo` VALUES (3, 20, 'Girafa', 1, '2024-10-30 12:22:51', NULL, '2024-10-31 11:42:18');
 INSERT INTO `grupo` VALUES (4, 14, 'Cobra', 1, '2024-10-30 12:23:07', NULL, '2024-10-30 12:23:07');
 INSERT INTO `grupo` VALUES (5, 15, 'Tigre', 1, '2024-10-31 11:42:01', NULL, '2024-10-31 11:42:01');
+INSERT INTO `grupo` VALUES (6, 56, 'cao', 1, '2024-12-13 13:32:44', NULL, '2024-12-13 13:32:44');
+
+-- ----------------------------
+-- Table structure for grupos
+-- ----------------------------
+DROP TABLE IF EXISTS `grupos`;
+CREATE TABLE `grupos`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `codname` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of grupos
+-- ----------------------------
+INSERT INTO `grupos` VALUES (1, 'SISM', 'CHITA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (2, 'DIO', 'CORUJA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (3, 'BATOP', 'MORCEGO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (4, 'CIM EMG', 'TIGRE', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (5, 'CIM EXE', 'ZEBRA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (6, 'CIM RM CAB', 'GIRAFRA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (7, 'CIM RM NORTE', 'URSO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (8, 'CIM RM LESTE', 'GORILA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (9, 'CIM RM CENTRO', 'BUFALO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (10, 'CIM RM SUL', 'ONÇA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (11, 'CIM COMOP FAR', 'LOBO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (12, 'CIM RM NORTE', 'JACARÉ', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (13, 'CIM FA SUL', 'CANGURU', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (14, 'CIM CMD MGMA', 'FOCA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (15, 'CIM RM SUL', 'CAVALO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (16, 'DIMO EXE', 'LEOPARDO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (17, 'DIMO RM NORTE', 'LEBRE', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (18, 'DIMO RM CABINB', 'FORMIGA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (19, 'DIMO RM NORTE', 'ABELHA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (20, 'DIMO RM LESTE', 'GATO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (21, 'DIMO FA SUL', 'ELEFANTE', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (22, 'IMO RA NORTE', 'PEIXE', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (23, 'IMO RM CABINB', 'LAGARTO', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (24, 'IMO RM NORTE', 'BALEIA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (25, 'IMO RM LESTE', 'FORMIGA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (26, 'IMO RM SUL', 'ONÇA', 1, '2024-12-15 22:11:18', '2024-12-15 22:11:18', NULL);
+INSERT INTO `grupos` VALUES (27, 'ZERO', 'MOCHO', 1, '2024-12-15 22:17:13', '2024-12-15 23:48:17', NULL);
 
 -- ----------------------------
 -- Table structure for municipio
@@ -359,7 +656,7 @@ CREATE TABLE `métrica`  (
   CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of métrica
@@ -384,6 +681,42 @@ INSERT INTO `métrica` VALUES (38, 2, 3, 1, 24, 19, 1, '2024-11-01 00:51:24', NU
 INSERT INTO `métrica` VALUES (39, 3, 3, 1, 6, 14, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
 INSERT INTO `métrica` VALUES (40, 4, 3, 1, 7, 7, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
 INSERT INTO `métrica` VALUES (41, 5, 3, 1, 9, 6, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
+INSERT INTO `métrica` VALUES (42, 1, 1, 1, 14, 30, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
+INSERT INTO `métrica` VALUES (43, 2, 1, 1, 34, 9, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
+INSERT INTO `métrica` VALUES (44, 3, 1, 1, 15, 5, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
+INSERT INTO `métrica` VALUES (45, 4, 1, 1, 6, 8, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
+INSERT INTO `métrica` VALUES (46, 5, 1, 1, 8, 7, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
+INSERT INTO `métrica` VALUES (47, 1, 1, 1, 12, 32, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
+INSERT INTO `métrica` VALUES (48, 2, 1, 1, 23, 20, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
+INSERT INTO `métrica` VALUES (49, 3, 1, 1, 4, 16, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
+INSERT INTO `métrica` VALUES (50, 4, 1, 1, 8, 6, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
+INSERT INTO `métrica` VALUES (51, 5, 1, 1, 6, 9, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
+INSERT INTO `métrica` VALUES (52, 1, 1, 1, 43, 1, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
+INSERT INTO `métrica` VALUES (53, 2, 1, 1, 5, 38, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
+INSERT INTO `métrica` VALUES (54, 3, 1, 1, 6, 14, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
+INSERT INTO `métrica` VALUES (55, 4, 1, 1, 8, 6, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
+INSERT INTO `métrica` VALUES (56, 5, 1, 1, 7, 8, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
+INSERT INTO `métrica` VALUES (57, 1, 1, 1, 5, 39, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
+INSERT INTO `métrica` VALUES (58, 2, 1, 1, 7, 36, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
+INSERT INTO `métrica` VALUES (59, 3, 1, 1, 5, 15, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
+INSERT INTO `métrica` VALUES (60, 4, 1, 1, 1, 13, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
+INSERT INTO `métrica` VALUES (61, 5, 1, 1, 3, 12, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
+INSERT INTO `métrica` VALUES (62, 2, 1, 1, 7, 36, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
+INSERT INTO `métrica` VALUES (63, 1, 1, 1, 5, 39, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
+INSERT INTO `métrica` VALUES (64, 3, 1, 1, 20, 0, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
+INSERT INTO `métrica` VALUES (65, 4, 1, 1, 11, 3, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
+INSERT INTO `métrica` VALUES (66, 5, 1, 1, 12, 3, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
+INSERT INTO `métrica` VALUES (72, 1, 2, 1, 5, 39, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:14');
+INSERT INTO `métrica` VALUES (73, 2, 2, 1, 5, 38, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:17');
+INSERT INTO `métrica` VALUES (74, 3, 2, 1, 5, 15, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:21');
+INSERT INTO `métrica` VALUES (75, 4, 2, 1, 5, 9, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:23');
+INSERT INTO `métrica` VALUES (76, 5, 2, 1, 5, 10, 1, '2024-12-09 12:01:28', NULL, '2024-12-09 14:05:27');
+INSERT INTO `métrica` VALUES (82, 1, 2, 1, 4, 39, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
+INSERT INTO `métrica` VALUES (83, 2, 2, 1, 12, 31, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
+INSERT INTO `métrica` VALUES (84, 3, 2, 1, 12, 8, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
+INSERT INTO `métrica` VALUES (85, 4, 2, 1, 12, 2, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
+INSERT INTO `métrica` VALUES (86, 5, 2, 1, 12, 3, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
+INSERT INTO `métrica` VALUES (87, 6, 2, 1, 12, 44, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
 
 -- ----------------------------
 -- Table structure for observacao
@@ -392,7 +725,8 @@ DROP TABLE IF EXISTS `observacao`;
 CREATE TABLE `observacao`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `situacao_id` int NOT NULL,
-  `relatorios_id` int NOT NULL,
+  `causa_id` int NULL DEFAULT NULL,
+  `relatorios_id` int NULL DEFAULT NULL,
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
   `data_criacao` timestamp NULL DEFAULT current_timestamp,
@@ -401,138 +735,157 @@ CREATE TABLE `observacao`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_observacao_situacao1_idx`(`situacao_id` ASC) USING BTREE,
   INDEX `fk_observacao_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
+  INDEX `causa_id`(`causa_id` ASC) USING BTREE,
   CONSTRAINT `fk_observacao_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+  CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `observacao_ibfk_1` FOREIGN KEY (`causa_id`) REFERENCES `causas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of observacao
 -- ----------------------------
-INSERT INTO `observacao` VALUES (1, 1, 1, 'a Rede GRS se encontra estavel e operacional ', 1, '2024-10-20 12:02:22', '2024-10-20 12:02:22', NULL);
-INSERT INTO `observacao` VALUES (2, 2, 1, 'A rede de Telefonia Voip se encontra operacional e nao tem neenhum problema isso significca que a Ms telecom esta funcional e usada da para falar com a parte interna e externa', 1, '2024-10-20 12:02:22', '2024-10-20 12:02:22', NULL);
-INSERT INTO `observacao` VALUES (3, 1, 2, 'tudo operacional', 1, '2024-10-20 12:09:19', '2024-10-20 12:09:19', NULL);
-INSERT INTO `observacao` VALUES (4, 2, 2, 'tudo operacional', 1, '2024-10-20 12:09:19', '2024-10-20 12:09:19', NULL);
-INSERT INTO `observacao` VALUES (9, 1, 3, 'ygjgh', 1, '2024-10-20 15:52:53', '2024-10-20 15:52:53', NULL);
-INSERT INTO `observacao` VALUES (10, 2, 3, 'jfgjghjgyfj', 1, '2024-10-20 15:52:53', '2024-10-20 15:52:53', NULL);
-INSERT INTO `observacao` VALUES (12, 1, 3, 'ygjgh', 1, '2024-10-20 17:33:28', '2024-10-20 17:33:28', NULL);
-INSERT INTO `observacao` VALUES (13, 2, 3, 'jfgjghjgyfj', 1, '2024-10-20 17:33:28', '2024-10-20 17:33:28', NULL);
-INSERT INTO `observacao` VALUES (15, 1, 3, 'ygjgh', 1, '2024-10-20 17:34:14', '2024-10-20 17:34:14', NULL);
-INSERT INTO `observacao` VALUES (16, 2, 3, 'jfgjghjgyfj', 1, '2024-10-20 17:34:14', '2024-10-20 17:34:14', NULL);
-INSERT INTO `observacao` VALUES (18, 1, 5, 'operacional', 1, '2024-10-20 17:35:46', '2024-10-20 17:35:46', NULL);
-INSERT INTO `observacao` VALUES (19, 1, 5, 'operacional', 1, '2024-10-20 17:37:16', '2024-10-20 17:37:16', NULL);
-INSERT INTO `observacao` VALUES (20, 1, 5, 'operacional', 1, '2024-10-20 17:38:31', '2024-10-20 17:38:31', NULL);
-INSERT INTO `observacao` VALUES (21, 1, 5, 'operacional', 1, '2024-10-20 17:48:56', '2024-10-20 17:48:56', NULL);
-INSERT INTO `observacao` VALUES (22, 1, 5, 'operacional', 1, '2024-10-20 17:50:28', '2024-10-20 17:50:28', NULL);
-INSERT INTO `observacao` VALUES (23, 1, 5, 'operacional', 1, '2024-10-20 17:52:05', '2024-10-20 17:52:05', NULL);
-INSERT INTO `observacao` VALUES (24, 1, 5, 'operacional', 1, '2024-10-20 17:57:32', '2024-10-20 17:57:32', NULL);
-INSERT INTO `observacao` VALUES (25, 1, 5, 'operacional', 1, '2024-10-20 18:12:47', '2024-10-20 18:12:47', NULL);
-INSERT INTO `observacao` VALUES (26, 1, 6, 'opreacional sem interrupcoes', 1, '2024-10-20 18:13:47', '2024-10-20 18:13:47', NULL);
-INSERT INTO `observacao` VALUES (27, 1, 6, 'opreacional sem interrupcoes', 1, '2024-10-20 18:22:24', '2024-10-20 18:22:24', NULL);
-INSERT INTO `observacao` VALUES (28, 1, 7, 'operacional', 1, '2024-10-20 18:23:44', '2024-10-20 18:23:44', NULL);
-INSERT INTO `observacao` VALUES (29, 2, 7, 'operacional', 1, '2024-10-20 18:23:44', '2024-10-20 18:23:44', NULL);
-INSERT INTO `observacao` VALUES (30, 1, 7, 'operacional', 1, '2024-10-20 18:27:12', '2024-10-20 18:27:12', NULL);
-INSERT INTO `observacao` VALUES (31, 2, 7, 'operacional', 1, '2024-10-20 18:27:12', '2024-10-20 18:27:12', NULL);
-INSERT INTO `observacao` VALUES (32, 1, 7, 'operacional', 1, '2024-10-20 18:34:44', '2024-10-20 18:34:44', NULL);
-INSERT INTO `observacao` VALUES (33, 2, 7, 'operacional', 1, '2024-10-20 18:34:44', '2024-10-20 18:34:44', NULL);
-INSERT INTO `observacao` VALUES (34, 1, 7, 'operacional', 1, '2024-10-20 18:55:39', '2024-10-20 18:55:39', NULL);
-INSERT INTO `observacao` VALUES (35, 2, 7, 'operacional', 1, '2024-10-20 18:55:39', '2024-10-20 18:55:39', NULL);
-INSERT INTO `observacao` VALUES (36, 1, 7, 'operacional', 1, '2024-10-20 19:01:25', '2024-10-20 19:01:25', NULL);
-INSERT INTO `observacao` VALUES (37, 2, 7, 'operacional', 1, '2024-10-20 19:01:25', '2024-10-20 19:01:25', NULL);
-INSERT INTO `observacao` VALUES (38, 1, 7, 'operacional', 1, '2024-10-20 19:04:58', '2024-10-20 19:04:58', NULL);
-INSERT INTO `observacao` VALUES (39, 2, 7, 'operacional', 1, '2024-10-20 19:04:58', '2024-10-20 19:04:58', NULL);
-INSERT INTO `observacao` VALUES (40, 1, 7, 'operacional', 1, '2024-10-20 19:08:12', '2024-10-20 19:08:12', NULL);
-INSERT INTO `observacao` VALUES (41, 2, 7, 'operacional', 1, '2024-10-20 19:08:12', '2024-10-20 19:08:12', NULL);
-INSERT INTO `observacao` VALUES (42, 1, 7, 'operacional', 1, '2024-10-20 19:13:21', '2024-10-20 19:13:21', NULL);
-INSERT INTO `observacao` VALUES (43, 2, 7, 'operacional', 1, '2024-10-20 19:13:21', '2024-10-20 19:13:21', NULL);
-INSERT INTO `observacao` VALUES (44, 1, 7, 'operacional', 1, '2024-10-20 19:19:12', '2024-10-20 19:19:12', NULL);
-INSERT INTO `observacao` VALUES (45, 2, 7, 'operacional', 1, '2024-10-20 19:19:12', '2024-10-20 19:19:12', NULL);
-INSERT INTO `observacao` VALUES (46, 1, 7, 'operacional', 1, '2024-10-20 19:31:25', '2024-10-20 19:31:25', NULL);
-INSERT INTO `observacao` VALUES (47, 2, 7, 'operacional', 1, '2024-10-20 19:31:25', '2024-10-20 19:31:25', NULL);
-INSERT INTO `observacao` VALUES (48, 1, 7, 'operacional', 1, '2024-10-20 19:33:30', '2024-10-20 19:33:30', NULL);
-INSERT INTO `observacao` VALUES (49, 2, 7, 'operacional', 1, '2024-10-20 19:33:30', '2024-10-20 19:33:30', NULL);
-INSERT INTO `observacao` VALUES (50, 1, 7, 'operacional', 1, '2024-10-20 19:36:28', '2024-10-20 19:36:28', NULL);
-INSERT INTO `observacao` VALUES (51, 2, 7, 'operacional', 1, '2024-10-20 19:36:28', '2024-10-20 19:36:28', NULL);
-INSERT INTO `observacao` VALUES (52, 1, 7, 'operacional', 1, '2024-10-20 19:55:33', '2024-10-20 19:55:33', NULL);
-INSERT INTO `observacao` VALUES (53, 2, 7, 'operacional', 1, '2024-10-20 19:55:33', '2024-10-20 19:55:33', NULL);
-INSERT INTO `observacao` VALUES (54, 1, 7, 'operacional', 1, '2024-10-20 20:17:00', '2024-10-20 20:17:00', NULL);
-INSERT INTO `observacao` VALUES (55, 2, 7, 'operacional', 1, '2024-10-20 20:17:00', '2024-10-20 20:17:00', NULL);
-INSERT INTO `observacao` VALUES (56, 1, 7, 'operacional', 1, '2024-10-20 20:20:19', '2024-10-20 20:20:19', NULL);
-INSERT INTO `observacao` VALUES (57, 2, 7, 'operacional', 1, '2024-10-20 20:20:19', '2024-10-20 20:20:19', NULL);
-INSERT INTO `observacao` VALUES (58, 1, 7, 'operacional', 1, '2024-10-20 20:24:25', '2024-10-20 20:24:25', NULL);
-INSERT INTO `observacao` VALUES (59, 2, 7, 'operacional', 1, '2024-10-20 20:24:25', '2024-10-20 20:24:25', NULL);
-INSERT INTO `observacao` VALUES (60, 1, 7, 'operacional', 1, '2024-10-20 20:28:55', '2024-10-20 20:28:55', NULL);
-INSERT INTO `observacao` VALUES (61, 2, 7, 'operacional', 1, '2024-10-20 20:28:55', '2024-10-20 20:28:55', NULL);
-INSERT INTO `observacao` VALUES (62, 1, 7, 'operacional', 1, '2024-10-20 20:34:43', '2024-10-20 20:34:43', NULL);
-INSERT INTO `observacao` VALUES (63, 2, 7, 'operacional', 1, '2024-10-20 20:34:43', '2024-10-20 20:34:43', NULL);
-INSERT INTO `observacao` VALUES (64, 1, 7, 'operacional', 1, '2024-10-20 20:38:25', '2024-10-20 20:38:25', NULL);
-INSERT INTO `observacao` VALUES (65, 2, 7, 'operacional', 1, '2024-10-20 20:38:25', '2024-10-20 20:38:25', NULL);
-INSERT INTO `observacao` VALUES (66, 1, 7, 'operacional', 1, '2024-10-20 20:39:24', '2024-10-20 20:39:24', NULL);
-INSERT INTO `observacao` VALUES (67, 2, 7, 'operacional', 1, '2024-10-20 20:39:24', '2024-10-20 20:39:24', NULL);
-INSERT INTO `observacao` VALUES (68, 1, 7, 'operacional', 1, '2024-10-20 20:40:03', '2024-10-20 20:40:03', NULL);
-INSERT INTO `observacao` VALUES (69, 2, 7, 'operacional', 1, '2024-10-20 20:40:03', '2024-10-20 20:40:03', NULL);
-INSERT INTO `observacao` VALUES (70, 1, 7, 'operacional', 1, '2024-10-20 20:47:26', '2024-10-20 20:47:26', NULL);
-INSERT INTO `observacao` VALUES (71, 2, 7, 'operacional', 1, '2024-10-20 20:47:26', '2024-10-20 20:47:26', NULL);
-INSERT INTO `observacao` VALUES (72, 1, 7, 'operacional', 1, '2024-10-20 20:51:00', '2024-10-20 20:51:00', NULL);
-INSERT INTO `observacao` VALUES (73, 2, 7, 'operacional', 1, '2024-10-20 20:51:00', '2024-10-20 20:51:00', NULL);
-INSERT INTO `observacao` VALUES (74, 1, 7, 'operacional', 1, '2024-10-20 20:53:22', '2024-10-20 20:53:22', NULL);
-INSERT INTO `observacao` VALUES (75, 2, 7, 'operacional', 1, '2024-10-20 20:53:22', '2024-10-20 20:53:22', NULL);
-INSERT INTO `observacao` VALUES (76, 1, 7, 'operacional', 1, '2024-10-20 20:56:04', '2024-10-20 20:56:04', NULL);
-INSERT INTO `observacao` VALUES (77, 2, 7, 'operacional', 1, '2024-10-20 20:56:04', '2024-10-20 20:56:04', NULL);
-INSERT INTO `observacao` VALUES (78, 1, 7, 'operacional', 1, '2024-10-20 20:59:04', '2024-10-20 20:59:04', NULL);
-INSERT INTO `observacao` VALUES (79, 2, 7, 'operacional', 1, '2024-10-20 20:59:04', '2024-10-20 20:59:04', NULL);
-INSERT INTO `observacao` VALUES (80, 1, 7, 'operacional', 1, '2024-10-20 21:03:00', '2024-10-20 21:03:00', NULL);
-INSERT INTO `observacao` VALUES (81, 2, 7, 'operacional', 1, '2024-10-20 21:03:00', '2024-10-20 21:03:00', NULL);
-INSERT INTO `observacao` VALUES (82, 1, 7, 'operacional', 1, '2024-10-20 21:05:17', '2024-10-20 21:05:17', NULL);
-INSERT INTO `observacao` VALUES (83, 2, 7, 'operacional', 1, '2024-10-20 21:05:17', '2024-10-20 21:05:17', NULL);
-INSERT INTO `observacao` VALUES (84, 1, 7, 'operacional', 1, '2024-10-20 21:06:29', '2024-10-20 21:06:29', NULL);
-INSERT INTO `observacao` VALUES (85, 2, 7, 'operacional', 1, '2024-10-20 21:06:29', '2024-10-20 21:06:29', NULL);
-INSERT INTO `observacao` VALUES (86, 1, 7, 'operacional', 1, '2024-10-20 21:08:55', '2024-10-20 21:08:55', NULL);
-INSERT INTO `observacao` VALUES (87, 2, 7, 'operacional', 1, '2024-10-20 21:08:55', '2024-10-20 21:08:55', NULL);
-INSERT INTO `observacao` VALUES (88, 1, 7, 'operacional', 1, '2024-10-20 21:09:31', '2024-10-20 21:09:31', NULL);
-INSERT INTO `observacao` VALUES (89, 2, 7, 'operacional', 1, '2024-10-20 21:09:31', '2024-10-20 21:09:31', NULL);
-INSERT INTO `observacao` VALUES (90, 1, 7, 'operacional', 1, '2024-10-20 21:11:19', '2024-10-20 21:11:19', NULL);
-INSERT INTO `observacao` VALUES (91, 2, 7, 'operacional', 1, '2024-10-20 21:11:19', '2024-10-20 21:11:19', NULL);
-INSERT INTO `observacao` VALUES (92, 1, 8, 'Esta operacional', 1, '2024-10-20 21:19:17', '2024-10-20 21:19:17', NULL);
-INSERT INTO `observacao` VALUES (93, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:19:17', '2024-10-20 21:19:17', NULL);
-INSERT INTO `observacao` VALUES (94, 1, 8, 'Esta operacional', 1, '2024-10-20 21:21:15', '2024-10-20 21:21:15', NULL);
-INSERT INTO `observacao` VALUES (95, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:21:15', '2024-10-20 21:21:15', NULL);
-INSERT INTO `observacao` VALUES (96, 1, 8, 'Esta operacional', 1, '2024-10-20 21:24:08', '2024-10-20 21:24:08', NULL);
-INSERT INTO `observacao` VALUES (97, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:24:08', '2024-10-20 21:24:08', NULL);
-INSERT INTO `observacao` VALUES (98, 1, 8, 'Esta operacional', 1, '2024-10-20 21:30:26', '2024-10-20 21:30:26', NULL);
-INSERT INTO `observacao` VALUES (99, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:30:26', '2024-10-20 21:30:26', NULL);
-INSERT INTO `observacao` VALUES (100, 1, 8, 'Esta operacional', 1, '2024-10-20 21:33:40', '2024-10-20 21:33:40', NULL);
-INSERT INTO `observacao` VALUES (101, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:33:40', '2024-10-20 21:33:40', NULL);
-INSERT INTO `observacao` VALUES (102, 1, 8, 'Esta operacional', 1, '2024-10-20 21:37:47', '2024-10-20 21:37:47', NULL);
-INSERT INTO `observacao` VALUES (103, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:37:47', '2024-10-20 21:37:47', NULL);
-INSERT INTO `observacao` VALUES (104, 1, 8, 'Esta operacional', 1, '2024-10-20 21:40:40', '2024-10-20 21:40:40', NULL);
-INSERT INTO `observacao` VALUES (105, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:40:40', '2024-10-20 21:40:40', NULL);
-INSERT INTO `observacao` VALUES (106, 1, 8, 'Esta operacional', 1, '2024-10-20 21:49:44', '2024-10-20 21:49:44', NULL);
-INSERT INTO `observacao` VALUES (107, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:49:44', '2024-10-20 21:49:44', NULL);
-INSERT INTO `observacao` VALUES (108, 1, 8, 'Esta operacional', 1, '2024-10-20 21:50:25', '2024-10-20 21:50:25', NULL);
-INSERT INTO `observacao` VALUES (109, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:50:25', '2024-10-20 21:50:25', NULL);
-INSERT INTO `observacao` VALUES (110, 1, 8, 'Esta operacional', 1, '2024-10-20 21:51:39', '2024-10-20 21:51:39', NULL);
-INSERT INTO `observacao` VALUES (111, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:51:39', '2024-10-20 21:51:39', NULL);
-INSERT INTO `observacao` VALUES (112, 1, 8, 'Esta operacional', 1, '2024-10-20 21:53:25', '2024-10-20 21:53:25', NULL);
-INSERT INTO `observacao` VALUES (113, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:53:25', '2024-10-20 21:53:25', NULL);
-INSERT INTO `observacao` VALUES (114, 1, 8, 'Esta operacional', 1, '2024-10-20 21:56:00', '2024-10-20 21:56:00', NULL);
-INSERT INTO `observacao` VALUES (115, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:56:00', '2024-10-20 21:56:00', NULL);
-INSERT INTO `observacao` VALUES (116, 1, 8, 'Esta operacional', 1, '2024-10-20 21:56:35', '2024-10-20 21:56:35', NULL);
-INSERT INTO `observacao` VALUES (117, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:56:35', '2024-10-20 21:56:35', NULL);
-INSERT INTO `observacao` VALUES (118, 1, 8, 'Esta operacional', 1, '2024-10-20 21:57:08', '2024-10-20 21:57:08', NULL);
-INSERT INTO `observacao` VALUES (119, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:57:08', '2024-10-20 21:57:08', NULL);
-INSERT INTO `observacao` VALUES (120, 1, 8, 'Esta operacional', 1, '2024-10-20 22:03:40', '2024-10-20 22:03:40', NULL);
-INSERT INTO `observacao` VALUES (121, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 22:03:40', '2024-10-20 22:03:40', NULL);
-INSERT INTO `observacao` VALUES (122, 1, 8, 'Esta operacional', 1, '2024-10-20 22:23:17', '2024-10-20 22:23:17', NULL);
-INSERT INTO `observacao` VALUES (123, 2, 8, 'esta funcionando plena,me', 1, '2024-10-20 22:23:17', '2024-10-20 22:23:17', NULL);
-INSERT INTO `observacao` VALUES (124, 1, 11, 'fdhgfh', 1, '2024-10-20 23:06:55', '2024-10-20 23:06:55', NULL);
-INSERT INTO `observacao` VALUES (125, 1, 11, 'fdhgfh', 1, '2024-10-20 23:07:35', '2024-10-20 23:07:35', NULL);
-INSERT INTO `observacao` VALUES (126, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
-INSERT INTO `observacao` VALUES (127, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
-INSERT INTO `observacao` VALUES (128, 1, 12, 'Alguma Coisa', 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
-INSERT INTO `observacao` VALUES (129, 1, 21, 'rfdufuyfuyt', 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
-INSERT INTO `observacao` VALUES (130, 1, 22, 'trduyguyt', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
-INSERT INTO `observacao` VALUES (131, 2, 22, 'dthfgyhgfgdfg', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
-INSERT INTO `observacao` VALUES (132, 2, 27, 'caiu durante 2h das 10 ate ', 1, '2024-10-31 12:23:56', '2024-10-31 12:23:56', NULL);
+INSERT INTO `observacao` VALUES (1, 1, NULL, 1, 'a Rede GRS se encontra estavel e operacional ', 1, '2024-10-20 12:02:22', '2024-10-20 12:02:22', NULL);
+INSERT INTO `observacao` VALUES (2, 2, NULL, 1, 'A rede de Telefonia Voip se encontra operacional e nao tem neenhum problema isso significca que a Ms telecom esta funcional e usada da para falar com a parte interna e externa', 1, '2024-10-20 12:02:22', '2024-10-20 12:02:22', NULL);
+INSERT INTO `observacao` VALUES (3, 1, NULL, 2, 'tudo operacional', 1, '2024-10-20 12:09:19', '2024-10-20 12:09:19', NULL);
+INSERT INTO `observacao` VALUES (4, 2, NULL, 2, 'tudo operacional', 1, '2024-10-20 12:09:19', '2024-10-20 12:09:19', NULL);
+INSERT INTO `observacao` VALUES (9, 1, NULL, 3, 'ygjgh', 1, '2024-10-20 15:52:53', '2024-10-20 15:52:53', NULL);
+INSERT INTO `observacao` VALUES (10, 2, NULL, 3, 'jfgjghjgyfj', 1, '2024-10-20 15:52:53', '2024-10-20 15:52:53', NULL);
+INSERT INTO `observacao` VALUES (12, 1, NULL, 3, 'ygjgh', 1, '2024-10-20 17:33:28', '2024-10-20 17:33:28', NULL);
+INSERT INTO `observacao` VALUES (13, 2, NULL, 3, 'jfgjghjgyfj', 1, '2024-10-20 17:33:28', '2024-10-20 17:33:28', NULL);
+INSERT INTO `observacao` VALUES (15, 1, NULL, 3, 'ygjgh', 1, '2024-10-20 17:34:14', '2024-10-20 17:34:14', NULL);
+INSERT INTO `observacao` VALUES (16, 2, NULL, 3, 'jfgjghjgyfj', 1, '2024-10-20 17:34:14', '2024-10-20 17:34:14', NULL);
+INSERT INTO `observacao` VALUES (18, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:35:46', '2024-10-20 17:35:46', NULL);
+INSERT INTO `observacao` VALUES (19, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:37:16', '2024-10-20 17:37:16', NULL);
+INSERT INTO `observacao` VALUES (20, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:38:31', '2024-10-20 17:38:31', NULL);
+INSERT INTO `observacao` VALUES (21, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:48:56', '2024-10-20 17:48:56', NULL);
+INSERT INTO `observacao` VALUES (22, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:50:28', '2024-10-20 17:50:28', NULL);
+INSERT INTO `observacao` VALUES (23, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:52:05', '2024-10-20 17:52:05', NULL);
+INSERT INTO `observacao` VALUES (24, 1, NULL, 5, 'operacional', 1, '2024-10-20 17:57:32', '2024-10-20 17:57:32', NULL);
+INSERT INTO `observacao` VALUES (25, 1, NULL, 5, 'operacional', 1, '2024-10-20 18:12:47', '2024-10-20 18:12:47', NULL);
+INSERT INTO `observacao` VALUES (26, 1, NULL, 6, 'opreacional sem interrupcoes', 1, '2024-10-20 18:13:47', '2024-10-20 18:13:47', NULL);
+INSERT INTO `observacao` VALUES (27, 1, NULL, 6, 'opreacional sem interrupcoes', 1, '2024-10-20 18:22:24', '2024-10-20 18:22:24', NULL);
+INSERT INTO `observacao` VALUES (28, 1, NULL, 7, 'operacional', 1, '2024-10-20 18:23:44', '2024-10-20 18:23:44', NULL);
+INSERT INTO `observacao` VALUES (29, 2, NULL, 7, 'operacional', 1, '2024-10-20 18:23:44', '2024-10-20 18:23:44', NULL);
+INSERT INTO `observacao` VALUES (30, 1, NULL, 7, 'operacional', 1, '2024-10-20 18:27:12', '2024-10-20 18:27:12', NULL);
+INSERT INTO `observacao` VALUES (31, 2, NULL, 7, 'operacional', 1, '2024-10-20 18:27:12', '2024-10-20 18:27:12', NULL);
+INSERT INTO `observacao` VALUES (32, 1, NULL, 7, 'operacional', 1, '2024-10-20 18:34:44', '2024-10-20 18:34:44', NULL);
+INSERT INTO `observacao` VALUES (33, 2, NULL, 7, 'operacional', 1, '2024-10-20 18:34:44', '2024-10-20 18:34:44', NULL);
+INSERT INTO `observacao` VALUES (34, 1, NULL, 7, 'operacional', 1, '2024-10-20 18:55:39', '2024-10-20 18:55:39', NULL);
+INSERT INTO `observacao` VALUES (35, 2, NULL, 7, 'operacional', 1, '2024-10-20 18:55:39', '2024-10-20 18:55:39', NULL);
+INSERT INTO `observacao` VALUES (36, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:01:25', '2024-10-20 19:01:25', NULL);
+INSERT INTO `observacao` VALUES (37, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:01:25', '2024-10-20 19:01:25', NULL);
+INSERT INTO `observacao` VALUES (38, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:04:58', '2024-10-20 19:04:58', NULL);
+INSERT INTO `observacao` VALUES (39, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:04:58', '2024-10-20 19:04:58', NULL);
+INSERT INTO `observacao` VALUES (40, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:08:12', '2024-10-20 19:08:12', NULL);
+INSERT INTO `observacao` VALUES (41, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:08:12', '2024-10-20 19:08:12', NULL);
+INSERT INTO `observacao` VALUES (42, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:13:21', '2024-10-20 19:13:21', NULL);
+INSERT INTO `observacao` VALUES (43, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:13:21', '2024-10-20 19:13:21', NULL);
+INSERT INTO `observacao` VALUES (44, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:19:12', '2024-10-20 19:19:12', NULL);
+INSERT INTO `observacao` VALUES (45, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:19:12', '2024-10-20 19:19:12', NULL);
+INSERT INTO `observacao` VALUES (46, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:31:25', '2024-10-20 19:31:25', NULL);
+INSERT INTO `observacao` VALUES (47, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:31:25', '2024-10-20 19:31:25', NULL);
+INSERT INTO `observacao` VALUES (48, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:33:30', '2024-10-20 19:33:30', NULL);
+INSERT INTO `observacao` VALUES (49, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:33:30', '2024-10-20 19:33:30', NULL);
+INSERT INTO `observacao` VALUES (50, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:36:28', '2024-10-20 19:36:28', NULL);
+INSERT INTO `observacao` VALUES (51, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:36:28', '2024-10-20 19:36:28', NULL);
+INSERT INTO `observacao` VALUES (52, 1, NULL, 7, 'operacional', 1, '2024-10-20 19:55:33', '2024-10-20 19:55:33', NULL);
+INSERT INTO `observacao` VALUES (53, 2, NULL, 7, 'operacional', 1, '2024-10-20 19:55:33', '2024-10-20 19:55:33', NULL);
+INSERT INTO `observacao` VALUES (54, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:17:00', '2024-10-20 20:17:00', NULL);
+INSERT INTO `observacao` VALUES (55, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:17:00', '2024-10-20 20:17:00', NULL);
+INSERT INTO `observacao` VALUES (56, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:20:19', '2024-10-20 20:20:19', NULL);
+INSERT INTO `observacao` VALUES (57, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:20:19', '2024-10-20 20:20:19', NULL);
+INSERT INTO `observacao` VALUES (58, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:24:25', '2024-10-20 20:24:25', NULL);
+INSERT INTO `observacao` VALUES (59, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:24:25', '2024-10-20 20:24:25', NULL);
+INSERT INTO `observacao` VALUES (60, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:28:55', '2024-10-20 20:28:55', NULL);
+INSERT INTO `observacao` VALUES (61, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:28:55', '2024-10-20 20:28:55', NULL);
+INSERT INTO `observacao` VALUES (62, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:34:43', '2024-10-20 20:34:43', NULL);
+INSERT INTO `observacao` VALUES (63, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:34:43', '2024-10-20 20:34:43', NULL);
+INSERT INTO `observacao` VALUES (64, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:38:25', '2024-10-20 20:38:25', NULL);
+INSERT INTO `observacao` VALUES (65, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:38:25', '2024-10-20 20:38:25', NULL);
+INSERT INTO `observacao` VALUES (66, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:39:24', '2024-10-20 20:39:24', NULL);
+INSERT INTO `observacao` VALUES (67, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:39:24', '2024-10-20 20:39:24', NULL);
+INSERT INTO `observacao` VALUES (68, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:40:03', '2024-10-20 20:40:03', NULL);
+INSERT INTO `observacao` VALUES (69, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:40:03', '2024-10-20 20:40:03', NULL);
+INSERT INTO `observacao` VALUES (70, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:47:26', '2024-10-20 20:47:26', NULL);
+INSERT INTO `observacao` VALUES (71, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:47:26', '2024-10-20 20:47:26', NULL);
+INSERT INTO `observacao` VALUES (72, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:51:00', '2024-10-20 20:51:00', NULL);
+INSERT INTO `observacao` VALUES (73, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:51:00', '2024-10-20 20:51:00', NULL);
+INSERT INTO `observacao` VALUES (74, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:53:22', '2024-10-20 20:53:22', NULL);
+INSERT INTO `observacao` VALUES (75, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:53:22', '2024-10-20 20:53:22', NULL);
+INSERT INTO `observacao` VALUES (76, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:56:04', '2024-10-20 20:56:04', NULL);
+INSERT INTO `observacao` VALUES (77, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:56:04', '2024-10-20 20:56:04', NULL);
+INSERT INTO `observacao` VALUES (78, 1, NULL, 7, 'operacional', 1, '2024-10-20 20:59:04', '2024-10-20 20:59:04', NULL);
+INSERT INTO `observacao` VALUES (79, 2, NULL, 7, 'operacional', 1, '2024-10-20 20:59:04', '2024-10-20 20:59:04', NULL);
+INSERT INTO `observacao` VALUES (80, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:03:00', '2024-10-20 21:03:00', NULL);
+INSERT INTO `observacao` VALUES (81, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:03:00', '2024-10-20 21:03:00', NULL);
+INSERT INTO `observacao` VALUES (82, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:05:17', '2024-10-20 21:05:17', NULL);
+INSERT INTO `observacao` VALUES (83, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:05:17', '2024-10-20 21:05:17', NULL);
+INSERT INTO `observacao` VALUES (84, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:06:29', '2024-10-20 21:06:29', NULL);
+INSERT INTO `observacao` VALUES (85, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:06:29', '2024-10-20 21:06:29', NULL);
+INSERT INTO `observacao` VALUES (86, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:08:55', '2024-10-20 21:08:55', NULL);
+INSERT INTO `observacao` VALUES (87, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:08:55', '2024-10-20 21:08:55', NULL);
+INSERT INTO `observacao` VALUES (88, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:09:31', '2024-10-20 21:09:31', NULL);
+INSERT INTO `observacao` VALUES (89, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:09:31', '2024-10-20 21:09:31', NULL);
+INSERT INTO `observacao` VALUES (90, 1, NULL, 7, 'operacional', 1, '2024-10-20 21:11:19', '2024-10-20 21:11:19', NULL);
+INSERT INTO `observacao` VALUES (91, 2, NULL, 7, 'operacional', 1, '2024-10-20 21:11:19', '2024-10-20 21:11:19', NULL);
+INSERT INTO `observacao` VALUES (92, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:19:17', '2024-10-20 21:19:17', NULL);
+INSERT INTO `observacao` VALUES (93, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:19:17', '2024-10-20 21:19:17', NULL);
+INSERT INTO `observacao` VALUES (94, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:21:15', '2024-10-20 21:21:15', NULL);
+INSERT INTO `observacao` VALUES (95, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:21:15', '2024-10-20 21:21:15', NULL);
+INSERT INTO `observacao` VALUES (96, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:24:08', '2024-10-20 21:24:08', NULL);
+INSERT INTO `observacao` VALUES (97, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:24:08', '2024-10-20 21:24:08', NULL);
+INSERT INTO `observacao` VALUES (98, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:30:26', '2024-10-20 21:30:26', NULL);
+INSERT INTO `observacao` VALUES (99, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:30:26', '2024-10-20 21:30:26', NULL);
+INSERT INTO `observacao` VALUES (100, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:33:40', '2024-10-20 21:33:40', NULL);
+INSERT INTO `observacao` VALUES (101, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:33:40', '2024-10-20 21:33:40', NULL);
+INSERT INTO `observacao` VALUES (102, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:37:47', '2024-10-20 21:37:47', NULL);
+INSERT INTO `observacao` VALUES (103, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:37:47', '2024-10-20 21:37:47', NULL);
+INSERT INTO `observacao` VALUES (104, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:40:40', '2024-10-20 21:40:40', NULL);
+INSERT INTO `observacao` VALUES (105, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:40:40', '2024-10-20 21:40:40', NULL);
+INSERT INTO `observacao` VALUES (106, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:49:44', '2024-10-20 21:49:44', NULL);
+INSERT INTO `observacao` VALUES (107, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:49:44', '2024-10-20 21:49:44', NULL);
+INSERT INTO `observacao` VALUES (108, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:50:25', '2024-10-20 21:50:25', NULL);
+INSERT INTO `observacao` VALUES (109, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:50:25', '2024-10-20 21:50:25', NULL);
+INSERT INTO `observacao` VALUES (110, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:51:39', '2024-10-20 21:51:39', NULL);
+INSERT INTO `observacao` VALUES (111, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:51:39', '2024-10-20 21:51:39', NULL);
+INSERT INTO `observacao` VALUES (112, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:53:25', '2024-10-20 21:53:25', NULL);
+INSERT INTO `observacao` VALUES (113, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:53:25', '2024-10-20 21:53:25', NULL);
+INSERT INTO `observacao` VALUES (114, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:56:00', '2024-10-20 21:56:00', NULL);
+INSERT INTO `observacao` VALUES (115, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:56:00', '2024-10-20 21:56:00', NULL);
+INSERT INTO `observacao` VALUES (116, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:56:35', '2024-10-20 21:56:35', NULL);
+INSERT INTO `observacao` VALUES (117, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:56:35', '2024-10-20 21:56:35', NULL);
+INSERT INTO `observacao` VALUES (118, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 21:57:08', '2024-10-20 21:57:08', NULL);
+INSERT INTO `observacao` VALUES (119, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 21:57:08', '2024-10-20 21:57:08', NULL);
+INSERT INTO `observacao` VALUES (120, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 22:03:40', '2024-10-20 22:03:40', NULL);
+INSERT INTO `observacao` VALUES (121, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 22:03:40', '2024-10-20 22:03:40', NULL);
+INSERT INTO `observacao` VALUES (122, 1, NULL, 8, 'Esta operacional', 1, '2024-10-20 22:23:17', '2024-10-20 22:23:17', NULL);
+INSERT INTO `observacao` VALUES (123, 2, NULL, 8, 'esta funcionando plena,me', 1, '2024-10-20 22:23:17', '2024-10-20 22:23:17', NULL);
+INSERT INTO `observacao` VALUES (124, 1, NULL, 11, 'fdhgfh', 1, '2024-10-20 23:06:55', '2024-10-20 23:06:55', NULL);
+INSERT INTO `observacao` VALUES (125, 1, NULL, 11, 'fdhgfh', 1, '2024-10-20 23:07:35', '2024-10-20 23:07:35', NULL);
+INSERT INTO `observacao` VALUES (126, 1, NULL, 12, 'Alguma Coisa', 1, '2024-10-23 09:35:52', '2024-10-23 09:35:52', NULL);
+INSERT INTO `observacao` VALUES (127, 1, NULL, 12, 'Alguma Coisa', 1, '2024-10-23 09:38:17', '2024-10-23 09:38:17', NULL);
+INSERT INTO `observacao` VALUES (128, 1, NULL, 12, 'Alguma Coisa', 1, '2024-10-23 09:39:18', '2024-10-23 09:39:18', NULL);
+INSERT INTO `observacao` VALUES (129, 1, NULL, 21, 'rfdufuyfuyt', 1, '2024-10-27 22:49:37', '2024-10-27 22:49:37', NULL);
+INSERT INTO `observacao` VALUES (130, 1, NULL, 22, 'trduyguyt', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `observacao` VALUES (131, 2, NULL, 22, 'dthfgyhgfgdfg', 1, '2024-10-27 22:51:05', '2024-10-27 22:51:05', NULL);
+INSERT INTO `observacao` VALUES (132, 2, NULL, 27, 'caiu durante 2h das 10 ate ', 1, '2024-10-31 12:23:56', '2024-10-31 12:23:56', NULL);
+INSERT INTO `observacao` VALUES (133, 1, NULL, 28, 'Tudo normal', 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `observacao` VALUES (134, 2, NULL, 28, 'Não se registrou nada durante as 24h', 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `observacao` VALUES (135, 1, NULL, 28, 'Sjkdchllnfdjlkjfldjlnd', 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `observacao` VALUES (136, 2, NULL, 28, 'kjjzsbcflmmmm', 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `observacao` VALUES (141, 1, NULL, 45, 'Teste 12/11/2024', 1, '2024-11-12 21:26:20', '2024-11-18 17:40:19', NULL);
+INSERT INTO `observacao` VALUES (142, 2, NULL, 45, 'Teste 12/11/2024', 1, '2024-11-12 21:26:20', '2024-11-18 17:40:19', NULL);
+INSERT INTO `observacao` VALUES (143, 1, NULL, 45, 'Teste2 12/11/2024', 1, '2024-11-12 21:27:12', '2024-11-18 17:40:19', NULL);
+INSERT INTO `observacao` VALUES (144, 1, NULL, 45, 'Toaster 12/11/2024', 1, '2024-11-12 21:28:29', '2024-11-18 17:40:19', NULL);
+INSERT INTO `observacao` VALUES (145, 1, NULL, 45, 'Toaster 12/11/2024', 1, '2024-11-12 21:28:43', '2024-11-18 17:40:19', NULL);
+INSERT INTO `observacao` VALUES (146, 1, NULL, 29, 'nova ocorrência', 1, '2024-11-18 14:43:13', '2024-11-18 14:43:13', NULL);
+INSERT INTO `observacao` VALUES (147, 1, NULL, 31, 'nova ocorrência3', 1, '2024-11-18 15:04:44', '2024-11-18 15:04:44', NULL);
+INSERT INTO `observacao` VALUES (148, 2, NULL, 32, 'Nova ocorrencia', 1, '2024-11-18 15:07:04', '2024-11-18 15:07:04', NULL);
+INSERT INTO `observacao` VALUES (149, 2, NULL, 33, 'Nova ocorrencia', 1, '2024-11-18 15:07:11', '2024-11-18 15:07:11', NULL);
+INSERT INTO `observacao` VALUES (150, 1, NULL, 46, 'Adicionar Observações', 1, '2024-11-28 11:44:53', '2024-11-29 10:29:45', NULL);
+INSERT INTO `observacao` VALUES (151, 2, NULL, 46, 'Adicionar Observações', 1, '2024-11-28 11:44:53', '2024-11-29 10:29:45', NULL);
+INSERT INTO `observacao` VALUES (152, 2, NULL, 46, 'Falha de energia', 1, '2024-11-29 10:26:15', '2024-11-29 10:29:45', NULL);
+INSERT INTO `observacao` VALUES (153, 1, NULL, 47, 'gfdggf', 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
 
 -- ----------------------------
 -- Table structure for pessoa
@@ -685,6 +1038,134 @@ INSERT INTO `provincia` VALUES (17, 'Uíge', 1, '2024-09-17 09:12:58', NULL, NUL
 INSERT INTO `provincia` VALUES (18, 'Zaire', 1, '2024-09-17 09:12:58', NULL, NULL);
 
 -- ----------------------------
+-- Table structure for radios
+-- ----------------------------
+DROP TABLE IF EXISTS `radios`;
+CREATE TABLE `radios`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `numero_serie` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `identificador` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1,
+  `localizacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `situacao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `data_criacao` timestamp NULL DEFAULT current_timestamp,
+  `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `data_remocao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of radios
+-- ----------------------------
+INSERT INTO `radios` VALUES (1, NULL, 'GRS20202', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (2, NULL, 'GRS21037', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (3, NULL, 'GRS20645', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (4, NULL, 'GRS21040', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (5, NULL, 'GRS21042', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (6, NULL, 'GRS21047', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (7, NULL, 'GRS21048', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (8, NULL, 'GRS21049', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (9, NULL, 'GRS21050', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (10, NULL, 'GRS21051', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (11, NULL, 'GRS21052', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (12, NULL, 'GRS21053', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (13, NULL, 'GRS20293', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (14, NULL, 'GRS21056', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (15, NULL, 'GRS21064', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (16, NULL, 'GRS21065', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (17, NULL, 'GRS21095', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (18, NULL, 'GRS20250', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (19, NULL, 'GRS20922', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (20, NULL, 'GRS20878', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (21, NULL, 'GRS20836', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (22, NULL, 'GRS21063', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (23, NULL, 'GRS20245', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (24, NULL, 'GRS21074', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (25, NULL, 'GRS20639', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (26, NULL, 'GRS21086', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (27, NULL, 'GRSM0073', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (28, NULL, 'GRSM0076', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (29, NULL, 'GRSM0236', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (30, NULL, 'GRS20649', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (31, NULL, 'GRS20650', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (32, NULL, 'GRS20651', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (33, NULL, 'GRS20652', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (34, NULL, 'GRS20653', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (35, NULL, 'GRS20654', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (36, NULL, 'GRS20655', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (37, NULL, 'GRS20656', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (38, NULL, 'GRS20657', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (39, NULL, 'GRS20658', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (40, NULL, 'GRS20659', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (41, NULL, 'GRS20660', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (42, NULL, 'GRS20661', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (43, NULL, 'GRS20662', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (44, NULL, 'GRS20663', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (45, NULL, 'GRS20664', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (46, NULL, 'GRS20665', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (47, NULL, 'GRS20666', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (48, NULL, 'GRS20667', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (49, NULL, 'GRS20668', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (50, NULL, 'GRS20669', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (51, NULL, 'GRS20670', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (52, NULL, 'GRS20671', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (53, NULL, 'GRS20672', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (54, NULL, 'GRS20673', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (55, NULL, 'GRS20674', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (56, NULL, 'GRS20675', 1, NULL, NULL, 1, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (57, NULL, 'GRS20676', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (58, NULL, 'GRS20677', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (59, NULL, 'GRS20678', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (60, NULL, 'GRS20679', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (61, NULL, 'GRS20680', 1, NULL, NULL, 1, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (62, NULL, 'GRS20681', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (63, NULL, 'GRS20682', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (64, NULL, 'GRS20683', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (65, NULL, 'GRS20685', 1, NULL, NULL, 1, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (66, NULL, 'GRS20686', 1, NULL, NULL, 1, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (67, NULL, 'GRS20687', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (68, NULL, 'GRS20710', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (69, NULL, 'GRS20711', 1, NULL, NULL, 0, '2024-12-15 23:31:34', '2024-12-15 23:31:34', NULL);
+INSERT INTO `radios` VALUES (70, NULL, 'GRS20712', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (71, NULL, 'GRS20713', 1, NULL, NULL, 1, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (72, NULL, 'GRS20714', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (73, NULL, 'GRS20640', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (74, NULL, 'GRS20837', 1, NULL, NULL, 1, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (75, NULL, 'GRS20838', 1, NULL, NULL, 1, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (76, NULL, 'GRS21067', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (77, NULL, 'GRS21068', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (78, NULL, 'GRS21096', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (79, NULL, 'GRS21097', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (80, NULL, 'GRS21098', 1, NULL, NULL, 1, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (81, NULL, 'GRS21099', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (82, NULL, 'GRSM0232', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (83, NULL, 'GRSM0233', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (84, NULL, 'GRSM0234', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (85, NULL, 'GRSM0235', 1, NULL, NULL, 0, '2024-12-15 23:32:53', '2024-12-15 23:32:53', NULL);
+INSERT INTO `radios` VALUES (86, NULL, 'GRS20839', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (87, NULL, 'GRS20840', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (88, NULL, 'GRS20841', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (89, NULL, 'GRS20643', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (90, NULL, 'GRS20644', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (91, NULL, 'GRS21038', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (92, NULL, 'GRS20842', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (93, NULL, 'GRS20843', 1, NULL, NULL, 1, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (94, NULL, 'GRS20844', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (95, NULL, 'GRS20845', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (96, NULL, 'GRS20846', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (97, NULL, 'GRS20848', 1, NULL, NULL, 1, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (98, NULL, 'GRS20849', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (99, NULL, 'GRS20850', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (100, NULL, 'GRS20851', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (101, NULL, 'GRS21009', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (102, NULL, 'GRS20853', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (103, NULL, 'GRS20854', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (104, NULL, 'GRS20855', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (105, NULL, 'GRS20647', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+INSERT INTO `radios` VALUES (106, NULL, 'GRS21010', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
+
+-- ----------------------------
 -- Table structure for relatorios
 -- ----------------------------
 DROP TABLE IF EXISTS `relatorios`;
@@ -703,7 +1184,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
@@ -734,6 +1215,27 @@ INSERT INTO `relatorios` VALUES (24, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:1
 INSERT INTO `relatorios` VALUES (25, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:33:29', '2024-10-27 23:33:29', NULL);
 INSERT INTO `relatorios` VALUES (26, NULL, NULL, NULL, NULL, 1, '2024-10-27 23:35:13', '2024-10-27 23:35:13', NULL);
 INSERT INTO `relatorios` VALUES (27, 1, 64, '2024-10-31', 'njkbdjavjaj', 1, '2024-10-31 12:23:56', '2024-10-31 12:23:56', NULL);
+INSERT INTO `relatorios` VALUES (28, 1, 63, '2024-11-01', 'Nada Registrado', 1, '2024-11-01 09:58:32', '2024-11-01 09:58:32', NULL);
+INSERT INTO `relatorios` VALUES (29, 1, 64, '2024-11-18', 'Teste DAs situações', 1, '2024-11-18 14:40:31', '2024-11-18 14:40:31', NULL);
+INSERT INTO `relatorios` VALUES (30, 1, 64, '2024-11-18', 'Teste DAs situações', 1, '2024-11-18 14:43:26', '2024-11-18 14:43:26', NULL);
+INSERT INTO `relatorios` VALUES (31, 1, 64, '2024-11-18', 'Teste DAs situações', 1, '2024-11-18 15:04:16', '2024-11-18 15:04:16', NULL);
+INSERT INTO `relatorios` VALUES (32, 1, 64, '2024-11-18', 'Teste Patch', 1, '2024-11-18 15:06:22', '2024-11-18 15:06:22', NULL);
+INSERT INTO `relatorios` VALUES (33, 1, 64, '2024-11-18', 'Teste Patch', 1, '2024-11-18 15:07:10', '2024-11-18 15:07:10', NULL);
+INSERT INTO `relatorios` VALUES (34, 1, 2, '2024-11-18', 'teste34', 1, '2024-11-18 15:09:33', '2024-11-18 15:09:33', NULL);
+INSERT INTO `relatorios` VALUES (35, 1, NULL, '2024-11-18', NULL, 1, '2024-11-18 16:44:15', '2024-11-18 16:44:15', NULL);
+INSERT INTO `relatorios` VALUES (36, 1, NULL, '2024-11-18', NULL, 1, '2024-11-18 17:07:16', '2024-11-18 17:07:16', NULL);
+INSERT INTO `relatorios` VALUES (37, 1, NULL, '2024-11-18', NULL, 1, '2024-11-18 17:08:22', '2024-11-18 17:08:22', NULL);
+INSERT INTO `relatorios` VALUES (38, 1, NULL, '2024-11-18', NULL, 1, '2024-11-18 17:09:16', '2024-11-18 17:09:16', NULL);
+INSERT INTO `relatorios` VALUES (39, 1, 64, '2024-11-18', 'Teste Obse', 1, '2024-11-18 17:12:29', '2024-11-18 17:12:29', NULL);
+INSERT INTO `relatorios` VALUES (40, 1, NULL, '2024-11-18', NULL, 1, '2024-11-18 17:24:21', '2024-11-18 17:24:21', NULL);
+INSERT INTO `relatorios` VALUES (41, 1, 63, '2024-11-18', NULL, 1, '2024-11-18 17:28:03', '2024-11-18 17:28:03', NULL);
+INSERT INTO `relatorios` VALUES (42, 1, 63, '2024-11-18', 'Teste finalllll', 1, '2024-11-18 17:30:52', '2024-11-18 17:30:52', NULL);
+INSERT INTO `relatorios` VALUES (43, 1, 63, '2024-11-18', 'Teste finalllll', 1, '2024-11-18 17:34:14', '2024-11-18 17:34:14', NULL);
+INSERT INTO `relatorios` VALUES (44, 1, 63, '2024-11-18', 'Teste finalllll', 1, '2024-11-18 17:39:47', '2024-11-18 17:39:47', NULL);
+INSERT INTO `relatorios` VALUES (45, 1, 63, '2024-11-18', 'Teste finalllll', 1, '2024-11-18 17:40:18', '2024-11-18 17:40:18', NULL);
+INSERT INTO `relatorios` VALUES (46, 1, 64, '2024-11-29', 'jbdhwvdvjvwhg', 1, '2024-11-29 10:29:45', '2024-11-29 10:29:45', NULL);
+INSERT INTO `relatorios` VALUES (47, 1, 64, '2024-12-09', 'vhjvhjkjbjbljkbjkljk', 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
+INSERT INTO `relatorios` VALUES (48, 64, 2, '2024-12-15', 'njbcvchg', 1, '2024-12-15 14:21:39', '2024-12-15 14:21:39', NULL);
 
 -- ----------------------------
 -- Table structure for situacao
@@ -754,6 +1256,25 @@ CREATE TABLE `situacao`  (
 -- ----------------------------
 INSERT INTO `situacao` VALUES (1, 'GRS', 1, '2024-10-20 10:46:46', '2024-10-20 10:46:46', NULL);
 INSERT INTO `situacao` VALUES (2, 'VOIP', 1, '2024-10-20 10:47:03', '2024-10-20 10:47:03', NULL);
+
+-- ----------------------------
+-- Table structure for status_radios
+-- ----------------------------
+DROP TABLE IF EXISTS `status_radios`;
+CREATE TABLE `status_radios`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `radio_id` int NOT NULL,
+  `data_hora` timestamp NOT NULL DEFAULT current_timestamp,
+  `status` tinyint(1) NOT NULL,
+  `usuario` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `radio_id`(`radio_id` ASC) USING BTREE,
+  CONSTRAINT `status_radios_ibfk_1` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of status_radios
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tecnicos
@@ -888,6 +1409,23 @@ ORDER BY
     g.nome ASC ;
 
 -- ----------------------------
+-- View structure for view_metrica_teste
+-- ----------------------------
+DROP VIEW IF EXISTS `view_metrica_teste`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_metrica_teste` AS SELECT
+    `métrica`.id, 
+    `métrica`.grupo_id, 
+    `métrica`.turno_id, 
+    `métrica`.relatorio_id, 
+    `métrica`.qtds_online, 
+    `métrica`.qtds_offline, 
+    `métrica`.data_criacao
+FROM
+    `métrica`
+WHERE
+    DATE(`métrica`.data_criacao) = '2024-12-09' AND turno_id ='1' ;
+
+-- ----------------------------
 -- View structure for view_municipios
 -- ----------------------------
 DROP VIEW IF EXISTS `view_municipios`;
@@ -897,7 +1435,25 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_municipios` AS sele
 -- View structure for view_observacao
 -- ----------------------------
 DROP VIEW IF EXISTS `view_observacao`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS select `observacao`.`id` AS `id`,`observacao`.`situacao_id` AS `situacao_id`,`observacao`.`relatorios_id` AS `relatorios_id`,`observacao`.`descricao` AS `descricao`,`situacao`.`nome` AS `nome`,`observacao`.`estado` AS `estado` from (`observacao` join `situacao` on((`observacao`.`situacao_id` = `situacao`.`id`))); ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_observacao` AS SELECT
+	observacao.id AS id, 
+	situacao.nome, 
+	observacao.situacao_id AS situacao_id, 
+	observacao.relatorios_id AS relatorios_id, 
+	observacao.descricao AS descricao, 
+	observacao.estado AS estado
+FROM
+	(
+		observacao
+		join
+		situacao
+		ON 
+			(
+				(
+					observacao.situacao_id = situacao.id
+				)
+			)
+	) ;
 
 -- ----------------------------
 -- View structure for view_pessoas

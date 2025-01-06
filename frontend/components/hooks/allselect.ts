@@ -6,7 +6,10 @@ import {
   TipoUsuarioType,
   PessoaType,
   MunicipioType,
-  Endereco, 
+  Endereco,
+  GrupoGrsType,
+  EntidadeType,
+  GrupoType, 
 } from "@/helpers/types"; // Atualize o caminho conforme necessário
 
 
@@ -167,4 +170,46 @@ export const useAllMunicipios = () => {
 
   return { municipios, loading, error };
 };
+export const useAllEntidades = () => {
+  const [entidades, setEntidades] = useState<EntidadeType[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchEntidades = async () => {
+      try {
+        const response = await api.get('/entidades');
+        setEntidades(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar entidades:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEntidades();
+  }, []);
+
+  return { entidades, loading };
+};
+
+export const useAllGrupos = () => {
+  const [grupos, setGrupos] = useState<GrupoType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGrupos = async () => {
+      try {
+        const response = await api.get('/grupo');
+        setGrupos(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar grupos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGrupos();
+  }, []);
+
+  return { grupos, loading };
+};

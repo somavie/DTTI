@@ -120,14 +120,6 @@ export interface MunicipioType {
   provincia_id: number;
 }
 
-// helpers/contatoTypes.ts
-export interface ContatoType {
-  id: number;
-  cont_pessoa_id: number; // ID da pessoa associada ao contato
-  valor: string; // Valor do contato (e.g. email, telefone)
-  tipo: "email" | "telefone"; // Tipo de contato
-}
-
 export interface MeioType {
   id: number;
   tipo_meio: string;
@@ -205,6 +197,11 @@ export interface GrupoGrsType {
   nome: string;
   qtds: number;
 }
+export interface GrupoType {
+  id: number;
+  nome: string;
+  codname: string;
+}
 
 export interface TipoUsuarioType {
   id: number;
@@ -219,3 +216,23 @@ export interface Endereco {
   numero_casa: string;
   endereco_completo: string;
 }
+
+export interface RadioType {
+  id: number;
+  numero_serie?: string;
+  identificador: string;
+  localizacao?: string;
+  situacao?: string;
+  entidade_id?: number;
+  entidade_nome?: string;
+  grupo_nome?: string;
+}
+
+export interface EntidadeType {
+  id: number;
+  nome: string;
+  indicativo: number;
+  grupo_nome?: string;
+  radio_identificador?: string;
+}
+

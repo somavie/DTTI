@@ -252,7 +252,7 @@ export default async function gerarPDF(relatorioId: number) {
   let finalY = doc.lastAutoTable?.finalY || yPosition;
 
   // Calculate the date for the graph (one day before data_criacao)
-  const graphDate = dayjs(data_criacao).subtract(2, 'day').format('YYYY-MM-DD');
+  const graphDate = dayjs(data_criacao).subtract(0, 'day').format('YYYY-MM-DD');
 
   // Fetch graph data
   const graphData = await fetchGraphData(graphDate);

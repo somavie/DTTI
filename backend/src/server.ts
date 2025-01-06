@@ -30,6 +30,10 @@ import turnoRoutes from "./routes/turnoRoutes";
 import metricaRoutes from "./routes/metricaRoutes";
 
 import { verifyToken } from "./middleware/verifyToken";
+import entidadeRoutes from "./routes/entidadeRoutes";
+import radioRoutes from "./routes/radioRoutes";
+import gruposRoutes from "./routes/gruposRoutes";
+import radioStatusRoutes from "./routes/radioStatusRoutes";
 
 const app = express();
 app.use(express.json());
@@ -48,13 +52,18 @@ dotenv.config();
 app.use("/auth", authRoutes);
 
 // Rota para a tabela 'grupo'
-app.use("/grupos", verifyToken, checkPermissionsAuto, grupoRoutes);
+//app.use("/grupos", verifyToken, checkPermissionsAuto, grupoRoutes);
+app.use("/grupo", verifyToken, checkPermissionsAuto, gruposRoutes);
 
+app.use("/radio-status", verifyToken, checkPermissionsAuto, radioStatusRoutes);
 // Rota para a tabela 'turno'
 app.use("/turnos", verifyToken, checkPermissionsAuto, turnoRoutes);
 
 // Rota para a tabela 'métrica'
 app.use("/metricas", verifyToken, checkPermissionsAuto, metricaRoutes);
+
+app.use("/entidades", verifyToken, checkPermissionsAuto, entidadeRoutes);
+app.use("/radios", verifyToken, checkPermissionsAuto, radioRoutes);
 
 app.use("/enderecos", verifyToken, checkPermissionsAuto, enderecoRoutes);
 
