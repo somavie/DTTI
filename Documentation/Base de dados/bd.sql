@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 18/12/2024 03:04:48
+ Date: 19/02/2025 11:42:36
 */
 
 SET NAMES utf8mb4;
@@ -119,23 +119,21 @@ CREATE TABLE `entidade_grupo`  (
   INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
   CONSTRAINT `entidade_grupo_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `entidade_grupo_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of entidade_grupo
 -- ----------------------------
-INSERT INTO `entidade_grupo` VALUES (1, 1, 1, 0, '2024-12-16 06:43:28', '2024-12-17 11:40:58', '2024-12-17 11:40:58');
-INSERT INTO `entidade_grupo` VALUES (2, 2, 1, 0, '2024-12-16 08:58:45', '2024-12-17 11:40:58', '2024-12-17 11:40:58');
-INSERT INTO `entidade_grupo` VALUES (3, 3, 1, 0, '2024-12-17 11:40:58', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
-INSERT INTO `entidade_grupo` VALUES (4, 5, 1, 0, '2024-12-17 11:40:58', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
-INSERT INTO `entidade_grupo` VALUES (5, 1, 1, 0, '2024-12-17 11:42:29', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
-INSERT INTO `entidade_grupo` VALUES (6, 2, 1, 0, '2024-12-17 11:42:29', '2024-12-17 11:50:04', '2024-12-17 11:50:04');
-INSERT INTO `entidade_grupo` VALUES (7, 4, 1, 1, '2024-12-17 11:50:04', '2024-12-17 11:50:04', NULL);
-INSERT INTO `entidade_grupo` VALUES (8, 1, 1, 1, '2024-12-17 12:05:56', '2024-12-17 12:05:56', NULL);
-INSERT INTO `entidade_grupo` VALUES (9, 21, 1, 0, '2024-12-17 12:05:56', '2024-12-17 12:32:07', '2024-12-17 12:32:07');
-INSERT INTO `entidade_grupo` VALUES (10, 3, 1, 0, '2024-12-17 12:18:24', '2024-12-17 12:32:05', '2024-12-17 12:32:05');
-INSERT INTO `entidade_grupo` VALUES (11, 2, 1, 1, '2024-12-17 12:36:34', '2024-12-17 12:36:34', NULL);
-INSERT INTO `entidade_grupo` VALUES (12, 11, 1, 0, '2024-12-17 12:51:32', '2024-12-17 12:51:45', '2024-12-17 12:51:45');
+INSERT INTO `entidade_grupo` VALUES (1, 2, 1, 1, '2024-12-20 10:40:55', '2024-12-20 10:40:55', NULL);
+INSERT INTO `entidade_grupo` VALUES (2, 4, 1, 1, '2024-12-20 10:41:01', '2024-12-20 10:41:01', NULL);
+INSERT INTO `entidade_grupo` VALUES (3, 3, 1, 1, '2024-12-20 10:41:10', '2024-12-20 10:41:10', NULL);
+INSERT INTO `entidade_grupo` VALUES (4, 5, 1, 1, '2024-12-20 10:41:21', '2024-12-20 10:41:21', NULL);
+INSERT INTO `entidade_grupo` VALUES (5, 6, 1, 1, '2024-12-20 10:41:35', '2024-12-20 10:41:35', NULL);
+INSERT INTO `entidade_grupo` VALUES (6, 53, 2, 1, '2024-12-23 15:05:22', '2024-12-23 15:05:22', NULL);
+INSERT INTO `entidade_grupo` VALUES (7, 56, 2, 1, '2024-12-23 15:05:27', '2024-12-23 15:05:27', NULL);
+INSERT INTO `entidade_grupo` VALUES (8, 57, 2, 1, '2024-12-23 15:05:32', '2024-12-23 15:05:32', NULL);
+INSERT INTO `entidade_grupo` VALUES (9, 59, 2, 0, '2024-12-26 12:13:57', '2024-12-26 12:14:07', '2024-12-26 12:14:07');
+INSERT INTO `entidade_grupo` VALUES (10, 42, 1, 0, '2025-01-06 13:56:56', '2025-01-06 13:57:03', '2025-01-06 13:57:03');
 
 -- ----------------------------
 -- Table structure for entidade_radio
@@ -154,20 +152,26 @@ CREATE TABLE `entidade_radio`  (
   INDEX `radio_id`(`radio_id` ASC) USING BTREE,
   CONSTRAINT `entidade_radio_ibfk_1` FOREIGN KEY (`entidade_id`) REFERENCES `entidades` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `entidade_radio_ibfk_2` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of entidade_radio
 -- ----------------------------
-INSERT INTO `entidade_radio` VALUES (1, 1, 11, 0, '2024-12-16 08:27:09', '2024-12-17 17:55:16', '2024-12-17 17:55:16');
-INSERT INTO `entidade_radio` VALUES (2, 3, 1, 0, '2024-12-16 08:58:00', '2024-12-17 18:27:20', '2024-12-17 18:27:20');
-INSERT INTO `entidade_radio` VALUES (3, 2, 15, 0, '2024-12-17 12:37:36', '2024-12-17 18:14:05', '2024-12-17 18:14:05');
-INSERT INTO `entidade_radio` VALUES (4, 4, 61, 0, '2024-12-17 17:54:47', '2024-12-17 19:52:04', '2024-12-17 19:52:04');
-INSERT INTO `entidade_radio` VALUES (5, 1, 1, 0, '2024-12-17 17:55:16', '2024-12-17 18:26:46', '2024-12-17 18:26:46');
-INSERT INTO `entidade_radio` VALUES (6, 2, 61, 1, '2024-12-17 18:14:05', '2024-12-17 18:14:05', NULL);
-INSERT INTO `entidade_radio` VALUES (7, 1, 13, 0, '2024-12-17 18:26:46', '2024-12-17 19:03:13', '2024-12-17 19:03:13');
-INSERT INTO `entidade_radio` VALUES (8, 3, 25, 1, '2024-12-17 18:27:20', '2024-12-17 18:27:20', NULL);
-INSERT INTO `entidade_radio` VALUES (9, 1, 27, 1, '2024-12-17 19:03:13', '2024-12-17 19:03:13', NULL);
+INSERT INTO `entidade_radio` VALUES (1, 2, 13, 0, '2024-12-20 11:07:03', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (2, 2, 13, 0, '2024-12-20 11:38:27', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (3, 2, 13, 0, '2024-12-20 11:50:53', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (4, 2, 13, 0, '2024-12-20 11:57:37', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (5, 4, 25, 1, '2024-12-20 11:57:59', '2024-12-20 11:57:59', NULL);
+INSERT INTO `entidade_radio` VALUES (6, 3, 56, 1, '2024-12-20 12:04:00', '2024-12-20 12:04:00', NULL);
+INSERT INTO `entidade_radio` VALUES (7, 5, 61, 1, '2024-12-20 12:15:26', '2024-12-20 12:15:26', NULL);
+INSERT INTO `entidade_radio` VALUES (8, 6, 65, 1, '2024-12-20 12:15:33', '2024-12-20 12:15:33', NULL);
+INSERT INTO `entidade_radio` VALUES (9, 53, 74, 1, '2024-12-23 15:04:40', '2024-12-23 15:04:40', NULL);
+INSERT INTO `entidade_radio` VALUES (10, 56, 93, 1, '2024-12-23 15:04:54', '2024-12-23 15:04:54', NULL);
+INSERT INTO `entidade_radio` VALUES (11, 57, 15, 1, '2024-12-23 15:05:04', '2024-12-23 15:05:04', NULL);
+INSERT INTO `entidade_radio` VALUES (12, 1, 66, 1, '2024-12-26 12:13:08', '2024-12-26 12:13:08', NULL);
+INSERT INTO `entidade_radio` VALUES (13, 2, 13, 0, '2025-01-20 09:26:30', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (14, 2, 13, 0, '2025-01-21 08:42:23', '2025-01-21 08:42:41', '2025-01-21 08:42:41');
+INSERT INTO `entidade_radio` VALUES (15, 2, 13, 1, '2025-01-21 08:42:41', '2025-01-21 08:42:41', NULL);
 
 -- ----------------------------
 -- Table structure for entidades
@@ -345,7 +349,7 @@ CREATE TABLE `equipamento`  (
   INDEX `fk_equipamento_relatorios1_idx`(`relatorios_id` ASC) USING BTREE,
   CONSTRAINT `fk_equipamento_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_table1_equipamentos1` FOREIGN KEY (`equipamentos_id`) REFERENCES `equipamentos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 140 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of equipamento
@@ -478,6 +482,12 @@ INSERT INTO `equipamento` VALUES (129, 2, 33, 1, 'Bom', 'Sala Tecnica', NULL, 1,
 INSERT INTO `equipamento` VALUES (131, 3, 45, 4, 'Bom', 'tecnica', NULL, 1, '2024-11-18 17:40:19', '2024-11-18 17:40:19', NULL);
 INSERT INTO `equipamento` VALUES (132, 2, 46, 3, 'Bom', 'Sala Tecnica', NULL, 1, '2024-11-29 10:29:45', '2024-11-29 10:29:45', NULL);
 INSERT INTO `equipamento` VALUES (133, 1, 47, 1, 'Bom', 'sala tecnica', NULL, 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
+INSERT INTO `equipamento` VALUES (134, 2, 49, 1, 'Bom', 'sala tecnica', NULL, 1, '2025-01-06 14:08:16', '2025-01-06 14:08:16', NULL);
+INSERT INTO `equipamento` VALUES (135, 2, 56, 3, 'Bom', 'sala tecnica', NULL, 1, '2025-02-14 11:22:40', '2025-02-14 11:22:40', NULL);
+INSERT INTO `equipamento` VALUES (136, 2, 57, 1, 'Bom', 'sala tecnica', NULL, 1, '2025-02-19 11:04:10', '2025-02-19 11:04:10', NULL);
+INSERT INTO `equipamento` VALUES (137, 2, 58, 1, 'Bom', 'Sala tecnica', NULL, 1, '2025-02-19 11:21:59', '2025-02-19 11:21:59', NULL);
+INSERT INTO `equipamento` VALUES (138, 2, 59, 1, 'Bom', 'Sala tecnica', NULL, 1, '2025-02-19 11:27:06', '2025-02-19 11:27:06', NULL);
+INSERT INTO `equipamento` VALUES (139, 2, 60, 1, 'Bom', 'Sala tecnica', NULL, 1, '2025-02-19 11:28:54', '2025-02-19 11:28:54', NULL);
 
 -- ----------------------------
 -- Table structure for equipamentos
@@ -739,7 +749,7 @@ CREATE TABLE `observacao`  (
   CONSTRAINT `fk_observacao_relatorios1` FOREIGN KEY (`relatorios_id`) REFERENCES `relatorios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_observacao_situacao1` FOREIGN KEY (`situacao_id`) REFERENCES `situacao` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `observacao_ibfk_1` FOREIGN KEY (`causa_id`) REFERENCES `causas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 166 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of observacao
@@ -886,6 +896,17 @@ INSERT INTO `observacao` VALUES (150, 1, NULL, 46, 'Adicionar Observações', 1,
 INSERT INTO `observacao` VALUES (151, 2, NULL, 46, 'Adicionar Observações', 1, '2024-11-28 11:44:53', '2024-11-29 10:29:45', NULL);
 INSERT INTO `observacao` VALUES (152, 2, NULL, 46, 'Falha de energia', 1, '2024-11-29 10:26:15', '2024-11-29 10:29:45', NULL);
 INSERT INTO `observacao` VALUES (153, 1, NULL, 47, 'gfdggf', 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
+INSERT INTO `observacao` VALUES (154, 1, NULL, 49, 'Gtfghjkj', 1, '2025-01-06 14:08:16', '2025-01-06 14:08:16', NULL);
+INSERT INTO `observacao` VALUES (156, 1, NULL, 50, 'Sem rede', 1, '2025-02-14 10:40:20', '2025-02-14 10:40:20', NULL);
+INSERT INTO `observacao` VALUES (157, 1, NULL, 56, 'teste 1 hj', 1, '2025-02-14 11:06:51', '2025-02-14 11:22:40', NULL);
+INSERT INTO `observacao` VALUES (158, 2, NULL, 56, 'teste 1 hj', 1, '2025-02-14 11:07:01', '2025-02-14 11:22:40', NULL);
+INSERT INTO `observacao` VALUES (159, 2, NULL, 57, 'khvjk', 1, '2025-02-19 11:04:10', '2025-02-19 11:04:10', NULL);
+INSERT INTO `observacao` VALUES (160, 3, NULL, 58, 'queda de internet por falta de energia', 1, '2025-02-19 11:21:59', '2025-02-19 11:21:59', NULL);
+INSERT INTO `observacao` VALUES (161, 2, NULL, 58, 'Telefone do Chefe Adjunto não está a funciona', 1, '2025-02-19 11:21:59', '2025-02-19 11:21:59', NULL);
+INSERT INTO `observacao` VALUES (162, 3, NULL, 59, 'queda de internet por falta de energia', 1, '2025-02-19 11:27:06', '2025-02-19 11:27:06', NULL);
+INSERT INTO `observacao` VALUES (163, 2, NULL, 59, 'Telefone do Chefe Adjunto não está a funciona', 1, '2025-02-19 11:27:06', '2025-02-19 11:27:06', NULL);
+INSERT INTO `observacao` VALUES (164, 3, NULL, 60, 'queda de internet por falta de energia', 1, '2025-02-19 11:28:54', '2025-02-19 11:28:54', NULL);
+INSERT INTO `observacao` VALUES (165, 2, NULL, 60, 'Telefone do Chefe Adjunto não está a funciona', 1, '2025-02-19 11:28:54', '2025-02-19 11:28:54', NULL);
 
 -- ----------------------------
 -- Table structure for pessoa
@@ -1058,7 +1079,7 @@ CREATE TABLE `radios`  (
 -- ----------------------------
 -- Records of radios
 -- ----------------------------
-INSERT INTO `radios` VALUES (1, NULL, 'GRS20202', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (1, NULL, 'GRS20202', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-18 03:46:27', '2024-12-18 03:46:27');
 INSERT INTO `radios` VALUES (2, NULL, 'GRS21037', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (3, NULL, 'GRS20645', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (4, NULL, 'GRS21040', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
@@ -1070,7 +1091,7 @@ INSERT INTO `radios` VALUES (9, NULL, 'GRS21050', 1, NULL, NULL, 0, '2024-12-15 
 INSERT INTO `radios` VALUES (10, NULL, 'GRS21051', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (11, NULL, 'GRS21052', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (12, NULL, 'GRS21053', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
-INSERT INTO `radios` VALUES (13, NULL, 'GRS20293', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
+INSERT INTO `radios` VALUES (13, '0', 'GRS20293', 1, '', '', 1, '2024-12-15 23:30:34', '2025-01-21 08:42:41', NULL);
 INSERT INTO `radios` VALUES (14, NULL, 'GRS21056', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (15, NULL, 'GRS21064', 1, NULL, NULL, 1, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
 INSERT INTO `radios` VALUES (16, NULL, 'GRS21065', 1, NULL, NULL, 0, '2024-12-15 23:30:34', '2024-12-15 23:30:34', NULL);
@@ -1184,7 +1205,7 @@ CREATE TABLE `relatorios`  (
   INDEX `fk_relatorios_pessoa2_idx`(`tecnico_entrante_id` ASC) USING BTREE,
   CONSTRAINT `fk_relatorios_pessoa1` FOREIGN KEY (`tecnico_cessante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_relatorios_pessoa2` FOREIGN KEY (`tecnico_entrante_id`) REFERENCES `pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of relatorios
@@ -1236,6 +1257,18 @@ INSERT INTO `relatorios` VALUES (45, 1, 63, '2024-11-18', 'Teste finalllll', 1, 
 INSERT INTO `relatorios` VALUES (46, 1, 64, '2024-11-29', 'jbdhwvdvjvwhg', 1, '2024-11-29 10:29:45', '2024-11-29 10:29:45', NULL);
 INSERT INTO `relatorios` VALUES (47, 1, 64, '2024-12-09', 'vhjvhjkjbjbljkbjkljk', 1, '2024-12-09 15:43:27', '2024-12-09 15:43:27', NULL);
 INSERT INTO `relatorios` VALUES (48, 64, 2, '2024-12-15', 'njbcvchg', 1, '2024-12-15 14:21:39', '2024-12-15 14:21:39', NULL);
+INSERT INTO `relatorios` VALUES (49, 1, 64, '2025-01-06', 'ççoikjk', 1, '2025-01-06 14:08:16', '2025-01-06 14:08:16', NULL);
+INSERT INTO `relatorios` VALUES (50, 1, 63, '2025-02-14', 'Durante as 24h não se registrou nada', 1, '2025-02-14 10:40:20', '2025-02-14 10:40:20', NULL);
+INSERT INTO `relatorios` VALUES (51, 1, 64, '2025-02-14', 'hjf', 1, '2025-02-14 10:41:28', '2025-02-14 10:41:28', NULL);
+INSERT INTO `relatorios` VALUES (52, 1, 64, '2025-02-14', 'hjf', 1, '2025-02-14 10:41:33', '2025-02-14 10:41:33', NULL);
+INSERT INTO `relatorios` VALUES (53, 1, 64, '2025-02-14', 'hjf', 1, '2025-02-14 10:52:39', '2025-02-14 10:52:39', NULL);
+INSERT INTO `relatorios` VALUES (54, 1, 64, '2025-02-14', 'hjf', 1, '2025-02-14 10:53:40', '2025-02-14 10:53:40', NULL);
+INSERT INTO `relatorios` VALUES (55, 1, 63, '2025-02-14', 'teste 1 hj', 1, '2025-02-14 11:07:52', '2025-02-14 11:07:52', NULL);
+INSERT INTO `relatorios` VALUES (56, 1, 63, '2025-02-14', 'teste 1 hj', 1, '2025-02-14 11:22:40', '2025-02-14 11:22:40', NULL);
+INSERT INTO `relatorios` VALUES (57, 1, 64, '2025-02-19', 'jkghkg', 1, '2025-02-19 11:04:10', '2025-02-19 11:04:10', NULL);
+INSERT INTO `relatorios` VALUES (58, 1, 2, '2025-02-19', 'Nada de Mais ', 1, '2025-02-19 11:21:59', '2025-02-19 11:21:59', NULL);
+INSERT INTO `relatorios` VALUES (59, 1, 2, '2025-02-19', 'Nada de Mais ', 1, '2025-02-19 11:27:06', '2025-02-19 11:27:06', NULL);
+INSERT INTO `relatorios` VALUES (60, 1, 2, '2025-02-19', 'Nada de Mais ', 1, '2025-02-19 11:28:54', '2025-02-19 11:28:54', NULL);
 
 -- ----------------------------
 -- Table structure for situacao
@@ -1244,18 +1277,21 @@ DROP TABLE IF EXISTS `situacao`;
 CREATE TABLE `situacao`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `operacionabilidade` tinyint(1) NULL DEFAULT 1,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
   `data_criacao` timestamp NULL DEFAULT current_timestamp,
   `data_alteracao` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   `data_remocao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of situacao
 -- ----------------------------
-INSERT INTO `situacao` VALUES (1, 'GRS', 1, '2024-10-20 10:46:46', '2024-10-20 10:46:46', NULL);
-INSERT INTO `situacao` VALUES (2, 'VOIP', 1, '2024-10-20 10:47:03', '2024-10-20 10:47:03', NULL);
+INSERT INTO `situacao` VALUES (1, 'GRS', 1, 1, '2024-10-20 10:46:46', '2025-02-19 09:47:52', NULL);
+INSERT INTO `situacao` VALUES (2, 'VOIP', 0, 1, '2024-10-20 10:47:03', '2025-02-19 09:56:38', NULL);
+INSERT INTO `situacao` VALUES (3, 'Inter', 1, 1, '2025-02-16 22:23:38', '2025-02-19 09:47:54', NULL);
+INSERT INTO `situacao` VALUES (4, 'VoIP', 1, 0, '2025-02-18 21:58:50', '2025-02-18 22:03:30', NULL);
 
 -- ----------------------------
 -- Table structure for status_radios
@@ -1270,11 +1306,57 @@ CREATE TABLE `status_radios`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `radio_id`(`radio_id` ASC) USING BTREE,
   CONSTRAINT `status_radios_ibfk_1` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of status_radios
 -- ----------------------------
+INSERT INTO `status_radios` VALUES (1, 13, '2024-12-20 12:22:13', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (2, 56, '2024-12-20 12:22:13', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (3, 25, '2024-12-20 12:22:13', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (4, 61, '2024-12-20 12:22:13', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (5, 65, '2024-12-20 12:22:13', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (6, 13, '2024-12-20 12:33:36', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (7, 13, '2024-12-20 12:36:50', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (8, 13, '2024-12-26 12:14:38', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (9, 56, '2024-12-26 12:14:38', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (10, 25, '2024-12-26 12:14:38', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (11, 61, '2024-12-26 12:14:38', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (12, 65, '2024-12-26 12:14:38', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (13, 74, '2024-12-26 12:14:52', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (14, 93, '2024-12-26 12:14:52', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (15, 15, '2024-12-26 12:14:52', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (16, 13, '2025-01-06 13:57:30', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (17, 56, '2025-01-06 13:57:30', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (18, 25, '2025-01-06 13:57:30', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (19, 61, '2025-01-06 13:57:30', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (20, 65, '2025-01-06 13:57:30', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (21, 74, '2025-01-06 13:57:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (22, 93, '2025-01-06 13:57:39', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (23, 15, '2025-01-06 13:57:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (24, 13, '2025-01-06 13:59:32', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (25, 56, '2025-01-06 13:59:33', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (26, 25, '2025-01-06 13:59:33', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (27, 61, '2025-01-06 13:59:33', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (28, 65, '2025-01-06 13:59:33', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (29, 13, '2025-01-06 13:59:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (30, 56, '2025-01-06 13:59:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (31, 25, '2025-01-06 13:59:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (32, 61, '2025-01-06 13:59:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (33, 65, '2025-01-06 13:59:39', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (34, 13, '2025-01-06 13:59:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (35, 56, '2025-01-06 13:59:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (36, 25, '2025-01-06 13:59:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (37, 61, '2025-01-06 13:59:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (38, 65, '2025-01-06 13:59:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (39, 13, '2025-02-19 11:33:39', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (40, 56, '2025-02-19 11:33:39', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (41, 25, '2025-02-19 11:33:39', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (42, 61, '2025-02-19 11:33:40', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (43, 65, '2025-02-19 11:33:40', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (44, 74, '2025-02-19 11:33:48', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (45, 93, '2025-02-19 11:33:48', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (46, 15, '2025-02-19 11:33:48', 0, 'Usuario Atual');
 
 -- ----------------------------
 -- Table structure for tecnicos

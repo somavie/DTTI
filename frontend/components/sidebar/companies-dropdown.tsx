@@ -1,43 +1,42 @@
-"use client";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
-import React, { useState } from "react";
-import { Bird, School } from "lucide-react";
+"use client"
+
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
+import type React from "react"
+import { useState } from "react"
+import { School } from "lucide-react"
+import { Image } from "@nextui-org/react"
 
 interface Company {
-  name: string;
-  location: string;
-  logo: React.ReactNode;
+  name: string
+  location: string
+  logo: React.ReactNode
 }
 
 export const CompaniesDropdown = () => {
   const [company] = useState<Company>({
     name: "SGO-DTTI",
     location: "",
-    logo: <Bird />, // Utiliza o ícone de escola
-  });
+    logo: <Image src="/logo.png" alt="Company Logo" width={80} height={50} className="object-contain" />,
+  })
 
   return (
-    <Dropdown 
-      isDisabled
+    <Dropdown
       classNames={{
         base: "w-full min-w-[260px]",
       }}
     >
       <DropdownTrigger className="cursor-pointer">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          {" "}
+          {/* Changed gap-2 to gap-1 */}
           {company.logo}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-xl font-medium m-0 text-default-900 -mb-4 whitespace-nowrap">
+          <div className="flex flex-col">
+            <h3 className="text-xl font-medium m-0 text-foreground whitespace-nowrap leading-none">
+              {" "}
+              {/* Added leading-none */}
               {company.name}
             </h3>
-            <span className="text-xs font-medium text-default-500">
-              {company.location}
-            </span>
+            <span className="text-xs font-medium text-foreground-500">{company.location}</span>
           </div>
         </div>
       </DropdownTrigger>
@@ -55,5 +54,6 @@ export const CompaniesDropdown = () => {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
-  );
-};
+  )
+}
+

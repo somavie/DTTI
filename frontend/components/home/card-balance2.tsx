@@ -1,13 +1,13 @@
 import { Card, CardBody } from "@nextui-org/react";
 import React from "react";
 import { Community } from "../icons/community";
-import { useAllProfessores } from "../hooks/allselect"; // Importe o hook
+import { useAllPessoas } from "../hooks/allselect"; // Importe o hook
 
 export const CardBalance2 = () => {
-  const { professor } = useAllProfessores(); // Use o hook para obter a lista de professores
+  const { pessoas } = useAllPessoas(); // Use o hook para obter a lista de pessoas
 
   // Conta o número de professores
-  const numeroDeProfessores = professor ? professor.length : 0;
+  const numeroDeProfessores = pessoas ? pessoas.length : 0;
 
   return (
     <Card className="xl:max-w-sm bg-yellow-500 rounded-lg shadow-lg px-4 py-3 transition-transform transform hover:scale-105 w-full h-32">

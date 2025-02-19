@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronDownIcon } from "../icons/sidebar/chevron-down-icon";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import clsx from "clsx";
-import NextLink from "next/link";
+import { Link } from "../layout/Link";
 import { usePathname } from "next/navigation";
 
 interface Item {
@@ -60,7 +60,7 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
           <div className="pl-12">
             {items.map((item, index) => (
               <div key={index}>
-                <NextLink href={item.href}>
+                <Link href={item.href}>
                   <div
                     className={clsx(
                       "w-full flex gap-2 items-center text-default-500 hover:text-default-900 transition-colors cursor-pointer",
@@ -72,12 +72,12 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
                     {item.icon && <span>{item.icon}</span>}
                     <span>{item.label}</span>
                   </div>
-                </NextLink>
+                </Link>
                 {/* Renderiza sub-itens se existirem */}
                 {item.items && item.items.length > 0 && (
                   <div className="pl-4">
                     {item.items.map((subItem, subIndex) => (
-                      <NextLink href={subItem.href} key={subIndex}>
+                      <Link href={subItem.href} key={subIndex}>
                         <div
                           className={clsx(
                             "w-full flex gap-2 items-center text-default-500 hover:text-default-900 transition-colors cursor-pointer",
@@ -89,7 +89,7 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
                           {subItem.icon && <span>{subItem.icon}</span>}
                           <span>{subItem.label}</span>
                         </div>
-                      </NextLink>
+                      </Link>
                     ))}
                   </div>
                 )}

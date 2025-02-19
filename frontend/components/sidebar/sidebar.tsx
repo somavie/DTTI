@@ -30,6 +30,7 @@ import {
   MonitorCheck,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
+import { Link } from "../layout/Link";
 
 export const SidebarWrapper = () => {
   const pathname = usePathname();
@@ -39,6 +40,10 @@ export const SidebarWrapper = () => {
 
   const handleProfileClick = () => {
     router.push("/profile");
+  };
+
+  const handleConfClick = () => {
+    router.push("/configuracoes");
   };
 
   return (
@@ -168,34 +173,38 @@ export const SidebarWrapper = () => {
             )}
           </div>
           <div className={Sidebar.Footer()}>
-            <Tooltip content={"Configurações"} color="primary">
-              <div className="max-w-fit">
-                <SettingsIcon />
-              </div>
-            </Tooltip>
-            <Tooltip content={"Perfil"} color="primary">
-              <div
-                style={{
-                  position: "relative",
-                  width: "50px",
-                  height: "50px",
-                  cursor: "pointer",
-                }}
-                onClick={handleProfileClick}
-              >
-                <Image
-                  alt="Avatar do Usuário"
-                  src={
-                    userImage
-                      ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${userImage}`
-                      : "https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                  }
-                  layout="fill"
-                  objectFit="cover"
-                  style={{ borderRadius: "50%" }}
-                />
-              </div>
-            </Tooltip>
+            <Link href="/configuracoes">
+              <Tooltip content={"Configurações"} color="primary">
+                <div className="max-w-fit">
+                  <SettingsIcon />
+                </div>
+              </Tooltip>
+            </Link>
+            <Link href="/profile">
+              <Tooltip content={"Perfil"} color="primary">
+                <div
+                  style={{
+                    position: "relative",
+                    width: "50px",
+                    height: "50px",
+                    cursor: "pointer",
+                  }}
+                  
+                >
+                  <Image
+                    alt="Avatar do Usuário"
+                    src={
+                      userImage
+                        ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${userImage}`
+                        : "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    }
+                    layout="fill"
+                    objectFit="cover"
+                    style={{ borderRadius: "50%" }}
+                  />
+                </div>
+              </Tooltip>
+            </Link>
           </div>
         </div>
       </div>

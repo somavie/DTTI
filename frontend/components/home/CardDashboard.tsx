@@ -6,7 +6,14 @@ import { useFetchUsuario } from "../hooks/allselect";
 import { useFetchData } from "../hooks/useFetchDatas";
 import { EquipamentosType, TecnicoType } from "@/helpers/types";
 
-const CardItem = ({ title, count, icon: Icon, color }) => (
+interface CardItemProps {
+  title: string;
+  count: number;
+  icon: React.ComponentType<{ size: number; className: string }>;
+  color: string;
+}
+
+const CardItem: React.FC<CardItemProps> = ({ title, count, icon: Icon, color }) => (
   <Card className="w-full h-full">
     <CardBody className={`flex flex-row items-center justify-between p-4 ${color}`}>
       <div>

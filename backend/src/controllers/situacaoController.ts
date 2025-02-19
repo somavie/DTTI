@@ -54,13 +54,14 @@ export const getSituacaoById = async (req: Request, res: Response) => {
 export const updateSituacao = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const { nome, estado } = req.body;
-
+    const { nome, estado, operacionabilidade } = req.body;
+    
     const updateData = {
       nome: nome ? String(nome) : undefined,
-      estado: typeof estado === "boolean" ? estado : undefined,
+      estado: estado !== undefined ? Boolean(estado) : undefined,
+      operacionabilidade: operacionabilidade !== undefined ? Boolean(operacionabilidade) : undefined,
     };
-
+    
     const updated = await situacaoService.updateSituacao(id, updateData);
 
     if (!updated) {

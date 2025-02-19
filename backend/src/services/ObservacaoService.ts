@@ -74,8 +74,11 @@ export const updateObservacao = async (
     relatorios_id: number;
   }>
 ): Promise<boolean> => {
-  // Obter as chaves e valores enviados
-  const fields = Object.keys(updateData) as (keyof typeof updateData)[];
+  // Lista de campos válidos
+  const validFields = ['descricao', 'estado', 'relatorios_id'];
+
+  // Filtrar as chaves e valores enviados para incluir apenas campos válidos
+  const fields = Object.keys(updateData).filter((field) => validFields.includes(field)) as (keyof typeof updateData)[];
   const values = fields.map((field) => updateData[field]);
 
   // Verificar se há campos para atualizar
@@ -90,7 +93,7 @@ export const updateObservacao = async (
   values.push(id);
   try {
     const [result] = await pool.query<ResultSetHeader>(
-      `UPDATE observacao SET ${setClause}  WHERE id = ?`,
+      `UPDATE observacao SET ${setClause} WHERE id = ?`,
       [...values, new Date(), id]
     );
 

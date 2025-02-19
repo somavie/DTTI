@@ -68,6 +68,10 @@ const nextConfig = {
         source: "/perfil",
         destination: "/profile",
       },
+      {
+        source: "/configuracoes",
+        destination: "/admin/configuracao",
+      },
       
     ];
   },

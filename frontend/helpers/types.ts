@@ -109,10 +109,10 @@ export interface DocumentoType {
   data_validade?: string; // Data de validade do documento, pode ser nulo
 }
 
-export interface ProvinciaType {
-  id: number;
-  nome: string;
-}
+  export interface ProvinciaType {
+    id: number;
+    nome: string;
+  }
 
 export interface MunicipioType {
   id: number;
@@ -209,7 +209,7 @@ export interface TipoUsuarioType {
   descricao?: string;
 }
 
-export interface Endereco {
+export interface EnderecoType {
   id: number;
   municipio_id: number;
   bairro: string;

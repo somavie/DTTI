@@ -87,10 +87,6 @@ export const ViewRadioModal: React.FC<ViewRadioModalProps> = ({
                   </div>
                 </CardBody>
               </Card>
-
-              <Divider className="my-4" />
-
-              <RadioStatusChart radioId={radio.id} radioIdentificador={radio.identificador} />
             </div>
           )}
         </ModalBody>
