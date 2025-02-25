@@ -37,7 +37,7 @@ export const UserDropdown = () => {
               src={
                 userImage
                   ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${userImage}`
-                  : "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  : ""
               }
               layout="fill"
               objectFit="cover"
