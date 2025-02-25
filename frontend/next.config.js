@@ -3,13 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["i.pravatar.cc", process.env.NEXT_PUBLIC_API_URL, "localhost"], // Adiciona o domínio i.pravatar.cc e seu domínio de API
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "i.pravatar.cc",
-        pathname: "**",
-      },
-    ],
+    
   },
   async rewrites() {
     return [
