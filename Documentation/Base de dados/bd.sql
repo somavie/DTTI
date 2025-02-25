@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 19/02/2025 11:42:36
+ Date: 25/02/2025 13:44:33
 */
 
 SET NAMES utf8mb4;
@@ -663,7 +663,7 @@ CREATE TABLE `métrica`  (
   INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
   INDEX `turno_id`(`turno_id` ASC) USING BTREE,
   INDEX `relatorio_id`(`relatorio_id` ASC) USING BTREE,
-  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -671,62 +671,6 @@ CREATE TABLE `métrica`  (
 -- ----------------------------
 -- Records of métrica
 -- ----------------------------
-INSERT INTO `métrica` VALUES (22, 1, 2, 1, 5, 39, 1, '2024-10-29 19:51:26', NULL, '2024-10-31 23:12:52');
-INSERT INTO `métrica` VALUES (23, 2, 2, 1, 5, 38, 1, '2024-10-29 19:51:26', NULL, '2024-10-31 23:13:00');
-INSERT INTO `métrica` VALUES (24, 3, 2, 1, 5, 15, 1, '2024-10-29 19:51:26', NULL, '2024-10-31 23:13:08');
-INSERT INTO `métrica` VALUES (25, 4, 2, 1, 5, 9, 1, '2024-10-29 19:51:26', NULL, '2024-10-31 23:13:15');
-INSERT INTO `métrica` VALUES (26, 5, 2, 1, 5, 10, 1, '2024-10-29 19:51:26', NULL, '2024-10-31 23:13:21');
-INSERT INTO `métrica` VALUES (27, 1, 1, 1, 25, 19, 1, '2024-10-29 23:09:42', NULL, '2024-11-01 00:52:51');
-INSERT INTO `métrica` VALUES (28, 2, 1, 1, 19, 24, 1, '2024-10-29 23:09:42', NULL, '2024-11-01 00:52:58');
-INSERT INTO `métrica` VALUES (29, 3, 1, 1, 6, 14, 1, '2024-10-29 23:09:42', NULL, '2024-11-01 00:53:03');
-INSERT INTO `métrica` VALUES (30, 4, 1, 1, 8, 6, 1, '2024-10-29 23:09:42', NULL, '2024-11-01 00:53:10');
-INSERT INTO `métrica` VALUES (31, 5, 1, 1, 10, 5, 1, '2024-10-29 23:09:42', NULL, '2024-11-01 00:53:16');
-INSERT INTO `métrica` VALUES (32, 1, 3, 1, 21, 23, 1, '2024-10-29 00:51:20', NULL, '2024-11-01 00:53:30');
-INSERT INTO `métrica` VALUES (33, 2, 3, 1, 24, 19, 1, '2024-10-29 00:51:20', NULL, '2024-11-01 00:53:44');
-INSERT INTO `métrica` VALUES (34, 3, 3, 1, 6, 14, 1, '2024-10-29 00:51:20', NULL, '2024-11-01 00:54:06');
-INSERT INTO `métrica` VALUES (35, 5, 3, 1, 9, 6, 1, '2024-10-29 00:51:20', NULL, '2024-11-01 00:54:14');
-INSERT INTO `métrica` VALUES (36, 4, 3, 1, 7, 7, 1, '2024-10-29 00:51:20', NULL, '2024-11-01 00:54:21');
-INSERT INTO `métrica` VALUES (37, 1, 3, 1, 21, 23, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
-INSERT INTO `métrica` VALUES (38, 2, 3, 1, 24, 19, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
-INSERT INTO `métrica` VALUES (39, 3, 3, 1, 6, 14, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
-INSERT INTO `métrica` VALUES (40, 4, 3, 1, 7, 7, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
-INSERT INTO `métrica` VALUES (41, 5, 3, 1, 9, 6, 1, '2024-11-01 00:51:24', NULL, '2024-11-01 00:51:24');
-INSERT INTO `métrica` VALUES (42, 1, 1, 1, 14, 30, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
-INSERT INTO `métrica` VALUES (43, 2, 1, 1, 34, 9, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
-INSERT INTO `métrica` VALUES (44, 3, 1, 1, 15, 5, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
-INSERT INTO `métrica` VALUES (45, 4, 1, 1, 6, 8, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
-INSERT INTO `métrica` VALUES (46, 5, 1, 1, 8, 7, 1, '2024-11-01 09:10:13', NULL, '2024-11-01 09:10:13');
-INSERT INTO `métrica` VALUES (47, 1, 1, 1, 12, 32, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
-INSERT INTO `métrica` VALUES (48, 2, 1, 1, 23, 20, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
-INSERT INTO `métrica` VALUES (49, 3, 1, 1, 4, 16, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
-INSERT INTO `métrica` VALUES (50, 4, 1, 1, 8, 6, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
-INSERT INTO `métrica` VALUES (51, 5, 1, 1, 6, 9, 1, '2024-11-01 09:23:37', NULL, '2024-11-01 09:23:37');
-INSERT INTO `métrica` VALUES (52, 1, 1, 1, 43, 1, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
-INSERT INTO `métrica` VALUES (53, 2, 1, 1, 5, 38, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
-INSERT INTO `métrica` VALUES (54, 3, 1, 1, 6, 14, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
-INSERT INTO `métrica` VALUES (55, 4, 1, 1, 8, 6, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
-INSERT INTO `métrica` VALUES (56, 5, 1, 1, 7, 8, 1, '2024-11-18 10:28:06', NULL, '2024-11-18 10:28:06');
-INSERT INTO `métrica` VALUES (57, 1, 1, 1, 5, 39, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
-INSERT INTO `métrica` VALUES (58, 2, 1, 1, 7, 36, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
-INSERT INTO `métrica` VALUES (59, 3, 1, 1, 5, 15, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
-INSERT INTO `métrica` VALUES (60, 4, 1, 1, 1, 13, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
-INSERT INTO `métrica` VALUES (61, 5, 1, 1, 3, 12, 1, '2024-11-29 10:28:37', NULL, '2024-11-29 10:28:37');
-INSERT INTO `métrica` VALUES (62, 2, 1, 1, 7, 36, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
-INSERT INTO `métrica` VALUES (63, 1, 1, 1, 5, 39, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
-INSERT INTO `métrica` VALUES (64, 3, 1, 1, 20, 0, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
-INSERT INTO `métrica` VALUES (65, 4, 1, 1, 11, 3, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
-INSERT INTO `métrica` VALUES (66, 5, 1, 1, 12, 3, 1, '2024-12-09 11:45:16', NULL, '2024-12-09 11:45:16');
-INSERT INTO `métrica` VALUES (72, 1, 2, 1, 5, 39, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:14');
-INSERT INTO `métrica` VALUES (73, 2, 2, 1, 5, 38, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:17');
-INSERT INTO `métrica` VALUES (74, 3, 2, 1, 5, 15, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:21');
-INSERT INTO `métrica` VALUES (75, 4, 2, 1, 5, 9, 1, '2024-12-09 12:01:27', NULL, '2024-12-09 14:05:23');
-INSERT INTO `métrica` VALUES (76, 5, 2, 1, 5, 10, 1, '2024-12-09 12:01:28', NULL, '2024-12-09 14:05:27');
-INSERT INTO `métrica` VALUES (82, 1, 2, 1, 4, 39, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
-INSERT INTO `métrica` VALUES (83, 2, 2, 1, 12, 31, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
-INSERT INTO `métrica` VALUES (84, 3, 2, 1, 12, 8, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
-INSERT INTO `métrica` VALUES (85, 4, 2, 1, 12, 2, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
-INSERT INTO `métrica` VALUES (86, 5, 2, 1, 12, 3, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
-INSERT INTO `métrica` VALUES (87, 6, 2, 1, 12, 44, 1, '2024-12-13 13:33:34', NULL, '2024-12-13 13:33:34');
 
 -- ----------------------------
 -- Table structure for observacao
@@ -1187,6 +1131,25 @@ INSERT INTO `radios` VALUES (105, NULL, 'GRS20647', 1, NULL, NULL, 0, '2024-12-1
 INSERT INTO `radios` VALUES (106, NULL, 'GRS21010', 1, NULL, NULL, 0, '2024-12-15 23:33:59', '2024-12-15 23:33:59', NULL);
 
 -- ----------------------------
+-- Table structure for relatorio_radio
+-- ----------------------------
+DROP TABLE IF EXISTS `relatorio_radio`;
+CREATE TABLE `relatorio_radio`  (
+  `id` int NOT NULL,
+  `radios_total` int NULL DEFAULT NULL,
+  `radios_activos` int NULL DEFAULT NULL,
+  `grupos_mais_activos` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `id_relatorio` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_relatorio`(`id_relatorio` ASC) USING BTREE,
+  CONSTRAINT `relatorio_radio_ibfk_1` FOREIGN KEY (`id_relatorio`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of relatorio_radio
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for relatorios
 -- ----------------------------
 DROP TABLE IF EXISTS `relatorios`;
@@ -1289,7 +1252,7 @@ CREATE TABLE `situacao`  (
 -- Records of situacao
 -- ----------------------------
 INSERT INTO `situacao` VALUES (1, 'GRS', 1, 1, '2024-10-20 10:46:46', '2025-02-19 09:47:52', NULL);
-INSERT INTO `situacao` VALUES (2, 'VOIP', 0, 1, '2024-10-20 10:47:03', '2025-02-19 09:56:38', NULL);
+INSERT INTO `situacao` VALUES (2, 'VOIP', 0, 1, '2024-10-20 10:47:03', '2025-02-24 20:44:33', NULL);
 INSERT INTO `situacao` VALUES (3, 'Inter', 1, 1, '2025-02-16 22:23:38', '2025-02-19 09:47:54', NULL);
 INSERT INTO `situacao` VALUES (4, 'VoIP', 1, 0, '2025-02-18 21:58:50', '2025-02-18 22:03:30', NULL);
 
@@ -1306,7 +1269,7 @@ CREATE TABLE `status_radios`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `radio_id`(`radio_id` ASC) USING BTREE,
   CONSTRAINT `status_radios_ibfk_1` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of status_radios
@@ -1357,6 +1320,11 @@ INSERT INTO `status_radios` VALUES (43, 65, '2025-02-19 11:33:40', 0, 'Usuario A
 INSERT INTO `status_radios` VALUES (44, 74, '2025-02-19 11:33:48', 1, 'Usuario Atual');
 INSERT INTO `status_radios` VALUES (45, 93, '2025-02-19 11:33:48', 0, 'Usuario Atual');
 INSERT INTO `status_radios` VALUES (46, 15, '2025-02-19 11:33:48', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (47, 13, '2025-02-19 14:51:47', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (48, 56, '2025-02-19 14:51:47', 1, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (49, 25, '2025-02-19 14:51:48', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (50, 61, '2025-02-19 14:51:48', 0, 'Usuario Atual');
+INSERT INTO `status_radios` VALUES (51, 65, '2025-02-19 14:51:48', 0, 'Usuario Atual');
 
 -- ----------------------------
 -- Table structure for tecnicos

@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 19/02/2025 11:42:51
+ Date: 25/02/2025 13:44:50
 */
 
 SET NAMES utf8mb4;
@@ -226,7 +226,7 @@ CREATE TABLE `métrica`  (
   INDEX `grupo_id`(`grupo_id` ASC) USING BTREE,
   INDEX `turno_id`(`turno_id` ASC) USING BTREE,
   INDEX `relatorio_id`(`relatorio_id` ASC) USING BTREE,
-  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `métrica_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_2` FOREIGN KEY (`turno_id`) REFERENCES `turno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `métrica_ibfk_3` FOREIGN KEY (`relatorio_id`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -340,6 +340,21 @@ CREATE TABLE `radios`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for relatorio_radio
+-- ----------------------------
+DROP TABLE IF EXISTS `relatorio_radio`;
+CREATE TABLE `relatorio_radio`  (
+  `id` int NOT NULL,
+  `radios_total` int NULL DEFAULT NULL,
+  `radios_activos` int NULL DEFAULT NULL,
+  `grupos_mais_activos` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `id_relatorio` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_relatorio`(`id_relatorio` ASC) USING BTREE,
+  CONSTRAINT `relatorio_radio_ibfk_1` FOREIGN KEY (`id_relatorio`) REFERENCES `relatorios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for relatorios
 -- ----------------------------
 DROP TABLE IF EXISTS `relatorios`;
@@ -388,7 +403,7 @@ CREATE TABLE `status_radios`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `radio_id`(`radio_id` ASC) USING BTREE,
   CONSTRAINT `status_radios_ibfk_1` FOREIGN KEY (`radio_id`) REFERENCES `radios` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tecnicos
