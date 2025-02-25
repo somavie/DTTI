@@ -49,7 +49,7 @@ export const Login = () => {
   return (
     <Card className="w-full max-w-md shadow-lg">
       <CardHeader className="flex flex-col items-center space-y-6 pb-10">
-        <div className="relative w-32 h-32 overflow-hidden rounded-full border-4 border-primary shadow-md">
+        <div className="relative w-32 h-32 overflow-hidden rounded-full shadow-md">
           <Image src="/logo.png" alt="Logo" layout="fill" objectFit="cover" />
         </div>
         <h2 className="text-center text-2xl font-bold tracking-tight">SISTEMA DE GESTÃO DE OCORRÊNCIAS - DTTI</h2>

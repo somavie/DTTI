@@ -1,41 +1,43 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Input, Button, Card, CardBody, CardHeader, Spinner, Accordion, AccordionItem, Checkbox } from '@nextui-org/react'
+import { useState, useEffect, useMemo } from 'react'
+import { Input, Button, Card, CardBody, CardHeader, Spinner } from '@nextui-org/react'
+import { Formik, Form, Field, FieldProps } from 'formik'
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import * as Yup from 'yup'
 import api from '@/helpers/api'
 
-type RadioType = {
-  id: number;
-  identificador: string;
-  status: boolean;
+type GrupoGrsType = {
+  id: number
+  nome: string
+  qtds: number
 }
 
-type EntidadeType = {
-  id: number;
-  nome: string;
-  radios: RadioType[];
-}
-
-type GrupoType = {
-  id: number;
-  nome: string;
-  entidades: EntidadeType[];
+type TurnoType = {
+  id: number
+  nome: string
 }
 
 export default function RegistroDeRadiosOnline() {
-  const [grupos, setGrupos] = useState<GrupoType[]>([])
+  const [grupos, setGrupos] = useState<GrupoGrsType[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
+  const turno = useMemo(() => {
+    const horaAtual = new Date().getHours()
+    if (horaAtual >= 6 && horaAtual < 12) return { id: 1, nome: 'Manhã' }
+    if (horaAtual >= 12 && horaAtual < 18) return { id: 2, nome: 'Tarde' }
+    return { id: 3, nome: 'Noite' }
+  }, [])
+
   useEffect(() => {
     const fetchGrupos = async () => {
       try {
-        const response = await api.get<GrupoType[]>('/grupo/grupos/with-entidades-and-radios')
+        const response = await api.get<GrupoGrsType[]>('/grupo')
         setGrupos(response.data)
       } catch (error) {
         console.error('Erro ao buscar grupos:', error)
@@ -48,54 +50,64 @@ export default function RegistroDeRadiosOnline() {
     fetchGrupos()
   }, [])
 
-  const handleRadioStatusChange = async (radioId: number, status: boolean) => {
+  const validationSchema = useMemo(() => {
+    return Yup.object().shape({
+      radiosOnline: Yup.object().shape(
+        grupos.reduce((acc, grupo) => {
+          acc[grupo.id] = Yup.number()
+            .required('A quantidade de rádios é obrigatória')
+            .min(0, 'A quantidade não pode ser negativa')
+            .max(grupo.qtds, `A quantidade não pode ser maior que ${grupo.qtds}`)
+          return acc
+        }, {} as { [key: string]: Yup.NumberSchema })
+      ),
+      qtdsTotais: Yup.object().shape(
+        grupos.reduce((acc, grupo) => {
+          acc[grupo.id] = Yup.number().required()
+          return acc
+        }, {} as { [key: string]: Yup.NumberSchema })
+      ),
+    })
+  }, [grupos])
+
+  const handleSubmit = async (values: { radiosOnline: { [key: string]: number } }) => {
     try {
-      await api.post('/radio-status', {
-        radio_id: radioId,
-        status,
-        usuario: 'Usuario Atual' // Replace with actual user info
-      })
+      const dataAtual = new Date().toISOString().split('T')[0]
+
+      // Verificar se já existe registro para o turno atual
+      const { data } = await api.get(`metricas/data/${dataAtual}/turno/${turno.id}`)
+      if (data.length > 0) {
+        toast({
+          title: 'Aviso',
+          description: `Já existe um registro para o turno ${turno.nome}.`,
+          duration: 5000,
+          variant: 'destructive',
+        })
+        return
+      }
+
+      // Continuar com o registro se não houver duplicação
+      const registros = Object.entries(values.radiosOnline).map(([grupoId, qtdsOnline]) => ({
+        grupo_id: Number(grupoId),
+        turno_id: turno.id,
+        relatorio_id: 1,
+        qtds_online: qtdsOnline,
+        qtds_offline: grupos.find((grupo) => grupo.id === Number(grupoId))?.qtds! - qtdsOnline,
+        estado: 1,
+      }))
+
+      await Promise.all(registros.map(registro => api.post('/metricas', registro)))
+
       toast({
         title: 'Sucesso!',
-        description: 'Status do rádio atualizado com sucesso.',
+        description: 'Dados registrados com sucesso.',
         duration: 3000,
       })
     } catch (error) {
-      console.error('Erro ao atualizar status do rádio:', error)
+      console.error('Erro ao registrar dados:', error)
       toast({
         title: 'Erro',
-        description: 'Ocorreu um erro ao atualizar o status do rádio. Por favor, tente novamente.',
-        duration: 5000,
-        variant: 'destructive',
-      })
-    }
-  }
-
-  const handleSubmitGrupo = async (grupoId: number) => {
-    try {
-      const grupo = grupos.find(g => g.id === grupoId)
-      if (!grupo) return
-
-      const radiosStatus = grupo.entidades.flatMap(entidade => 
-        entidade.radios.map(radio => ({
-          radio_id: radio.id,
-          status: radio.status,
-          usuario: 'Usuario Atual' // Replace with actual user info
-        }))
-      )
-
-      await Promise.all(radiosStatus.map(status => api.post('/radio-status', status)))
-
-      toast({
-        title: 'Sucesso!',
-        description: `Dados do grupo ${grupo.nome} registrados com sucesso.`,
-        duration: 3000,
-      })
-    } catch (error) {
-      console.error('Erro ao registrar dados do grupo:', error)
-      toast({
-        title: 'Erro',
-        description: 'Ocorreu um erro ao registrar os dados do grupo. Por favor, tente novamente.',
+        description: 'Ocorreu um erro ao registrar os dados. Por favor, tente novamente.',
         duration: 5000,
         variant: 'destructive',
       })
@@ -122,64 +134,96 @@ export default function RegistroDeRadiosOnline() {
     )
   }
 
+  interface FormValues {
+    radiosOnline: {
+      [key: number]: number;
+    };
+    qtdsTotais: {
+      [key: number]: number;
+    };
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8">Registro de Rádios Online por Grupo</h1>
-      <Toaster />
-      <Accordion>
-        {grupos.map((grupo) => (
-          <AccordionItem key={grupo.id} title={grupo.nome}>
-            {grupo.entidades.map((entidade) => (
-              <Card key={entidade.id} className="mb-4">
-                <CardHeader>
-                  <h3 className="text-lg font-semibold">{entidade.nome}</h3>
-                </CardHeader>
-                <CardBody>
-                  {entidade.radios.map((radio) => (
-                    <div key={radio.id} className="flex items-center justify-between mb-2">
-                      <span>{radio.identificador}</span>
-                      <Checkbox
-                        isSelected={radio.status}
-                        onValueChange={(isChecked) => {
-                          const updatedGrupos = grupos.map(g => 
-                            g.id === grupo.id
-                              ? {
-                                  ...g,
-                                  entidades: g.entidades.map(e => 
-                                    e.id === entidade.id
-                                      ? {
-                                          ...e,
-                                          radios: e.radios.map(r => 
-                                            r.id === radio.id
-                                              ? { ...r, status: isChecked }
-                                              : r
-                                          )
-                                        }
-                                      : e
-                                  )
-                                }
-                              : g
-                          )
-                          setGrupos(updatedGrupos)
-                        }}
-                      >
-                        Online
-                      </Checkbox>
-                    </div>
-                  ))}
-                </CardBody>
-              </Card>
-            ))}
-            <Button
-              color="primary"
-              onClick={() => handleSubmitGrupo(grupo.id)}
-              className="mt-4"
-            >
-              Salvar Registros do Grupo
-            </Button>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      <Card className="mb-8">
+        <CardBody>
+          <h2 className="text-xl font-semibold text-center m-0">
+            Turno Atual: <span className="font-bold">{turno.nome}</span>
+          </h2>
+          <Toaster />
+        </CardBody>
+      </Card>
+      <Formik<FormValues>
+        initialValues={{
+          radiosOnline: {},
+          qtdsTotais: grupos.reduce((acc, grupo) => {
+            acc[grupo.id] = grupo.qtds
+            return acc
+          }, {} as { [key: number]: number })
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {grupos.map((grupo) => (
+                <Card key={grupo.id} className="w-full">
+                  <CardHeader>
+                    <h3 className="text-lg font-semibold m-0">{grupo.nome}</h3>
+                  </CardHeader>
+                  <CardBody>
+                    <Field name={`radiosOnline.${grupo.id}`}>
+                      {({ field }: FieldProps) => (
+                        <div>
+                          <Input
+                            {...field}
+                            type="number"
+                            label={`Rádios Online (${grupo.nome})`}
+                            placeholder="Quantidade"
+                            color={
+                              touched.radiosOnline?.[grupo.id] && errors.radiosOnline?.[grupo.id]
+                                ? 'danger'
+                                : 'default'
+                            }
+                            fullWidth
+                            min={0}
+                            max={grupo.qtds}
+                            aria-describedby={`error-${grupo.id}`}
+                          />
+                          {touched.radiosOnline?.[grupo.id] && errors.radiosOnline?.[grupo.id] && (
+                            <p
+                              id={`error-${grupo.id}`}
+                              className="text-danger text-sm mt-1"
+                              role="alert"
+                            >
+                              {errors.radiosOnline[grupo.id]}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </Field>
+                    <Field name={`qtdsTotais.${grupo.id}`} type="hidden" value={grupo.qtds} />
+                  </CardBody>
+                </Card>
+              ))}
+            </div>
+            <div className="mt-8">
+              <Button
+                type="submit"
+                color="primary"
+                size="lg"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? <Spinner size="sm" color="danger" /> : 'Salvar Registros'}
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   )
 }

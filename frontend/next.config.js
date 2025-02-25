@@ -16,11 +16,6 @@ const nextConfig = {
       // Rotas de Administração Escolar
 
       {
-        source: "/alunos/:alunoId",
-        destination: "/admEscolar/gMatriculas/alunos/:alunoId",
-      },
-
-      {
         source: "/pessoas",
         destination: "/admEscolar/gPessoa/pessoa",
       },
