@@ -205,36 +205,36 @@ export default function RelatorioForm() {
                       <Field as="textarea" name="observacao_final" placeholder="Descreva a observação final" minRows={4} />
                       <ErrorMessage name="observacao_final" component="div" className="text-red-500" />
                     </div>
-                    <div>
-                      <div>
-                        <label htmlFor="tecnico_cessante_id">Técnico Cessante</label>
-                        <Select
-                          isDisabled
-                          selectedKeys={new Set([values.tecnico_cessante_id])}
-                          onSelectionChange={(keys) => setFieldValue("tecnico_cessante_id", keys.currentKey)}
-                        >
-                          {tecnicos?.map((tecnico) => (
-                            <SelectItem key={tecnico.id} value={tecnico.id}>
-                              {tecnico.nome}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                      </div>
 
-                      <div>
-                        <label htmlFor="tecnico_entrante_id">Técnico Entrante</label>
-                        <Select
-                          selectedKeys={new Set([values.tecnico_entrante_id])}
-                          onSelectionChange={(keys) => setFieldValue("tecnico_entrante_id", keys.currentKey)}
-                        >
-                          {tecnicos?.map((tecnico) => (
-                            <SelectItem key={tecnico.id} value={tecnico.id}>
-                              {tecnico.nome}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                      </div>
+                    <div>
+                      <label htmlFor="tecnico_cessante_id">Técnico Cessante</label>
+                      <Select
+                        isDisabled
+                        selectedKeys={new Set([values.tecnico_cessante_id])}
+                        onSelectionChange={(keys) => setFieldValue("tecnico_cessante_id", keys.currentKey)}
+                      >
+                        {tecnicos?.map((tecnico) => (
+                          <SelectItem key={tecnico.id} value={tecnico.id}>
+                            {tecnico.nome}
+                          </SelectItem>
+                        ))}
+                      </Select>
                     </div>
+
+                    <div>
+                      <label htmlFor="tecnico_entrante_id">Técnico Entrante</label>
+                      <Select
+                        selectedKeys={new Set([values.tecnico_entrante_id])}
+                        onSelectionChange={(keys) => setFieldValue("tecnico_entrante_id", keys.currentKey)}
+                      >
+                        {tecnicos?.map((tecnico) => (
+                          <SelectItem key={tecnico.id} value={tecnico.id}>
+                            {tecnico.nome}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+
                     <Button type="submit" color="primary" className="w-full" disabled={isSubmitting}>
                       Finalizar Relatório e Gerar PDF
                     </Button>
