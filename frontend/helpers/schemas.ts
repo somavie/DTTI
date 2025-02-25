@@ -45,6 +45,11 @@ export const RelatorioSchema = Yup.object().shape({
     .nullable(),
 });
 
+export const radioRelatorioValidationSchema = Yup.object({
+  totalRadios: Yup.number().required("Total de Radios é obrigatório").positive("Deve ser um número positivo"),
+  radiosActivos: Yup.number().required("Radios Activos é obrigatório").positive("Deve ser um número positivo"),
+  gruposMaisActivos: Yup.string().required("Grupos mais activos é obrigatório"),
+});
 
 export const LoginSchema = yup.object().shape({
   nomeUsuario: yup.string().required("Nome de usuário é obrigatório"),

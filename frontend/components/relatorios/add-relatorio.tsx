@@ -10,11 +10,18 @@ import { Equipamento, TecnicoType } from "@/helpers/types"
 import { Button, Select, SelectItem, Textarea, Card, CardBody, CardHeader, Spacer, Progress } from "@nextui-org/react"
 import { useFetchData } from "../hooks/useFetchDatas"
 import { useUserData } from "../hooks/useUserData"
+import { SituacoesCard } from "../servicos/servicoToggleCard"
+import { ServicoType } from "../servicos/servico"
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { radioRelatorioValidationSchema } from "@/helpers/schemas"
 
 interface RelatorioFormData {
   observacao_final: string
   tecnico_cessante_id: number
   tecnico_entrante_id: number
+  totalRadios: number
+  radiosActivos: number
+  gruposMaisActivos: string
 }
 
 interface CreateEquipamentoInput {
@@ -28,6 +35,8 @@ export default function RelatorioForm() {
   const { register, handleSubmit, setValue, watch } = useForm<RelatorioFormData>()
   const [observacoes, setObservacoes] = useState<{id: number; situacao_id: number; descricao: string }[]>([])
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
+  const [situacoes, setSituacoes] = useState<ServicoType[]>([])
+  const [loadingSituacoes, setLoadingSituacoes] = useState<boolean>(true)
   const [currentStep, setCurrentStep] = useState(1)
   const { id: TecnicoId, userName } = useUserData()
   const { data: tecnicos, loading: loadingTecnicos } = useFetchData<TecnicoType>("/tecnicos")
@@ -48,6 +57,21 @@ export default function RelatorioForm() {
       setValue("tecnico_cessante_id", TecnicoId)
     }
   }, [TecnicoId, setValue])
+
+  useEffect(() => {
+    const fetchSituacoes = async () => {
+      try {
+        const response = await api.get<ServicoType[]>("/situacoes")
+        setSituacoes(response.data)
+      } catch (error) {
+        console.error("Erro ao buscar situações:", error)
+      } finally {
+        setLoadingSituacoes(false)
+      }
+    }
+
+    fetchSituacoes()
+  }, [])
 
   const criarRelatorio = async (data: RelatorioFormData) => {
     const { tecnico_cessante_id, tecnico_entrante_id, observacao_final } = data;
@@ -125,7 +149,7 @@ export default function RelatorioForm() {
           />
           {currentStep === 1 && (
             <>
-              <h2 className="text-xl font-semibold mb-4">Passo 1: Observações</h2>
+              <h2 className="text-xl font-semibold mb-4">Passo 1: Ocorrências</h2>
               <ObservacaoForm observacoes={observacoes} setObservacoes={setObservacoes} />
             </>
           )}
@@ -140,43 +164,83 @@ export default function RelatorioForm() {
           {currentStep === 3 && (
             <>
               <h2 className="text-xl font-semibold mb-4">Passo 3: Técnicos e Observação Final</h2>
-              <form onSubmit={handleSubmit(onSubmitFinalizar)} className="space-y-4">
-                <Textarea
-                  label="Observação Final"
-                  placeholder="Descreva a observação final"
-                  {...register("observacao_final")}
-                  minRows={4}
-                />
+              <SituacoesCard initialSituacoes={situacoes}></SituacoesCard>
+              <Formik
+                initialValues={{ 
+                  totalRadios: 0, 
+                  radiosActivos: 0, 
+                  gruposMaisActivos: "", 
+                  observacao_final: "", 
+                  tecnico_cessante_id: Number(TecnicoId), 
+                  tecnico_entrante_id: 0 
+                }}
+                validationSchema={radioRelatorioValidationSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                  onSubmitFinalizar(values);
+                  setSubmitting(false);
+                }}
+              >
+                {({ isSubmitting, setFieldValue, values }) => (
+                  <Form className="space-y-4">
+                    <div>
+                      <label htmlFor="totalRadios">Total de Radios</label>
+                      <Field type="number" name="totalRadios" />
+                      <ErrorMessage name="totalRadios" component="div" className="text-red-500" />
+                    </div>
 
-                <Select
-                  label="Técnico Cessante"
-                  isDisabled
-                  selectedKeys={new Set([String(TecnicoId)])}
-                  onSelectionChange={(keys) => setValue("tecnico_cessante_id", Number(keys.currentKey))}
-                >
-                  {tecnicos?.map((tecnico) => (
-                    <SelectItem key={tecnico.id} value={tecnico.id}>
-                      {tecnico.nome}
-                    </SelectItem>
-                  ))}
-                </Select>
+                    <div>
+                      <label htmlFor="radiosActivos">Radios Activos</label>
+                      <Field type="number" name="radiosActivos" />
+                      <ErrorMessage name="radiosActivos" component="div" className="text-red-500" />
+                    </div>
 
-                <Select
-                  label="Técnico Entrante"
-                  selectedKeys={new Set([String(watch("tecnico_entrante_id"))])}
-                  onSelectionChange={(keys) => setValue("tecnico_entrante_id", Number(keys.currentKey))}
-                >
-                  {tecnicos?.map((tecnico) => (
-                    <SelectItem key={tecnico.id} value={tecnico.id}>
-                      {tecnico.nome}
-                    </SelectItem>
-                  ))}
-                </Select>
+                    <div>
+                      <label htmlFor="gruposMaisActivos">Grupos mais activos</label>
+                      <Field type="text" name="gruposMaisActivos" />
+                      <ErrorMessage name="gruposMaisActivos" component="div" className="text-red-500" />
+                    </div>
 
-                <Button type="submit" color="primary" className="w-full">
-                  Finalizar Relatório e Gerar PDF
-                </Button>
-              </form>
+                    <div>
+                      <label htmlFor="observacao_final">Observação Final</label>
+                      <Field as="textarea" name="observacao_final" placeholder="Descreva a observação final" minRows={4} />
+                      <ErrorMessage name="observacao_final" component="div" className="text-red-500" />
+                    </div>
+
+                    <div>
+                      <label htmlFor="tecnico_cessante_id">Técnico Cessante</label>
+                      <Select
+                        isDisabled
+                        selectedKeys={new Set([values.tecnico_cessante_id])}
+                        onSelectionChange={(keys) => setFieldValue("tecnico_cessante_id", keys.currentKey)}
+                      >
+                        {tecnicos?.map((tecnico) => (
+                          <SelectItem key={tecnico.id} value={tecnico.id}>
+                            {tecnico.nome}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+
+                    <div>
+                      <label htmlFor="tecnico_entrante_id">Técnico Entrante</label>
+                      <Select
+                        selectedKeys={new Set([values.tecnico_entrante_id])}
+                        onSelectionChange={(keys) => setFieldValue("tecnico_entrante_id", keys.currentKey)}
+                      >
+                        {tecnicos?.map((tecnico) => (
+                          <SelectItem key={tecnico.id} value={tecnico.id}>
+                            {tecnico.nome}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+
+                    <Button type="submit" color="primary" className="w-full" disabled={isSubmitting}>
+                      Finalizar Relatório e Gerar PDF
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
             </>
           )}
 
