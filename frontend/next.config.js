@@ -14,8 +14,6 @@ const nextConfig = {
   },
   async rewrites() {
     return [
-      // Rotas de Administração Escolar
-
       {
         source: "/pessoas",
         destination: "/admEscolar/gPessoa/pessoa",

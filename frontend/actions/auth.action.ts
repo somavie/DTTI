@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 // Função para criar o cookie de autenticação
 export const createAuthCookie = async (token: string) => {
-  cookies().set("userAuth", token, { secure: true });
+  cookies().set("userAuth", token, { secure: false });
 };
 
 // Função para obter o valor do token do cookie
