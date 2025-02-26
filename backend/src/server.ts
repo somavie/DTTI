@@ -16,7 +16,7 @@ import municipioRoutes from "./routes/municipioRoutes";
 import pessoaRoutes from "./routes/pessoaRoutes";
 import contatoRoutes from "./routes/contatoRoutes";
 import provinciaRoutes from "./routes/provinciaRoutes";
-import causaRoutes from"./routes/causaRoutes";
+import causaRoutes from "./routes/causaRoutes";
 import tipoUsuarioRoutes from "./routes/tipoUsuarioRoutes";
 import postoRoutes from "./routes/postoRoutes"; // Rota para posto
 import situacaoRoutes from "./routes/situacaoRoutes"; // Rota para situacao
@@ -38,14 +38,14 @@ import radioStatusRoutes from "./routes/radioStatusRoutes";
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(helmet({ hidePoweredBy: true, contentSecurityPolicy: false }));
+//app.use(helmet({ hidePoweredBy: true, contentSecurityPolicy: false }));
 
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
   res.setHeader("X-Custom-Header", "YourValue");
   next();
 });
 app.use(bodyParser.json({ limit: "10mb" }));
-
+*/
 dotenv.config();
 
 // Usar as rotas com verificação automática de permissões
