@@ -38,14 +38,14 @@ import radioStatusRoutes from "./routes/radioStatusRoutes";
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-//app.use(helmet({ hidePoweredBy: true, contentSecurityPolicy: false }));
+app.use(helmet({ hidePoweredBy: true, contentSecurityPolicy: false }));
 
-/*app.use((req, res, next) => {
+app.use((req, res, next) => {
   res.setHeader("X-Custom-Header", "YourValue");
   next();
 });
 app.use(bodyParser.json({ limit: "10mb" }));
-*/
+
 dotenv.config();
 
 // Usar as rotas com verificação automática de permissões
@@ -53,27 +53,27 @@ app.use("/auth", authRoutes);
 
 // Rota para a tabela 'grupo'
 //app.use("/grupos", verifyToken, checkPermissionsAuto, grupoRoutes);
-app.use("/grupo", verifyToken, checkPermissionsAuto, gruposRoutes);
+app.use("/grupo", gruposRoutes);
 
-app.use("/radio-status", verifyToken, checkPermissionsAuto, radioStatusRoutes);
+app.use("/radio-status", radioStatusRoutes);
 // Rota para a tabela 'turno'
-app.use("/turnos", verifyToken, checkPermissionsAuto, turnoRoutes);
+app.use("/turnos", turnoRoutes);
 
 // Rota para a tabela 'métrica'
-app.use("/metricas", verifyToken, checkPermissionsAuto, metricaRoutes);
+app.use("/metricas", metricaRoutes);
 
-app.use("/entidades", verifyToken, checkPermissionsAuto, entidadeRoutes);
-app.use("/radios", verifyToken, checkPermissionsAuto, radioRoutes);
+app.use("/entidades", entidadeRoutes);
+app.use("/radios", radioRoutes);
 
-app.use("/enderecos", verifyToken, checkPermissionsAuto, enderecoRoutes);
+app.use("/enderecos", enderecoRoutes);
 
-app.use("/municipios", verifyToken, checkPermissionsAuto, municipioRoutes);
+app.use("/municipios", municipioRoutes);
 
-app.use("/pessoas", verifyToken, checkPermissionsAuto, pessoaRoutes);
-app.use("/contatos", verifyToken, checkPermissionsAuto, contatoRoutes);
-app.use("/provincias", verifyToken, checkPermissionsAuto, provinciaRoutes);
-app.use("/causas", verifyToken, checkPermissionsAuto, causaRoutes);
-app.use("/tipousuarios", verifyToken, checkPermissionsAuto, tipoUsuarioRoutes);
+app.use("/pessoas", pessoaRoutes);
+app.use("/contatos", contatoRoutes);
+app.use("/provincias", provinciaRoutes);
+app.use("/causas", causaRoutes);
+app.use("/tipousuarios", tipoUsuarioRoutes);
 app.use("/postos", postoRoutes); // Usar as rotas de posto
 app.use("/situacoes", situacaoRoutes); // Usar as rotas de situacao
 app.use("/tecnicos", tecnicoRoutes); // Usar as rotas de tecnicos
