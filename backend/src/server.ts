@@ -53,27 +53,27 @@ app.use("/auth", authRoutes);
 
 // Rota para a tabela 'grupo'
 //app.use("/grupos", verifyToken, checkPermissionsAuto, grupoRoutes);
-app.use("/grupo", gruposRoutes);
+app.use("/grupo", verifyToken, checkPermissionsAuto, gruposRoutes);
 
-app.use("/radio-status", radioStatusRoutes);
+app.use("/radio-status", verifyToken, checkPermissionsAuto, radioStatusRoutes);
 // Rota para a tabela 'turno'
-app.use("/turnos", turnoRoutes);
+app.use("/turnos", verifyToken, checkPermissionsAuto, turnoRoutes);
 
 // Rota para a tabela 'métrica'
-app.use("/metricas", metricaRoutes);
+app.use("/metricas", verifyToken, checkPermissionsAuto, metricaRoutes);
 
-app.use("/entidades", entidadeRoutes);
-app.use("/radios", radioRoutes);
+app.use("/entidades", verifyToken, checkPermissionsAuto, entidadeRoutes);
+app.use("/radios", verifyToken, checkPermissionsAuto, radioRoutes);
 
-app.use("/enderecos", enderecoRoutes);
+app.use("/enderecos", verifyToken, checkPermissionsAuto, enderecoRoutes);
 
-app.use("/municipios", municipioRoutes);
+app.use("/municipios", verifyToken, checkPermissionsAuto, municipioRoutes);
 
-app.use("/pessoas", pessoaRoutes);
-app.use("/contatos", contatoRoutes);
-app.use("/provincias", provinciaRoutes);
-app.use("/causas", causaRoutes);
-app.use("/tipousuarios", tipoUsuarioRoutes);
+app.use("/pessoas", verifyToken, checkPermissionsAuto, pessoaRoutes);
+app.use("/contatos", verifyToken, checkPermissionsAuto, contatoRoutes);
+app.use("/provincias", verifyToken, checkPermissionsAuto, provinciaRoutes);
+app.use("/causas", verifyToken, checkPermissionsAuto, causaRoutes);
+app.use("/tipousuarios", verifyToken, checkPermissionsAuto, tipoUsuarioRoutes);
 app.use("/postos", postoRoutes); // Usar as rotas de posto
 app.use("/situacoes", situacaoRoutes); // Usar as rotas de situacao
 app.use("/tecnicos", tecnicoRoutes); // Usar as rotas de tecnicos
